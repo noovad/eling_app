@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:my_app/presentation/pages/todo_page/note_section/note_section.dart';
+import 'package:my_app/presentation/pages/note_section/note_section.dart';
 
 class AppRouter {
   static final router = GoRouter(
