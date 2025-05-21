@@ -1,26 +1,21 @@
-import 'package:flutter_ui/desktopPages/todoPage/type.dart';
-import 'package:my_app/presentation/pages/note_section/models/content.dart';
-import 'package:my_app/presentation/pages/note_section/models/title.dart';
+part of 'note_notifier.dart';
 
-class NoteState {
-  final List<Note> notes;
-  final TitleInput title;
-  final ContentInput content;
-  final bool isValid;
+@freezed
+abstract class NoteState with _$NoteState {
+  const factory NoteState({
+    required Resource<List<NoteEntity>> notes,
+    required Resource<List<String>> categories,
+    @Default(TitleInput.pure()) TitleInput title,
+    @Default(ContentInput.pure()) ContentInput content,
+    String? selectedCategory,
+    bool? isValid,
+  }) = _NoteState;
 
-  NoteState({
-    this.notes = const [],
-    this.title = const TitleInput.pure(),
-    this.content = const ContentInput.pure(),
-    this.isValid = false,
-  });
-
-  NoteState copyWith({List<Note>? notes, TitleInput? title, ContentInput? content, bool? isValid}) {
-    return NoteState(
-      notes: notes ?? this.notes,
-      title: title ?? this.title,
-      content: content ?? this.content,
-      isValid: isValid ?? this.isValid,
-    );
-  }
+  factory NoteState.initial() => NoteState(
+    notes: Resource.initial(),
+    categories: Resource.initial(),
+    title: TitleInput.pure(),
+    content: ContentInput.pure(),
+    isValid: true,
+  );
 }

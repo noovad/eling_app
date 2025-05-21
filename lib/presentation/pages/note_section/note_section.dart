@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_ui/shared/sizes/app_padding.dart';
 import 'package:flutter_ui/widgets/appCard/note_card.dart';
-import 'package:flutter_ui/widgets/appField/app_text_field.dart';
-import 'package:my_app/presentation/pages/note_section/models/content.dart';
-import 'package:my_app/presentation/pages/note_section/models/title.dart';
+import 'package:flutter_ui/widgets/appSheet/app_sheet.dart';
 import 'package:my_app/presentation/pages/note_section/providers/note_provider.dart';
+import 'package:my_app/presentation/pages/note_section/widget/note_sheet.dart';
 
 class NotePage extends ConsumerStatefulWidget {
   const NotePage({super.key});
@@ -14,90 +14,68 @@ class NotePage extends ConsumerStatefulWidget {
 }
 
 class _NotePageState extends ConsumerState<NotePage> {
-  final titleController = TextEditingController();
-  final contentController = TextEditingController();
-
-  @override
-  void dispose() {
-    titleController.dispose();
-    contentController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(noteProvider);
     final notifier = ref.read(noteProvider.notifier);
 
-    if (titleController.text != state.title.value) {
-      titleController.text = state.title.value;
-      titleController.selection = TextSelection.fromPosition(TextPosition(offset: titleController.text.length));
-    }
-    if (contentController.text != state.content.value) {
-      contentController.text = state.content.value;
-      contentController.selection = TextSelection.fromPosition(TextPosition(offset: contentController.text.length));
-    }
-
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            AppTextField(
-              controller: titleController,
-              label: "Title",
-              hint: "Enter title",
-              onChanged: (value) => notifier.titleChanged(value),
-              errorText: state.title.error?.getMessage(),
-            ),
-            AppTextField(
-              controller: contentController,
-              label: "Content",
-              hint: "Enter content",
-              onChanged: (value) => notifier.contentChanged(value),
-              errorText: state.content.error?.getMessage(),
-            ),
-            const SizedBox(height: 12),
-            ElevatedButton(
-              onPressed:
-                  state.isValid
-                      ? () {
-                        notifier.addNote();
-                        titleController.clear();
-                        contentController.clear();
-                      }
-                      : null,
-              child: const Text('Save'),
-            ),
-            const SizedBox(height: 12),
-            Expanded(
-              child: GridView.builder(
-                itemCount: state.notes.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                ),
-                itemBuilder: (context, index) {
-                  final note = state.notes[index];
-                  return NoteCard(
-                    note: note,
-                    onTap: () {
-                      debugPrint('Tapped note id: ${note.id}');
-                      notifier.togglePin(note.id!);
-                    },
-                    onUpdate: (updatedNote) {
-                      notifier.updateNote(updatedNote);
-                    },
-                    onDelete: (deletedNote) {
-                      notifier.deleteNote(deletedNote.id!);
-                    },
-                  );
-                },
+      body: state.notes.when(
+        initial: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const Center(child: CircularProgressIndicator()),
+        success: (notes) {
+          return Padding(
+            padding: AppPadding.all16,
+            child: GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 4,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
               ),
+              itemCount: notes.length + 1,
+              itemBuilder: (context, index) {
+                if (index == 0) {
+                  return Card(
+                    elevation: 4,
+                    shadowColor: Colors.grey,
+                    child: InkWell(
+                      onTap:
+                          () => appSheet(
+                            side: SheetSide.left,
+                            context: context,
+                            builder: (_) => NoteSheet(isCreate: true),
+                          ),
+                      child: Padding(
+                        padding: AppPadding.all12,
+                        child: Center(child: Icon(Icons.add, size: 42)),
+                      ),
+                    ),
+                  );
+                }
+                final note = notes[index - 1];
+                return NoteCard(
+                  noteTitle: note.title ?? "",
+                  noteContent: note.content ?? "",
+                  noteCategory: note.category ?? "",
+                  noteId: note.id ?? "",
+                  isPinned: note.isPinned ?? false,
+                  onDelete: (value) => notifier.deleteNote(value),
+                  onUpdate: (value) => notifier.togglePin(value),
+
+                  onTap:
+                      () => appSheet(
+                        side: SheetSide.left,
+                        context: context,
+                        builder: (_) => NoteSheet(),
+                      ),
+                );
+              },
             ),
-          ],
-        ),
+          );
+        },
+        failure: (message) {
+          return Text(message);
+        },
       ),
     );
   }

@@ -1,19 +1,75 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_ui/desktopPages/todoPage/type.dart';
 import 'package:formz/formz.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:my_app/core/utils/resource.dart';
+import 'package:my_app/domain/entities/note.dart';
+import 'package:my_app/domain/usecases/base_usecase.dart';
+import 'package:my_app/domain/usecases/note/get_notes.dart';
 import 'package:my_app/presentation/pages/note_section/models/content.dart';
 import 'package:my_app/presentation/pages/note_section/models/title.dart';
-import 'package:my_app/presentation/pages/note_section/providers/note_state.dart';
+
+part 'note_state.dart';
+part 'note_notifier.freezed.dart';
 
 class NoteNotifier extends StateNotifier<NoteState> {
-  NoteNotifier() : super(NoteState());
+  final GetNotesUseCase getNotesUseCase;
 
-  void fetchNotes() {
-    final fetchedNotes = [
-      Note(id: '1', title: 'Sample Note 1', content: 'This is the content of note 1.', isPinned: false),
-      Note(id: '2', title: 'Sample Note 2', content: 'This is the content of note 2.', isPinned: true),
-    ];
-    state = state.copyWith(notes: fetchedNotes);
+  NoteNotifier(this.getNotesUseCase) : super(NoteState.initial()) {
+    fetchNotes();
+    fetchCategories();
+  }
+
+  void fetchNotes() async {
+    final result = await getNotesUseCase.execute(NoRequest());
+
+    result.when(
+      success: (data) {
+        state = state.copyWith(notes: Resource.success(data));
+      },
+      failure: (message) {
+        state = state.copyWith(notes: Resource.failure(message));
+      },
+    );
+  }
+
+  void fetchCategories() async {
+    // Simulate fetching categories
+    final categories = ['Work', 'Personal', 'Urgent'];
+    state = state.copyWith(categories: Resource.success(categories));
+  }
+
+  void addNote() {
+    final title = TitleInput.dirty(value: state.title.value);
+    final content = ContentInput.dirty(value: state.content.value);
+    final selectedCategory = state.selectedCategory;
+    final isValid = Formz.validate([title, content]);
+
+    if (!isValid) {
+      state = state.copyWith(title: title, content: content, isValid: false);
+      return;
+    }
+
+    final newNote = NoteEntity(
+      title: title.value,
+      content: content.value,
+      category: selectedCategory ?? '',
+      isPinned: false,
+    );
+
+    debugPrint('add note $newNote');
+  }
+
+  void updateNote(String id) {
+    debugPrint('update note');
+  }
+
+  void togglePin(String id) {
+    debugPrint('pin note');
+  }
+
+  void deleteNote(String id) {
+    debugPrint('delete note');
   }
 
   void titleChanged(String value) {
@@ -28,52 +84,7 @@ class NoteNotifier extends StateNotifier<NoteState> {
     state = state.copyWith(content: content, isValid: isValid);
   }
 
-  void addNote() {
-    final title = TitleInput.dirty();
-    final content = ContentInput.dirty();
-    final isValid = Formz.validate([title, content]);
-
-    if (!isValid) {
-      state = state.copyWith(title: title, content: content, isValid: false);
-      return;
-    }
-
-    final newNote = Note(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
-      title: title.value,
-      content: content.value,
-      isPinned: false,
-    );
-
-    state = state.copyWith(
-      notes: [...state.notes, newNote],
-      title: const TitleInput.pure(),
-      content: const ContentInput.pure(),
-      isValid: false,
-    );
-  }
-
-  void updateNote(Note updatedNote) {
-    final updatedNotes =
-        state.notes.map((note) {
-          return note.id == updatedNote.id ? updatedNote : note;
-        }).toList();
-    state = NoteState(notes: updatedNotes);
-  }
-
-  void togglePin(String id) {
-    final updatedNotes =
-        state.notes.map((note) {
-          if (note.id == id) {
-            return note.copyWith(isPinned: !note.isPinned);
-          }
-          return note;
-        }).toList();
-    state = NoteState(notes: updatedNotes);
-  }
-
-  void deleteNote(String id) {
-    final updatedNotes = state.notes.where((note) => note.id != id).toList();
-    state = NoteState(notes: updatedNotes);
+  void categoryChanged(String value) {
+    state = state.copyWith(selectedCategory: value);
   }
 }
