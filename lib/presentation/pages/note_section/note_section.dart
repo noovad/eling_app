@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
 import 'package:flutter_ui/widgets/appCard/note_card.dart';
 import 'package:flutter_ui/widgets/appSheet/app_sheet.dart';
-import 'package:my_app/presentation/pages/note_section/providers/note_provider.dart';
-import 'package:my_app/presentation/pages/note_section/widget/note_sheet.dart';
+import 'package:eling_app/presentation/pages/note_section/providers/note_provider.dart';
+import 'package:eling_app/presentation/pages/note_section/widget/note_sheet.dart';
 
 class NotePage extends ConsumerStatefulWidget {
   const NotePage({super.key});

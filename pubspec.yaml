@@ -1,4 +1,4 @@
-name: my_app
+name: eling_app
 description: "A new Flutter project."
 publish_to: 'none'
 
@@ -23,6 +23,7 @@ dependencies:
   logger: ^2.5.0
   dio: ^5.8.0+1
   json_annotation: ^4.9.0
+  intl: ^0.20.2
 
 dev_dependencies:
   flutter_test:

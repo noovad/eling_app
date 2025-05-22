@@ -3,10 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/widgets/appField/app_text_field.dart';
 import 'package:flutter_ui/shared/sizes/app_sizes.dart';
 import 'package:flutter_ui/widgets/dropdown/app_dropdown.dart';
-import 'package:my_app/domain/entities/note/note.dart';
-import 'package:my_app/presentation/pages/note_section/models/content.dart';
-import 'package:my_app/presentation/pages/note_section/models/title.dart';
-import 'package:my_app/presentation/pages/note_section/providers/note_provider.dart';
+import 'package:eling_app/domain/entities/note/note.dart';
+import 'package:eling_app/presentation/pages/note_section/models/content.dart';
+import 'package:eling_app/presentation/pages/note_section/models/title.dart';
+import 'package:eling_app/presentation/pages/note_section/providers/note_provider.dart';
 
 class NoteForm extends ConsumerStatefulWidget {
   final NoteEntity? note;

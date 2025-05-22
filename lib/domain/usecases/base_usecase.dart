@@ -1,13 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
-import 'package:my_app/core/utils/result.dart';
+import 'package:eling_app/core/utils/result.dart';
 
 abstract class BaseUsecase<Request, Response> {
   final Logger logger;
 
-  const BaseUsecase({
-    required this.logger,
-  });
+  const BaseUsecase({required this.logger});
 
   final usecaseName = 'BaseUsecase';
 
