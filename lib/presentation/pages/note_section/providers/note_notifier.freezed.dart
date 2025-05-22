@@ -18,7 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$NoteState {
   Resource<List<NoteEntity>> get notes => throw _privateConstructorUsedError;
-  Resource<List<String>> get categories => throw _privateConstructorUsedError;
+  Resource<List<CategoryEntity>> get categories =>
+      throw _privateConstructorUsedError;
   TitleInput get title => throw _privateConstructorUsedError;
   ContentInput get content => throw _privateConstructorUsedError;
   String? get selectedCategory => throw _privateConstructorUsedError;
@@ -38,7 +39,7 @@ abstract class $NoteStateCopyWith<$Res> {
   @useResult
   $Res call({
     Resource<List<NoteEntity>> notes,
-    Resource<List<String>> categories,
+    Resource<List<CategoryEntity>> categories,
     TitleInput title,
     ContentInput content,
     String? selectedCategory,
@@ -46,7 +47,7 @@ abstract class $NoteStateCopyWith<$Res> {
   });
 
   $ResourceCopyWith<List<NoteEntity>, $Res> get notes;
-  $ResourceCopyWith<List<String>, $Res> get categories;
+  $ResourceCopyWith<List<CategoryEntity>, $Res> get categories;
 }
 
 /// @nodoc
@@ -82,7 +83,7 @@ class _$NoteStateCopyWithImpl<$Res, $Val extends NoteState>
                 null == categories
                     ? _value.categories
                     : categories // ignore: cast_nullable_to_non_nullable
-                        as Resource<List<String>>,
+                        as Resource<List<CategoryEntity>>,
             title:
                 null == title
                     ? _value.title
@@ -122,8 +123,10 @@ class _$NoteStateCopyWithImpl<$Res, $Val extends NoteState>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $ResourceCopyWith<List<String>, $Res> get categories {
-    return $ResourceCopyWith<List<String>, $Res>(_value.categories, (value) {
+  $ResourceCopyWith<List<CategoryEntity>, $Res> get categories {
+    return $ResourceCopyWith<List<CategoryEntity>, $Res>(_value.categories, (
+      value,
+    ) {
       return _then(_value.copyWith(categories: value) as $Val);
     });
   }
@@ -140,7 +143,7 @@ abstract class _$$NoteStateImplCopyWith<$Res>
   @useResult
   $Res call({
     Resource<List<NoteEntity>> notes,
-    Resource<List<String>> categories,
+    Resource<List<CategoryEntity>> categories,
     TitleInput title,
     ContentInput content,
     String? selectedCategory,
@@ -150,7 +153,7 @@ abstract class _$$NoteStateImplCopyWith<$Res>
   @override
   $ResourceCopyWith<List<NoteEntity>, $Res> get notes;
   @override
-  $ResourceCopyWith<List<String>, $Res> get categories;
+  $ResourceCopyWith<List<CategoryEntity>, $Res> get categories;
 }
 
 /// @nodoc
@@ -185,7 +188,7 @@ class __$$NoteStateImplCopyWithImpl<$Res>
             null == categories
                 ? _value.categories
                 : categories // ignore: cast_nullable_to_non_nullable
-                    as Resource<List<String>>,
+                    as Resource<List<CategoryEntity>>,
         title:
             null == title
                 ? _value.title
@@ -226,7 +229,7 @@ class _$NoteStateImpl with DiagnosticableTreeMixin implements _NoteState {
   @override
   final Resource<List<NoteEntity>> notes;
   @override
-  final Resource<List<String>> categories;
+  final Resource<List<CategoryEntity>> categories;
   @override
   @JsonKey()
   final TitleInput title;
@@ -294,7 +297,7 @@ class _$NoteStateImpl with DiagnosticableTreeMixin implements _NoteState {
 abstract class _NoteState implements NoteState {
   const factory _NoteState({
     required final Resource<List<NoteEntity>> notes,
-    required final Resource<List<String>> categories,
+    required final Resource<List<CategoryEntity>> categories,
     final TitleInput title,
     final ContentInput content,
     final String? selectedCategory,
@@ -304,7 +307,7 @@ abstract class _NoteState implements NoteState {
   @override
   Resource<List<NoteEntity>> get notes;
   @override
-  Resource<List<String>> get categories;
+  Resource<List<CategoryEntity>> get categories;
   @override
   TitleInput get title;
   @override

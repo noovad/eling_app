@@ -1,5 +1,5 @@
 import 'package:my_app/core/utils/result.dart';
-import 'package:my_app/domain/entities/note.dart';
+import 'package:my_app/domain/entities/note/note.dart';
 import 'package:my_app/domain/usecases/base_usecase.dart';
 
 abstract class GetNotesUseCase {

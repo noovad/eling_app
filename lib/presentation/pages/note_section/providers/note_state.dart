@@ -4,7 +4,7 @@ part of 'note_notifier.dart';
 abstract class NoteState with _$NoteState {
   const factory NoteState({
     required Resource<List<NoteEntity>> notes,
-    required Resource<List<String>> categories,
+    required Resource<List<CategoryEntity>> categories,
     @Default(TitleInput.pure()) TitleInput title,
     @Default(ContentInput.pure()) ContentInput content,
     String? selectedCategory,

@@ -3,44 +3,66 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/widgets/appField/app_text_field.dart';
 import 'package:flutter_ui/shared/sizes/app_sizes.dart';
 import 'package:flutter_ui/widgets/dropdown/app_dropdown.dart';
+import 'package:my_app/domain/entities/note/note.dart';
 import 'package:my_app/presentation/pages/note_section/models/content.dart';
 import 'package:my_app/presentation/pages/note_section/models/title.dart';
 import 'package:my_app/presentation/pages/note_section/providers/note_provider.dart';
 
 class NoteForm extends ConsumerStatefulWidget {
-  const NoteForm({super.key});
+  final NoteEntity? note;
+
+  const NoteForm({super.key, this.note});
 
   @override
   ConsumerState<NoteForm> createState() => NoteFormState();
 }
 
 class NoteFormState extends ConsumerState<NoteForm> {
-  final controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final categories = ref
+        .watch(noteProvider)
+        .categories
+        .whenOrNull(
+          success:
+              (data) =>
+                  data
+                      .map(
+                        (e) =>
+                            DropdownItem<String>(id: e.name!, label: e.name!),
+                      )
+                      .toList(),
+        );
     final state = ref.watch(noteProvider);
     final notifier = ref.read(noteProvider.notifier);
     return Column(
       spacing: AppSizes.dimen16,
       children: [
         AppTextField(
+          initialValue: state.title.value,
           onChanged: (value) => notifier.titleChanged(value),
           label: 'Title',
           hint: 'Enter note title',
           errorText: state.title.displayError?.getMessage(),
         ),
 
-        AppDropdown(
+        AppDropdown<String>(
           label: 'Category',
-          items: ['Work', 'Personal', 'Shopping'],
-          labelUnselected: 'None',
-          onChanged: (value) {
-            notifier.categoryChanged(value ?? 'None');
+          items: categories ?? [],
+          selectedItem:
+              state.selectedCategory != null
+                  ? DropdownItem<String>(
+                    id: state.selectedCategory!,
+                    label: state.selectedCategory!,
+                  )
+                  : null,
+          onChanged: (item) {
+            notifier.categoryChanged(item?.id ?? '');
           },
-          selected: state.selectedCategory,
         ),
 
         AppTextField(
+          initialValue: state.content.value,
           onChanged: (value) => notifier.contentChanged(value),
           minLines: 5,
           maxLines: 10,

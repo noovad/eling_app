@@ -1,0 +1,32 @@
+import 'package:my_app/core/utils/result.dart';
+import 'package:my_app/domain/entities/category/category.dart';
+import 'package:my_app/domain/usecases/base_usecase.dart';
+import 'package:my_app/domain/usecases/category/getCategories/get_categories_request.dart';
+
+abstract class GetCategoriesUseCase {
+  Future<Result<List<CategoryEntity>>> execute(GetCategoriesRequest request);
+}
+
+class GetCategoriesUseCaseImpl
+    extends BaseUsecase<GetCategoriesRequest, List<CategoryEntity>>
+    implements GetCategoriesUseCase {
+  @override
+  String get usecaseName => 'GetCategoriesUseCase';
+
+  GetCategoriesUseCaseImpl({required super.logger});
+
+  @override
+  Future<Result<List<CategoryEntity>>> execute(
+    GetCategoriesRequest request,
+  ) async {
+    return safeExecute(request, () async {
+      await Future.delayed(const Duration(seconds: 2));
+      return [
+        CategoryEntity(name: 'Work'),
+        CategoryEntity(name: 'Personal'),
+        CategoryEntity(name: 'Urgent'),
+        CategoryEntity(name: 'Shopping'),
+      ];
+    });
+  }
+}

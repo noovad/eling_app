@@ -40,11 +40,14 @@ class _NotePageState extends ConsumerState<NotePage> {
                     shadowColor: Colors.grey,
                     child: InkWell(
                       onTap:
-                          () => appSheet(
-                            side: SheetSide.left,
-                            context: context,
-                            builder: (_) => NoteSheet(isCreate: true),
-                          ),
+                          () => {
+                            appSheet(
+                              side: SheetSide.left,
+                              context: context,
+                              builder: (_) => NoteSheet(isCreate: true),
+                            ),
+                            notifier.clear(),
+                          },
                       child: Padding(
                         padding: AppPadding.all12,
                         child: Center(child: Icon(Icons.add, size: 42)),
@@ -61,13 +64,14 @@ class _NotePageState extends ConsumerState<NotePage> {
                   isPinned: note.isPinned ?? false,
                   onDelete: (value) => notifier.deleteNote(value),
                   onUpdate: (value) => notifier.togglePin(value),
-
-                  onTap:
-                      () => appSheet(
-                        side: SheetSide.left,
-                        context: context,
-                        builder: (_) => NoteSheet(),
-                      ),
+                  onTap: () {
+                    appSheet(
+                      side: SheetSide.left,
+                      context: context,
+                      builder: (_) => NoteSheet(note: note),
+                    );
+                    notifier.set(note);
+                  },
                 );
               },
             ),

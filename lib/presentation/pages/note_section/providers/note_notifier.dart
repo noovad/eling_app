@@ -2,10 +2,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:my_app/core/enum/category_type_enum.dart';
 import 'package:my_app/core/utils/resource.dart';
-import 'package:my_app/domain/entities/note.dart';
+import 'package:my_app/domain/entities/category/category.dart';
+import 'package:my_app/domain/entities/note/note.dart';
 import 'package:my_app/domain/usecases/base_usecase.dart';
-import 'package:my_app/domain/usecases/note/get_notes.dart';
+import 'package:my_app/domain/usecases/category/getCategories/get_categories.dart';
+import 'package:my_app/domain/usecases/category/getCategories/get_categories_request.dart';
+import 'package:my_app/domain/usecases/note/getNotes/get_notes.dart';
 import 'package:my_app/presentation/pages/note_section/models/content.dart';
 import 'package:my_app/presentation/pages/note_section/models/title.dart';
 
@@ -14,10 +18,12 @@ part 'note_notifier.freezed.dart';
 
 class NoteNotifier extends StateNotifier<NoteState> {
   final GetNotesUseCase getNotesUseCase;
+  final GetCategoriesUseCase getCategoriesUseCase;
 
-  NoteNotifier(this.getNotesUseCase) : super(NoteState.initial()) {
+  NoteNotifier(this.getNotesUseCase, this.getCategoriesUseCase)
+    : super(NoteState.initial()) {
     fetchNotes();
-    fetchCategories();
+    fetchNoteCategories();
   }
 
   void fetchNotes() async {
@@ -33,10 +39,18 @@ class NoteNotifier extends StateNotifier<NoteState> {
     );
   }
 
-  void fetchCategories() async {
-    // Simulate fetching categories
-    final categories = ['Work', 'Personal', 'Urgent'];
-    state = state.copyWith(categories: Resource.success(categories));
+  void fetchNoteCategories() async {
+    final result = await getCategoriesUseCase.execute(
+      GetCategoriesRequest(name: CategoryTypeEnum.note),
+    );
+    result.when(
+      success: (data) {
+        state = state.copyWith(categories: Resource.success(data));
+      },
+      failure: (message) {
+        state = state.copyWith(categories: Resource.failure(message));
+      },
+    );
   }
 
   void addNote() {
@@ -74,6 +88,7 @@ class NoteNotifier extends StateNotifier<NoteState> {
 
   void titleChanged(String value) {
     final title = TitleInput.dirty(value: value);
+    debugPrint('Title changed: $value');
     final isValid = Formz.validate([title, state.content]);
     state = state.copyWith(title: title, isValid: isValid);
   }
@@ -86,5 +101,21 @@ class NoteNotifier extends StateNotifier<NoteState> {
 
   void categoryChanged(String value) {
     state = state.copyWith(selectedCategory: value);
+  }
+
+  void clear() {
+    state = state.copyWith(
+      title: TitleInput.pure(),
+      content: ContentInput.pure(),
+      selectedCategory: null,
+    );
+  }
+
+  void set(NoteEntity note) {
+    state = state.copyWith(
+      title: TitleInput.dirty(value: note.title ?? ''),
+      content: ContentInput.dirty(value: note.content ?? ''),
+      selectedCategory: note.category,
+    );
   }
 }
