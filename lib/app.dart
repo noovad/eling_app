@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp.router(
         theme: AppTheme.lightTheme(),
         routerConfig: AppRouter.router,
-        title: 'My App',
+        title: 'Éling App',
         debugShowCheckedModeBanner: false,
       ),
     );

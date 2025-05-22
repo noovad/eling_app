@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:eling_app/core/enum/category_type_enum.dart';
+import 'package:eling_app/core/enum/category_type.dart';
 import 'package:eling_app/core/utils/resource.dart';
 import 'package:eling_app/domain/entities/category/category.dart';
 import 'package:eling_app/domain/entities/note/note.dart';
@@ -41,7 +41,7 @@ class NoteNotifier extends StateNotifier<NoteState> {
 
   void fetchNoteCategories() async {
     final result = await getCategoriesUseCase.execute(
-      GetCategoriesRequest(name: CategoryTypeEnum.note),
+      GetCategoriesRequest(name: CategoryType.note),
     );
     result.when(
       success: (data) {

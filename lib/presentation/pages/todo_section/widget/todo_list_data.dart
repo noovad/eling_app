@@ -1,8 +1,8 @@
+import 'package:eling_app/core/enum/todo_tabs_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
 import 'package:flutter_ui/widgets/appCard/todo_card.dart';
 import 'package:flutter_ui/widgets/appSheet/app_sheet.dart';
-import 'package:eling_app/presentation/pages/todo_section/widget/todo_section.dart';
 import 'package:eling_app/presentation/pages/todo_section/widget/todo_sheet.dart';
 
 class TodoListData extends StatelessWidget {
@@ -40,7 +40,7 @@ class TodoListData extends StatelessWidget {
                       builder:
                           (context) => TodoSheet.create(
                             taskType: TaskType.daily,
-                            tabsType: TabsType.today,
+                            todoTabsType: TodoTabsType.today,
                           ),
                     ),
                 child: const Padding(
@@ -76,7 +76,7 @@ class TodoListData extends StatelessWidget {
                           side: SheetSide.right,
                           builder:
                               (context) => TodoSheet.update(
-                                tabsType: TabsType.today,
+                                todoTabsType: TodoTabsType.today,
 
                                 taskType: TaskType.daily,
                               ),

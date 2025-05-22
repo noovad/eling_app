@@ -1,32 +1,31 @@
+import 'package:eling_app/core/enum/todo_sheet_type.dart';
+import 'package:eling_app/core/enum/todo_tabs_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
 import 'package:flutter_ui/shared/sizes/app_spaces.dart';
 import 'package:eling_app/presentation/pages/todo_section/widget/todo_form.dart';
-import 'package:eling_app/presentation/pages/todo_section/widget/todo_section.dart';
-
-enum TodoSheetType { create, update, detail }
 
 enum TaskType { daily, productivity }
 
 class TodoSheet extends StatefulWidget {
-  final TodoSheetType? type;
-  final TabsType? tabsType;
+  final FormMode? type;
+  final TodoTabsType? todoTabsType;
   final TaskType? taskType;
 
   const TodoSheet.create({
     super.key,
-    required this.tabsType,
+    required this.todoTabsType,
     required this.taskType,
-  }) : type = TodoSheetType.create;
+  }) : type = FormMode.create;
 
   const TodoSheet.update({
     super.key,
-    required this.tabsType,
+    required this.todoTabsType,
     required this.taskType,
-  }) : type = TodoSheetType.update;
+  }) : type = FormMode.update;
 
-  const TodoSheet.detail({super.key, required this.tabsType})
-    : type = TodoSheetType.detail,
+  const TodoSheet.detail({super.key, required this.todoTabsType})
+    : type = FormMode.detail,
       taskType = null;
 
   @override
@@ -34,8 +33,8 @@ class TodoSheet extends StatefulWidget {
 }
 
 class _TodoSheetState extends State<TodoSheet> {
-  bool get isCreate => widget.type == TodoSheetType.create;
-  bool get isUpdate => widget.type == TodoSheetType.update;
+  bool get isCreate => widget.type == FormMode.create;
+  bool get isUpdate => widget.type == FormMode.update;
   @override
   void dispose() {
     super.dispose();
@@ -52,7 +51,7 @@ class _TodoSheetState extends State<TodoSheet> {
           Flexible(
             child: SingleChildScrollView(
               child: TodoForm(
-                tabsType: widget.tabsType!,
+                todoTabsType: widget.todoTabsType!,
                 taskType: widget.taskType,
               ),
             ),

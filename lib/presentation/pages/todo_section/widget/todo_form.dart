@@ -1,20 +1,20 @@
+import 'package:eling_app/core/enum/todo_tabs_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui/shared/sizes/app_sizes.dart';
 import 'package:flutter_ui/widgets/appField/app_date_field.dart';
 import 'package:flutter_ui/widgets/appField/app_text_field.dart';
 import 'package:flutter_ui/widgets/appField/app_time_field.dart';
 import 'package:flutter_ui/widgets/dropdown/app_dropdown.dart';
-import 'package:eling_app/presentation/pages/todo_section/widget/todo_section.dart';
 import 'package:eling_app/presentation/pages/todo_section/widget/todo_sheet.dart';
 
 class TodoForm extends StatefulWidget {
-  final TabsType tabsType;
+  final TodoTabsType todoTabsType;
   final TaskType? taskType;
   final bool status;
 
   const TodoForm({
     super.key,
-    required this.tabsType,
+    required this.todoTabsType,
     required this.taskType,
     this.status = false,
   });

@@ -1,8 +1,8 @@
+import 'package:eling_app/core/enum/todo_tabs_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui/widgets/appNav/month_nav.dart';
 import 'package:flutter_ui/widgets/appSheet/app_sheet.dart';
 import 'package:intl/intl.dart';
-import 'package:eling_app/presentation/pages/todo_section/widget/todo_section.dart';
 import 'package:eling_app/presentation/pages/todo_section/widget/todo_sheet.dart';
 
 class TablePage extends StatefulWidget {
@@ -69,7 +69,7 @@ class _TablePageState extends State<TablePage> {
                                     side: SheetSide.right,
                                     builder:
                                         (context) => TodoSheet.detail(
-                                          tabsType: TabsType.history,
+                                          todoTabsType: TodoTabsType.history,
                                         ),
                                   );
                                 },
