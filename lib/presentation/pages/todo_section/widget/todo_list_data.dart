@@ -1,12 +1,20 @@
-import 'package:eling_app/core/enum/todo_tabs_type.dart';
+import 'package:eling_app/presentation/enum/task_type.dart';
+import 'package:eling_app/presentation/enum/todo_tabs_type.dart';
+import 'package:eling_app/presentation/pages/todo_section/widget/todo_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
 import 'package:flutter_ui/widgets/appCard/todo_card.dart';
 import 'package:flutter_ui/widgets/appSheet/app_sheet.dart';
-import 'package:eling_app/presentation/pages/todo_section/widget/todo_sheet.dart';
 
 class TodoListData extends StatelessWidget {
-  const TodoListData({super.key});
+  final TodoTabsType tabsType;
+  final TaskType taskType;
+
+  const TodoListData({
+    super.key,
+    required this.tabsType,
+    required this.taskType,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +47,7 @@ class TodoListData extends StatelessWidget {
                       context: context,
                       builder:
                           (context) => TodoSheet.create(
-                            taskType: TaskType.daily,
+                            taskType: taskType,
                             todoTabsType: TodoTabsType.today,
                           ),
                     ),
@@ -77,7 +85,6 @@ class TodoListData extends StatelessWidget {
                           builder:
                               (context) => TodoSheet.update(
                                 todoTabsType: TodoTabsType.today,
-
                                 taskType: TaskType.daily,
                               ),
                         ),

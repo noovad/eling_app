@@ -1,15 +1,14 @@
-import 'package:eling_app/core/enum/todo_sheet_type.dart';
-import 'package:eling_app/core/enum/todo_tabs_type.dart';
+import 'package:eling_app/presentation/enum/task_type.dart';
+import 'package:eling_app/presentation/enum/todo_sheet_type.dart';
+import 'package:eling_app/presentation/enum/todo_tabs_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
 import 'package:flutter_ui/shared/sizes/app_spaces.dart';
 import 'package:eling_app/presentation/pages/todo_section/widget/todo_form.dart';
 
-enum TaskType { daily, productivity }
-
-class TodoSheet extends StatefulWidget {
+class TodoSheet extends StatelessWidget {
   final FormMode? type;
-  final TodoTabsType? todoTabsType;
+  final TodoTabsType todoTabsType;
   final TaskType? taskType;
 
   const TodoSheet.create({
@@ -28,17 +27,9 @@ class TodoSheet extends StatefulWidget {
     : type = FormMode.detail,
       taskType = null;
 
-  @override
-  State<TodoSheet> createState() => _TodoSheetState();
-}
+  bool get isCreate => type == FormMode.create;
 
-class _TodoSheetState extends State<TodoSheet> {
-  bool get isCreate => widget.type == FormMode.create;
-  bool get isUpdate => widget.type == FormMode.update;
-  @override
-  void dispose() {
-    super.dispose();
-  }
+  bool get isUpdate => type == FormMode.update;
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +42,8 @@ class _TodoSheetState extends State<TodoSheet> {
           Flexible(
             child: SingleChildScrollView(
               child: TodoForm(
-                todoTabsType: widget.todoTabsType!,
-                taskType: widget.taskType,
+                todoTabsType: todoTabsType,
+                taskType: taskType,
               ),
             ),
           ),

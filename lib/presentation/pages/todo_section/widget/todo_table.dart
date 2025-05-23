@@ -1,4 +1,4 @@
-import 'package:eling_app/core/enum/todo_tabs_type.dart';
+import 'package:eling_app/presentation/enum/todo_tabs_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui/widgets/appNav/month_nav.dart';
 import 'package:flutter_ui/widgets/appSheet/app_sheet.dart';
@@ -69,7 +69,7 @@ class _TablePageState extends State<TablePage> {
                                     side: SheetSide.right,
                                     builder:
                                         (context) => TodoSheet.detail(
-                                          todoTabsType: TodoTabsType.history,
+                                          todoTabsType: TodoTabsType.completed,
                                         ),
                                   );
                                 },

@@ -1,3 +1,4 @@
+import 'package:eling_app/presentation/enum/todo_tabs_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
 import 'package:flutter_ui/shared/sizes/app_spaces.dart';
@@ -59,9 +60,9 @@ class TodoTabs extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   clipBehavior: Clip.none,
                   children: [
-                    TodoSection(),
-                    TodoSection(),
-                    TodoSection(),
+                    TodoSection(tabsType: TodoTabsType.today),
+                    TodoSection(tabsType: TodoTabsType.upcoming),
+                    TodoSection(tabsType: TodoTabsType.recurring),
                     TablePage(),
                   ],
                 ),
