@@ -39,3 +39,12 @@ entity:
 		exit 1; \
 	fi
 	@dart lib/core/generate/generate_entity.dart $(entity)
+
+	## Generate page [make page entity=book]
+page:
+	@if [ -z "$(page)" ]; then \
+		echo "❌ Error: page is required"; \
+		echo "Usage: make page page=book"; \
+		exit 1; \
+	fi
+	@dart lib/core/generate/generate_page.dart $(page)

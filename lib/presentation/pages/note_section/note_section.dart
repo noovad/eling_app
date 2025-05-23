@@ -23,6 +23,9 @@ class _NotePageState extends ConsumerState<NotePage> {
       body: state.notes.when(
         initial: () => const Center(child: CircularProgressIndicator()),
         loading: () => const Center(child: CircularProgressIndicator()),
+        failure: (message) {
+          return Text(message);
+        },
         success: (notes) {
           return Padding(
             padding: AppPadding.all16,
@@ -76,9 +79,6 @@ class _NotePageState extends ConsumerState<NotePage> {
               },
             ),
           );
-        },
-        failure: (message) {
-          return Text(message);
         },
       ),
     );

@@ -1,9 +1,9 @@
-import 'package:eling_app/presentation/enum/todo_tabs_type.dart';
+import 'package:eling_app/presentation/enum/task_tabs_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui/widgets/appNav/month_nav.dart';
 import 'package:flutter_ui/widgets/appSheet/app_sheet.dart';
 import 'package:intl/intl.dart';
-import 'package:eling_app/presentation/pages/todo_section/widget/todo_sheet.dart';
+import 'package:eling_app/presentation/pages/task/widget/task_sheet.dart';
 
 class TablePage extends StatefulWidget {
   const TablePage({super.key});
@@ -68,8 +68,8 @@ class _TablePageState extends State<TablePage> {
                                     context: context,
                                     side: SheetSide.right,
                                     builder:
-                                        (context) => TodoSheet.detail(
-                                          todoTabsType: TodoTabsType.completed,
+                                        (context) => TaskSheet.detail(
+                                          todoTabsType: TaskTabsType.completed,
                                         ),
                                   );
                                 },

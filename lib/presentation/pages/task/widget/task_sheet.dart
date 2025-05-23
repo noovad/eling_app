@@ -1,29 +1,29 @@
 import 'package:eling_app/presentation/enum/task_type.dart';
-import 'package:eling_app/presentation/enum/todo_sheet_type.dart';
-import 'package:eling_app/presentation/enum/todo_tabs_type.dart';
+import 'package:eling_app/presentation/enum/form_mode.dart';
+import 'package:eling_app/presentation/enum/task_tabs_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
 import 'package:flutter_ui/shared/sizes/app_spaces.dart';
-import 'package:eling_app/presentation/pages/todo_section/widget/todo_form.dart';
+import 'package:eling_app/presentation/pages/task/widget/task_form.dart';
 
-class TodoSheet extends StatelessWidget {
+class TaskSheet extends StatelessWidget {
   final FormMode? type;
-  final TodoTabsType todoTabsType;
+  final TaskTabsType todoTabsType;
   final TaskType? taskType;
 
-  const TodoSheet.create({
+  const TaskSheet.create({
     super.key,
     required this.todoTabsType,
     required this.taskType,
   }) : type = FormMode.create;
 
-  const TodoSheet.update({
+  const TaskSheet.update({
     super.key,
     required this.todoTabsType,
     required this.taskType,
   }) : type = FormMode.update;
 
-  const TodoSheet.detail({super.key, required this.todoTabsType})
+  const TaskSheet.detail({super.key, required this.todoTabsType})
     : type = FormMode.detail,
       taskType = null;
 
@@ -41,10 +41,7 @@ class TodoSheet extends StatelessWidget {
         children: [
           Flexible(
             child: SingleChildScrollView(
-              child: TodoForm(
-                todoTabsType: todoTabsType,
-                taskType: taskType,
-              ),
+              child: TaskForm(todoTabsType: todoTabsType, taskType: taskType),
             ),
           ),
           Padding(

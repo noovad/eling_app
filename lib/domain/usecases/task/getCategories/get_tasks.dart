@@ -4,25 +4,26 @@ import 'package:eling_app/domain/entities/taskGroupResult/task_group_result.dart
 import 'package:eling_app/domain/usecases/base_usecase.dart';
 import 'package:eling_app/domain/usecases/task/getCategories/get_tasks_request.dart';
 import 'package:eling_app/presentation/enum/task_type.dart';
-import 'package:eling_app/presentation/enum/todo_tabs_type.dart';
+import 'package:eling_app/presentation/enum/task_tabs_type.dart';
 
-abstract class GetTasks {
+abstract class GetTasksUseCase {
   Future<Result<TaskGroupResultEntity>> execute(GetTasksRequest request);
 }
 
-class GetTasksImpl extends BaseUsecase<GetTasksRequest, TaskGroupResultEntity>
-    implements GetTasks {
+class GetTasksUseCaseImpl
+    extends BaseUsecase<GetTasksRequest, TaskGroupResultEntity>
+    implements GetTasksUseCase {
   @override
-  String get usecaseName => 'GetTasks';
+  String get usecaseName => 'GetTasksUseCase';
 
-  GetTasksImpl({required super.logger});
+  GetTasksUseCaseImpl({required super.logger});
 
   @override
   Future<Result<TaskGroupResultEntity>> execute(GetTasksRequest request) async {
     return safeExecute(request, () async {
       await Future.delayed(const Duration(seconds: 2));
       switch (request.name) {
-        case TodoTabsType.today:
+        case TaskTabsType.today:
           return TaskGroupResultEntity(
             tasksByType: {
               TaskType.daily: [
@@ -55,7 +56,7 @@ class GetTasksImpl extends BaseUsecase<GetTasksRequest, TaskGroupResultEntity>
               ],
             },
           );
-        case TodoTabsType.upcoming:
+        case TaskTabsType.upcoming:
           return TaskGroupResultEntity(
             tasksByType: {
               TaskType.daily: [
@@ -80,7 +81,7 @@ class GetTasksImpl extends BaseUsecase<GetTasksRequest, TaskGroupResultEntity>
               ],
             },
           );
-        case TodoTabsType.recurring:
+        case TaskTabsType.recurring:
           return TaskGroupResultEntity(
             tasksByType: {
               TaskType.daily: [
@@ -105,7 +106,7 @@ class GetTasksImpl extends BaseUsecase<GetTasksRequest, TaskGroupResultEntity>
               ],
             },
           );
-        case TodoTabsType.completed:
+        case TaskTabsType.completed:
           return TaskGroupResultEntity(
             tasksByType: {
               TaskType.daily: [

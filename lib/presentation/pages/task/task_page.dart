@@ -1,12 +1,12 @@
-import 'package:eling_app/presentation/enum/todo_tabs_type.dart';
+import 'package:eling_app/presentation/enum/task_tabs_type.dart';
+import 'package:eling_app/presentation/pages/task/widget/task_section.dart';
+import 'package:eling_app/presentation/pages/task/widget/task_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
 import 'package:flutter_ui/shared/sizes/app_spaces.dart';
-import 'package:eling_app/presentation/pages/todo_section/widget/todo_section.dart';
-import 'package:eling_app/presentation/pages/todo_section/widget/todo_table.dart';
 
-class TodoTabs extends StatelessWidget {
-  const TodoTabs({super.key});
+class TaskPage extends StatelessWidget {
+  const TaskPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -60,9 +60,9 @@ class TodoTabs extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   clipBehavior: Clip.none,
                   children: [
-                    TodoSection(tabsType: TodoTabsType.today),
-                    TodoSection(tabsType: TodoTabsType.upcoming),
-                    TodoSection(tabsType: TodoTabsType.recurring),
+                    TaskSection(tabsType: TaskTabsType.today),
+                    TaskSection(tabsType: TaskTabsType.upcoming),
+                    TaskSection(tabsType: TaskTabsType.recurring),
                     TablePage(),
                   ],
                 ),

@@ -1,5 +1,5 @@
 import 'package:eling_app/presentation/enum/task_type.dart';
-import 'package:eling_app/presentation/enum/todo_tabs_type.dart';
+import 'package:eling_app/presentation/enum/task_tabs_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui/shared/sizes/app_sizes.dart';
 import 'package:flutter_ui/widgets/appField/app_date_field.dart';
@@ -7,12 +7,12 @@ import 'package:flutter_ui/widgets/appField/app_text_field.dart';
 import 'package:flutter_ui/widgets/appField/app_time_field.dart';
 import 'package:flutter_ui/widgets/dropdown/app_dropdown.dart';
 
-class TodoForm extends StatefulWidget {
-  final TodoTabsType todoTabsType;
+class TaskForm extends StatefulWidget {
+  final TaskTabsType todoTabsType;
   final TaskType? taskType;
   final bool status;
 
-  const TodoForm({
+  const TaskForm({
     super.key,
     required this.todoTabsType,
     this.taskType,
@@ -20,10 +20,10 @@ class TodoForm extends StatefulWidget {
   });
 
   @override
-  State<TodoForm> createState() => _TodoFormState();
+  State<TaskForm> createState() => _TaskFormState();
 }
 
-class _TodoFormState extends State<TodoForm> {
+class _TaskFormState extends State<TaskForm> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
