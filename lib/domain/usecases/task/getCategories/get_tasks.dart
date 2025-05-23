@@ -33,6 +33,7 @@ class GetTasksUseCaseImpl
                   note: 'Description for daily task 1',
                   category: 'personal',
                   date: DateTime.now(),
+                  time: '10:00',
                   isDone: false,
                 ),
                 TaskEntity(
@@ -41,6 +42,7 @@ class GetTasksUseCaseImpl
                   note: 'Description for daily task 2',
                   category: 'work',
                   date: DateTime.now(),
+                  time: '23:00',
                   isDone: false,
                 ),
               ],
@@ -51,6 +53,7 @@ class GetTasksUseCaseImpl
                   note: 'Description for productivity task 1',
                   category: 'work',
                   date: DateTime.now(),
+                  time: '23:00',
                   isDone: false,
                 ),
               ],

@@ -6,21 +6,16 @@ import 'package:flutter_ui/widgets/appSheet/app_sheet.dart';
 import 'package:eling_app/presentation/pages/note_section/providers/note_provider.dart';
 import 'package:eling_app/presentation/pages/note_section/widget/note_sheet.dart';
 
-class NotePage extends ConsumerStatefulWidget {
+class NotePage extends ConsumerWidget {
   const NotePage({super.key});
 
   @override
-  ConsumerState<NotePage> createState() => _NotePageState();
-}
-
-class _NotePageState extends ConsumerState<NotePage> {
-  @override
-  Widget build(BuildContext context) {
-    final state = ref.watch(noteProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final notes = ref.watch(noteProvider.select((s) => s.notes));
     final notifier = ref.read(noteProvider.notifier);
 
     return Scaffold(
-      body: state.notes.when(
+      body: notes.when(
         initial: () => const Center(child: CircularProgressIndicator()),
         loading: () => const Center(child: CircularProgressIndicator()),
         failure: (message) {
@@ -44,12 +39,12 @@ class _NotePageState extends ConsumerState<NotePage> {
                     child: InkWell(
                       onTap:
                           () => {
+                            // notifier.clear(),
                             appSheet(
                               side: SheetSide.left,
                               context: context,
                               builder: (_) => NoteSheet(isCreate: true),
                             ),
-                            notifier.clear(),
                           },
                       child: Padding(
                         padding: AppPadding.all12,
@@ -68,12 +63,12 @@ class _NotePageState extends ConsumerState<NotePage> {
                   onDelete: (value) => notifier.deleteNote(value),
                   onUpdate: (value) => notifier.togglePin(value),
                   onTap: () {
+                    notifier.set(note);
                     appSheet(
                       side: SheetSide.left,
                       context: context,
                       builder: (_) => NoteSheet(note: note),
                     );
-                    notifier.set(note);
                   },
                 );
               },

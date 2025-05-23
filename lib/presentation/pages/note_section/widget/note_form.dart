@@ -1,25 +1,20 @@
+import 'package:eling_app/presentation/pages/note_section/models/content.dart';
+import 'package:eling_app/presentation/utils/extensions/input_error_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/widgets/appField/app_text_field.dart';
 import 'package:flutter_ui/shared/sizes/app_sizes.dart';
 import 'package:flutter_ui/widgets/dropdown/app_dropdown.dart';
 import 'package:eling_app/domain/entities/note/note.dart';
-import 'package:eling_app/presentation/pages/note_section/models/content.dart';
-import 'package:eling_app/presentation/pages/note_section/models/title.dart';
 import 'package:eling_app/presentation/pages/note_section/providers/note_provider.dart';
 
-class NoteForm extends ConsumerStatefulWidget {
+class NoteForm extends ConsumerWidget {
   final NoteEntity? note;
 
   const NoteForm({super.key, this.note});
 
   @override
-  ConsumerState<NoteForm> createState() => NoteFormState();
-}
-
-class NoteFormState extends ConsumerState<NoteForm> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final categories = ref
         .watch(noteProvider)
         .categories
@@ -43,7 +38,7 @@ class NoteFormState extends ConsumerState<NoteForm> {
           onChanged: (value) => notifier.titleChanged(value),
           label: 'Title',
           hint: 'Enter note title',
-          errorText: state.title.displayError?.getMessage(),
+          errorText: state.title.displayError?.message,
         ),
 
         AppDropdown<String>(
@@ -68,7 +63,7 @@ class NoteFormState extends ConsumerState<NoteForm> {
           maxLines: 10,
           hint: 'Write your note here...',
           label: 'Content',
-          errorText: state.content.displayError?.getMessage(),
+          errorText: state.content.displayError?.message,
         ),
       ],
     );

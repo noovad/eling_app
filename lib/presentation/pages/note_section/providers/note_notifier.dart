@@ -88,7 +88,6 @@ class NoteNotifier extends StateNotifier<NoteState> {
 
   void titleChanged(String value) {
     final title = TitleInput.dirty(value: value);
-    debugPrint('Title changed: $value');
     final isValid = Formz.validate([title, state.content]);
     state = state.copyWith(title: title, isValid: isValid);
   }
@@ -108,14 +107,20 @@ class NoteNotifier extends StateNotifier<NoteState> {
       title: TitleInput.pure(),
       content: ContentInput.pure(),
       selectedCategory: null,
+      isValid: false,
     );
   }
 
   void set(NoteEntity note) {
+    final title = TitleInput.dirty(value: note.title ?? '');
+    final content = ContentInput.dirty(value: note.content ?? '');
+    final isValid = Formz.validate([title, content]);
+
     state = state.copyWith(
-      title: TitleInput.dirty(value: note.title ?? ''),
-      content: ContentInput.dirty(value: note.content ?? ''),
+      title: title,
+      content: content,
       selectedCategory: note.category,
+      isValid: isValid,
     );
   }
 }

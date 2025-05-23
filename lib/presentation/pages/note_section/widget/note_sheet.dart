@@ -6,59 +6,53 @@ import 'package:eling_app/domain/entities/note/note.dart';
 import 'package:eling_app/presentation/pages/note_section/providers/note_provider.dart';
 import 'package:eling_app/presentation/pages/note_section/widget/note_form.dart';
 
-class NoteSheet extends ConsumerStatefulWidget {
+class NoteSheet extends ConsumerWidget {
   final bool isCreate;
   final NoteEntity? note;
 
   const NoteSheet({super.key, this.isCreate = false, this.note});
 
   @override
-  ConsumerState<NoteSheet> createState() => _NoteSheetState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final notifier = ref.read(noteProvider.notifier);
+    final isValid = ref.watch(noteProvider.select((s) => s.isValid));
 
-class _NoteSheetState extends ConsumerState<NoteSheet> {
-  @override
-  Widget build(BuildContext context) {
     return Padding(
       padding: AppPadding.all16,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Flexible(
-            child: SingleChildScrollView(child: NoteForm(note: widget.note)),
-          ),
+          Flexible(child: SingleChildScrollView(child: NoteForm(note: note))),
           Padding(
             padding: const EdgeInsets.only(top: 16.0),
-            child: buttonSection(context),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ElevatedButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text('Cancel'),
+                ),
+                AppSpaces.w8,
+                ElevatedButton(
+                  onPressed:
+                      isValid == true
+                          ? () {
+                            if (isCreate) {
+                              notifier.addNote();
+                            } else {
+                              notifier.updateNote(note!.id ?? '');
+                            }
+                            Navigator.of(context).pop();
+                          }
+                          : null,
+                  child: Text(isCreate ? 'Create' : 'Update'),
+                ),
+              ],
+            ),
           ),
         ],
       ),
-    );
-  }
-
-  Row buttonSection(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        ElevatedButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
-        ),
-        AppSpaces.w8,
-        ElevatedButton(
-          onPressed: () {
-            final notifier = ref.read(noteProvider.notifier);
-            if (widget.isCreate) {
-              notifier.addNote();
-            } else {
-              notifier.updateNote(widget.note!.id ?? '');
-            }
-            Navigator.of(context).pop();
-          },
-          child: Text(widget.isCreate ? 'Create' : 'Update'),
-        ),
-      ],
     );
   }
 }

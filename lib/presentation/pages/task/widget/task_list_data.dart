@@ -80,6 +80,7 @@ class TaskListData extends ConsumerWidget {
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       final task = data.tasksByType[taskType]![index];
+                      debugPrint(' dududu : ${task.time}');
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 8),
                         child: TaskCard(

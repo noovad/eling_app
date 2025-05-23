@@ -1,22 +1,14 @@
+import 'package:eling_app/presentation/enum/input_validation_type.dart';
+import 'package:eling_app/presentation/utils/extensions/input_error_message.dart';
 import 'package:formz/formz.dart';
 
-enum TitleInputError { empty }
-
-class TitleInput extends FormzInput<String, TitleInputError> {
+class TitleInput extends FormzInput<String, InputValidation> {
   const TitleInput.pure() : super.pure('');
   const TitleInput.dirty({String value = ''}) : super.dirty(value);
 
   @override
-  TitleInputError? validator(String value) {
-    return value.isEmpty ? TitleInputError.empty : null;
-  }
-}
-
-extension TitleInputErrorMessage on TitleInputError {
-  String getMessage() {
-    switch (this) {
-      case TitleInputError.empty:
-        return 'Title cannot be empty.';
-    }
+  InputValidation? validator(String value) {
+    if (value.isEmpty) return InputValidation(InputValidationType.empty);
+    return null;
   }
 }

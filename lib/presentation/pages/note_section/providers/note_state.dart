@@ -7,15 +7,10 @@ abstract class NoteState with _$NoteState {
     required Resource<List<CategoryEntity>> categories,
     @Default(TitleInput.pure()) TitleInput title,
     @Default(ContentInput.pure()) ContentInput content,
+    @Default(false) bool isValid,
     String? selectedCategory,
-    bool? isValid,
   }) = _NoteState;
 
-  factory NoteState.initial() => NoteState(
-    notes: Resource.initial(),
-    categories: Resource.initial(),
-    title: TitleInput.pure(),
-    content: ContentInput.pure(),
-    isValid: true,
-  );
+  factory NoteState.initial() =>
+      NoteState(notes: Resource.initial(), categories: Resource.initial());
 }
