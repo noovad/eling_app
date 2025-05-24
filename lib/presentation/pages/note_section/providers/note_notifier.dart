@@ -1,3 +1,5 @@
+import 'package:eling_app/presentation/pages/note_section/models/content.dart';
+import 'package:eling_app/presentation/pages/note_section/models/title.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:formz/formz.dart';
@@ -10,8 +12,6 @@ import 'package:eling_app/domain/usecases/base_usecase.dart';
 import 'package:eling_app/domain/usecases/category/getCategories/get_categories.dart';
 import 'package:eling_app/domain/usecases/category/getCategories/get_categories_request.dart';
 import 'package:eling_app/domain/usecases/note/getNotes/get_notes.dart';
-import 'package:eling_app/presentation/pages/note_section/models/content.dart';
-import 'package:eling_app/presentation/pages/note_section/models/title.dart';
 
 part 'note_state.dart';
 part 'note_notifier.freezed.dart';
@@ -41,7 +41,7 @@ class NoteNotifier extends StateNotifier<NoteState> {
 
   void fetchNoteCategories() async {
     final result = await getCategoriesUseCase.execute(
-      GetCategoriesRequest(name: CategoryType.note),
+      GetCategoriesRequest(categoryType: CategoryType.note),
     );
     result.when(
       success: (data) {

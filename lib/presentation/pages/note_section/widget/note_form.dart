@@ -1,4 +1,3 @@
-import 'package:eling_app/presentation/pages/note_section/models/content.dart';
 import 'package:eling_app/presentation/utils/extensions/input_error_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

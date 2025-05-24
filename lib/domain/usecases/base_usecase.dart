@@ -16,15 +16,15 @@ abstract class BaseUsecase<Request, Response> {
     Future<Response> Function() onExecute,
   ) async {
     try {
-      logger.i('$usecaseName.execute request: $request');
+      // logger.i('$usecaseName.execute request: $request');
 
       final result = await onExecute();
 
-      logger.i('$usecaseName.execute result: $result');
+      // logger.i('$usecaseName.execute result: $result');
 
       return Result.success(result);
     } on Exception catch (e) {
-      logger.e('$usecaseName.execute error: $e');
+      // logger.e('$usecaseName.execute error: $e');
 
       return Result.failure(e.toString());
     }

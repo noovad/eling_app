@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
-import 'package:flutter_ui/widgets/appCard/note_card.dart';
+import 'package:flutter_ui/widgets/appCard/app_note_card.dart';
 import 'package:flutter_ui/widgets/appSheet/app_sheet.dart';
 import 'package:eling_app/presentation/pages/note_section/providers/note_provider.dart';
 import 'package:eling_app/presentation/pages/note_section/widget/note_sheet.dart';
@@ -54,7 +54,7 @@ class NotePage extends ConsumerWidget {
                   );
                 }
                 final note = notes[index - 1];
-                return NoteCard(
+                return AppNoteCard(
                   noteTitle: note.title ?? "",
                   noteContent: note.content ?? "",
                   noteCategory: note.category ?? "",

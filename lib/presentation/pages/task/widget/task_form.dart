@@ -1,13 +1,16 @@
 import 'package:eling_app/presentation/enum/task_type.dart';
 import 'package:eling_app/presentation/enum/task_tabs_type.dart';
+import 'package:eling_app/presentation/pages/task/provider/task_provider.dart';
+import 'package:eling_app/presentation/utils/extensions/input_error_message.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/shared/sizes/app_sizes.dart';
 import 'package:flutter_ui/widgets/appField/app_date_field.dart';
 import 'package:flutter_ui/widgets/appField/app_text_field.dart';
 import 'package:flutter_ui/widgets/appField/app_time_field.dart';
 import 'package:flutter_ui/widgets/dropdown/app_dropdown.dart';
 
-class TaskForm extends StatefulWidget {
+class TaskForm extends ConsumerWidget {
   final TaskTabsType todoTabsType;
   final TaskType? taskType;
   final bool status;
@@ -20,54 +23,74 @@ class TaskForm extends StatefulWidget {
   });
 
   @override
-  State<TaskForm> createState() => _TaskFormState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedCategory = ref.watch(
+      taskProvider.select((state) => state.selectedCategory),
+    );
+    final title = ref.watch(taskProvider.select((state) => state.title));
+    final time = ref.watch(taskProvider.select((state) => state.time));
+    final date = ref.watch(taskProvider.select((state) => state.date));
+    final notifier = ref.read(taskProvider.notifier);
 
-class _TaskFormState extends State<TaskForm> {
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+    final dataCategories =
+        taskType == TaskType.daily
+            ? ref.watch(taskProvider.select((state) => state.dailyCategories))
+            : ref.watch(
+              taskProvider.select((state) => state.productivityCategories),
+            );
 
-  @override
-  Widget build(BuildContext context) {
-    return Form(
-      key: formKey,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        spacing: AppSizes.dimen24,
-        children: [
-          AppTextField(
-            label: "Title",
-            hint: "Enter title",
-            enabled: !widget.status,
-            onChanged: (yow) {},
-          ),
-          AppDropdown(
-            items: [],
-            label: "Category",
-            hint: "Select category",
-            enable: !widget.status,
+    final categories = dataCategories.whenOrNull(
+      success:
+          (data) =>
+              data
+                  .map((e) => DropdownItem<String>(id: e.name!, label: e.name!))
+                  .toList(),
+    );
 
-            // selectedItem:
-            //     widget.categoryController.text.isNotEmpty
-            //         ? DropdownItem<String>(
-            //           id: widget.categoryController.text,
-            //           label: widget.categoryController.text,
-            //         )
-            //         : null,
-            onChanged: (value) {},
-          ),
-          AppTimeField(controller: TextEditingController()),
-          AppDateField(controller: TextEditingController()),
-          AppTextField(
-            label: "Notes",
-            hint: "Enter notes",
-            maxLines: 5,
-            minLines: 3,
-            enabled: !widget.status,
-            onChanged: (yow) {},
-          ),
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      spacing: AppSizes.dimen24,
+      children: [
+        AppTextField(
+          label: "Title",
+          hint: "Enter title",
+          onChanged: (value) => notifier.titleChanged(value),
+          errorText: title.displayError?.message,
+          initialValue: title.value,
+        ),
+        AppDropdown(
+          items: categories ?? [],
+          label: "Category",
+          hint: "Select category",
+          enable: !status,
+          selectedItem:
+              selectedCategory != null
+                  ? DropdownItem<String>(
+                    id: selectedCategory,
+                    label: selectedCategory,
+                  )
+                  : null,
+          onChanged:
+              (value) => notifier.categoryChanged(value?.id.toString() ?? ''),
+        ),
+        AppTimeField(
+          onChanged: (value) => notifier.timeChanged(value),
+          initialValue: time,
+        ),
+        AppDateField(
+          onChanged: (value) => notifier.dateChanged(value.toString()),
+          initialValue: DateTime.parse(date.value),
+          errorText: date.displayError?.message,
+        ),
+        AppTextField(
+          label: "Note",
+          hint: "Enter note",
+          maxLines: 5,
+          minLines: 3,
+          onChanged: (value) => notifier.noteChanged(value),
+        ),
+      ],
     );
   }
 }

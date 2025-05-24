@@ -6,7 +6,7 @@ import 'package:eling_app/presentation/pages/task/provider/task_provider.dart';
 import 'package:eling_app/presentation/pages/task/widget/task_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
-import 'package:flutter_ui/widgets/appCard/task_card.dart';
+import 'package:flutter_ui/widgets/appCard/app_task_card.dart';
 import 'package:flutter_ui/widgets/appSheet/app_sheet.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -80,10 +80,9 @@ class TaskListData extends ConsumerWidget {
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       final task = data.tasksByType[taskType]![index];
-                      debugPrint(' dududu : ${task.time}');
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 8),
-                        child: TaskCard(
+                        child: AppTaskCard(
                           title: task.title ?? "",
                           category: task.category ?? "",
                           time: task.time ?? "",
@@ -121,7 +120,10 @@ class TaskListData extends ConsumerWidget {
         elevation: 4,
         shadowColor: Colors.grey,
         color: color,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+          side: BorderSide(color: Colors.grey.withOpacity(0.25), width: 1),
+        ),
         child: child,
       ),
     );

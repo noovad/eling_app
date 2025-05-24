@@ -8,7 +8,7 @@ part 'get_categories_request.g.dart';
 abstract class GetCategoriesRequest with _$GetCategoriesRequest {
   // ignore: invalid_annotation_target
   @JsonSerializable(fieldRename: FieldRename.snake)
-  const factory GetCategoriesRequest({required CategoryType name}) =
+  const factory GetCategoriesRequest({required CategoryType categoryType}) =
       _GetCategoriesRequest;
 
   factory GetCategoriesRequest.fromJson(Map<String, Object?> json) =>

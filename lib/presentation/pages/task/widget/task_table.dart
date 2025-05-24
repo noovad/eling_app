@@ -1,6 +1,6 @@
 import 'package:eling_app/presentation/enum/task_tabs_type.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_ui/widgets/appNav/month_nav.dart';
+import 'package:flutter_ui/widgets/appNav/app_month_nav.dart';
 import 'package:flutter_ui/widgets/appSheet/app_sheet.dart';
 import 'package:intl/intl.dart';
 import 'package:eling_app/presentation/pages/task/widget/task_sheet.dart';
@@ -21,7 +21,7 @@ class _TablePageState extends State<TablePage> {
       child: Column(
         spacing: 16,
         children: [
-          MonthNav(displayedDate: ValueNotifier<DateTime>(DateTime.now())),
+          AppMonthNav(displayedDate: ValueNotifier<DateTime>(DateTime.now())),
           Expanded(
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,

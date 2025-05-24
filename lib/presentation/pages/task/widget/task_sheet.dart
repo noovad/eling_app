@@ -1,12 +1,14 @@
 import 'package:eling_app/presentation/enum/task_type.dart';
 import 'package:eling_app/presentation/enum/form_mode.dart';
 import 'package:eling_app/presentation/enum/task_tabs_type.dart';
+import 'package:eling_app/presentation/pages/task/provider/task_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
 import 'package:flutter_ui/shared/sizes/app_spaces.dart';
 import 'package:eling_app/presentation/pages/task/widget/task_form.dart';
 
-class TaskSheet extends StatelessWidget {
+class TaskSheet extends ConsumerWidget {
   final FormMode? type;
   final TaskTabsType todoTabsType;
   final TaskType? taskType;
@@ -32,7 +34,8 @@ class TaskSheet extends StatelessWidget {
   bool get isUpdate => type == FormMode.update;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final notifier = ref.read(taskProvider.notifier);
     return Padding(
       padding: AppPadding.all16,
       child: Column(
@@ -46,32 +49,28 @@ class TaskSheet extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 16.0),
-            child: buttonSection(context),
+            child: Row(
+              children: [
+                if (isCreate || (isUpdate && true))
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        child: const Text('Cancel'),
+                      ),
+                      AppSpaces.w8,
+                      ElevatedButton(
+                        onPressed: () => notifier.saveTask(),
+                        child: Text(isCreate ? 'Create' : 'Update'),
+                      ),
+                    ],
+                  ),
+              ],
+            ),
           ),
         ],
       ),
-    );
-  }
-
-  Row buttonSection(BuildContext context) {
-    return Row(
-      children: [
-        if (isCreate || (isUpdate && true))
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              ElevatedButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: const Text('Cancel'),
-              ),
-              AppSpaces.w8,
-              ElevatedButton(
-                onPressed: () {},
-                child: Text(isCreate ? 'Create' : 'Update'),
-              ),
-            ],
-          ),
-      ],
     );
   }
 }
