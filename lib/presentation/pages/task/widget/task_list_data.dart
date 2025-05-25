@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:eling_app/core/utils/resource.dart';
 import 'package:eling_app/domain/entities/taskGroupResult/task_group_result.dart';
 import 'package:eling_app/presentation/enum/task_type.dart';
@@ -23,6 +25,7 @@ class TaskListData extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final notifier = ref.read(taskProvider.notifier);
     late final Resource<TaskGroupResultEntity> tasks;
     switch (tabsType) {
       case TaskTabsType.upcoming:
@@ -46,16 +49,18 @@ class TaskListData extends ConsumerWidget {
             child: appCard(
               height: 50,
               child: InkWell(
-                onTap:
-                    () => appSheet(
-                      side: SheetSide.right,
-                      context: context,
-                      builder:
-                          (context) => TaskSheet.create(
-                            taskType: taskType,
-                            todoTabsType: TaskTabsType.today,
-                          ),
-                    ),
+                onTap: () {
+                  notifier.resetForm(tabsType);
+                  appSheet(
+                    side: SheetSide.right,
+                    context: context,
+                    builder:
+                        (context) => TaskSheet.create(
+                          taskType: taskType,
+                          tabsType: tabsType,
+                        ),
+                  );
+                },
                 child: const Padding(
                   padding: AppPadding.h8,
                   child: Icon(Icons.add, size: 24),
@@ -83,7 +88,7 @@ class TaskListData extends ConsumerWidget {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 8),
                         child: AppTaskCard(
-                          title: task.title ?? "",
+                          title: task.title,
                           category: task.category ?? "",
                           time: task.time ?? "",
                           isDone: task.isDone ?? false,
@@ -91,16 +96,19 @@ class TaskListData extends ConsumerWidget {
                           onUpdateStatus: (fd) {},
                           onDelete: (fd) {},
                           leading: true,
-                          ontap:
-                              () => appSheet(
-                                context: context,
-                                side: SheetSide.right,
-                                builder:
-                                    (context) => TaskSheet.update(
-                                      todoTabsType: TaskTabsType.today,
-                                      taskType: TaskType.daily,
-                                    ),
-                              ),
+                          ontap: () {
+                            notifier.setUpdateForm(task, tabsType);
+                            appSheet(
+                              context: context,
+                              side: SheetSide.right,
+                              builder:
+                                  (context) => TaskSheet.update(
+                                    tabsType: tabsType,
+                                    taskType: taskType,
+                                    isDone: task.isDone,
+                                  ),
+                            );
+                          },
                         ),
                       );
                     },

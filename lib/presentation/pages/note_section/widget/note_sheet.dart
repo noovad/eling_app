@@ -38,11 +38,10 @@ class NoteSheet extends ConsumerWidget {
                   onPressed:
                       isValid == true
                           ? () {
-                            if (isCreate) {
-                              notifier.addNote();
-                            } else {
-                              notifier.updateNote(note!.id ?? '');
-                            }
+                            isCreate
+                                ? notifier.addNote()
+                                : notifier.updateNote(note!.id ?? '');
+
                             Navigator.of(context).pop();
                           }
                           : null,

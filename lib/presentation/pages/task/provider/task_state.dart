@@ -8,12 +8,15 @@ abstract class TaskState with _$TaskState {
     required Resource<TaskGroupResultEntity> recurringTask,
     required Resource<List<CategoryEntity>> dailyCategories,
     required Resource<List<CategoryEntity>> productivityCategories,
+    required Resource<List<TaskEntity>> completedTasks,
     @Default(TitleInput.pure()) TitleInput title,
     @Default(DateInput.pure()) DateInput date,
     @Default(false) bool isvalid,
     String? selectedCategory,
     String? note,
     String? time,
+    required int monthFilter,
+    required int yearFilter,
   }) = _TaskState;
 
   factory TaskState.initial() => TaskState(
@@ -22,5 +25,8 @@ abstract class TaskState with _$TaskState {
     recurringTask: Resource.initial(),
     dailyCategories: Resource.initial(),
     productivityCategories: Resource.initial(),
+    completedTasks: Resource.initial(),
+    monthFilter: DateTime.now().month,
+    yearFilter: DateTime.now().year,
   );
 }

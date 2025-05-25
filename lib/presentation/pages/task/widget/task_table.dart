@@ -1,21 +1,22 @@
 import 'package:eling_app/presentation/enum/task_tabs_type.dart';
+import 'package:eling_app/presentation/pages/task/provider/task_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/widgets/appNav/app_month_nav.dart';
 import 'package:flutter_ui/widgets/appSheet/app_sheet.dart';
 import 'package:intl/intl.dart';
 import 'package:eling_app/presentation/pages/task/widget/task_sheet.dart';
 
-class TablePage extends StatefulWidget {
+class TablePage extends ConsumerWidget {
   const TablePage({super.key});
 
   @override
-  State<TablePage> createState() => _TablePageState();
-}
-
-class _TablePageState extends State<TablePage> {
-  @override
-  Widget build(BuildContext context) {
-    final listData = [];
+  Widget build(BuildContext context, WidgetRef ref) {
+    final notifier = ref.read(taskProvider.notifier);
+    final completedTasks = ref.watch(
+      taskProvider.select((s) => s.completedTasks),
+    );
+    final listData = completedTasks.whenOrNull(success: (date) => date) ?? [];
     return SizedBox(
       height: MediaQuery.of(context).size.height - 104,
       child: Column(
@@ -64,12 +65,16 @@ class _TablePageState extends State<TablePage> {
                             .map(
                               (todo) => DataRow(
                                 onSelectChanged: (selected) {
+                                  notifier.setUpdateForm(
+                                    todo,
+                                    TaskTabsType.completed,
+                                  );
                                   appSheet(
                                     context: context,
                                     side: SheetSide.right,
                                     builder:
                                         (context) => TaskSheet.detail(
-                                          todoTabsType: TaskTabsType.completed,
+                                          tabsType: TaskTabsType.completed,
                                         ),
                                   );
                                 },
@@ -78,13 +83,13 @@ class _TablePageState extends State<TablePage> {
                                     Text(
                                       DateFormat(
                                         'dd MMM yyyy',
-                                      ).format(todo.date!),
+                                      ).format(todo.date),
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
                                   DataCell(
                                     Text(
-                                      todo.title!,
+                                      todo.title,
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w500,
                                       ),

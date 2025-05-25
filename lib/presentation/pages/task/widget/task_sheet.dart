@@ -10,32 +10,40 @@ import 'package:eling_app/presentation/pages/task/widget/task_form.dart';
 
 class TaskSheet extends ConsumerWidget {
   final FormMode? type;
-  final TaskTabsType todoTabsType;
+  final TaskTabsType tabsType;
   final TaskType? taskType;
+  final bool? isDone;
 
   const TaskSheet.create({
     super.key,
-    required this.todoTabsType,
+    required this.tabsType,
     required this.taskType,
-  }) : type = FormMode.create;
+  }) : type = FormMode.create,
+       isDone = false;
 
   const TaskSheet.update({
     super.key,
-    required this.todoTabsType,
+    required this.tabsType,
     required this.taskType,
+    required this.isDone,
   }) : type = FormMode.update;
 
-  const TaskSheet.detail({super.key, required this.todoTabsType})
+  const TaskSheet.detail({super.key, required this.tabsType})
     : type = FormMode.detail,
+      isDone = false,
       taskType = null;
 
   bool get isCreate => type == FormMode.create;
-
   bool get isUpdate => type == FormMode.update;
+  bool get idDetail => type == FormMode.detail;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final notifier = ref.read(taskProvider.notifier);
+    final isValid = ref.watch(taskProvider.select((state) => state.isvalid));
+
+    bool enabled = (isDone == true) || (idDetail) ? false : true;
+
     return Padding(
       padding: AppPadding.all16,
       child: Column(
@@ -44,14 +52,18 @@ class TaskSheet extends ConsumerWidget {
         children: [
           Flexible(
             child: SingleChildScrollView(
-              child: TaskForm(todoTabsType: todoTabsType, taskType: taskType),
+              child: TaskForm(
+                tabsType: tabsType,
+                taskType: taskType,
+                enabled: enabled,
+              ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 16.0),
             child: Row(
               children: [
-                if (isCreate || (isUpdate && true))
+                if (enabled)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -61,7 +73,13 @@ class TaskSheet extends ConsumerWidget {
                       ),
                       AppSpaces.w8,
                       ElevatedButton(
-                        onPressed: () => notifier.saveTask(),
+                        onPressed:
+                            isValid == true
+                                ? () =>
+                                    isCreate
+                                        ? notifier.saveTask()
+                                        : notifier.updateTask()
+                                : null,
                         child: Text(isCreate ? 'Create' : 'Update'),
                       ),
                     ],

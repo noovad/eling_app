@@ -1,5 +1,7 @@
 import 'package:eling_app/domain/usecases/category/getCategories/get_categories.dart';
 import 'package:eling_app/domain/usecases/task/getCategories/get_tasks.dart';
+import 'package:eling_app/domain/usecases/task/get_completed_tasks/get_completed_tasks_request.dart';
+import 'package:eling_app/domain/usecases/task/get_completed_tasks/get_completed_tasks_usecase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'task_notifier.dart';
@@ -12,9 +14,14 @@ final getCategoriesUseCaseProvider = Provider<GetCategoriesUseCase>((ref) {
   return GetCategoriesUseCaseImpl(logger: Logger());
 });
 
+final getCompletedTasksProvider = Provider<GetCompletedTasksUseCaseImpl>((ref) {
+  return GetCompletedTasksUseCaseImpl(logger: Logger());
+});
+
 final taskProvider = StateNotifierProvider<TaskNotifier, TaskState>((ref) {
   return TaskNotifier(
     ref.watch(getTasksUseCaseProvider),
     ref.watch(getCategoriesUseCaseProvider),
+    ref.watch(getCompletedTasksProvider),
   );
 });

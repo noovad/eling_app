@@ -34,7 +34,7 @@ class GetTasksUseCaseImpl
                   category: 'personal',
                   date: DateTime.now(),
                   time: '10:00',
-                  isDone: false,
+                  isDone: true,
                 ),
                 TaskEntity(
                   id: '2',

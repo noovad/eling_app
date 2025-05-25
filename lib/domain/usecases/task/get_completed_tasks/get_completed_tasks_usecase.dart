@@ -1,0 +1,82 @@
+import 'package:eling_app/core/utils/result.dart';
+import 'package:eling_app/domain/entities/task/task.dart';
+import 'package:eling_app/domain/usecases/base_usecase.dart';
+import 'package:eling_app/domain/usecases/task/get_completed_tasks/get_completed_tasks_request.dart';
+
+abstract class GetCompletedTasksUseCase {
+  Future<Result<List<TaskEntity>>> execute(GetCompletedTasksRequest request);
+}
+
+class GetCompletedTasksUseCaseImpl
+    extends BaseUsecase<GetCompletedTasksRequest, List<TaskEntity>>
+    implements GetCompletedTasksUseCase {
+  @override
+  String get usecaseName => 'GetCompletedTasksUseCase';
+
+  GetCompletedTasksUseCaseImpl({required super.logger});
+
+  @override
+  Future<Result<List<TaskEntity>>> execute(
+    GetCompletedTasksRequest request,
+  ) async {
+    return safeExecute(request, () async {
+      await Future.delayed(const Duration(seconds: 2));
+      return [
+        TaskEntity(
+          id: '1',
+          title: 'Daily Task 1',
+          note: 'Description for daily task 1',
+          category: 'personal',
+          date: DateTime.now(),
+          time: '10:00',
+          isDone: false,
+        ),
+        TaskEntity(
+          id: '2',
+          title: 'Daily Task 2',
+          note: 'Description for daily task 2',
+          category: 'work',
+          date: DateTime.now(),
+          time: '23:00',
+          isDone: false,
+        ),
+        TaskEntity(
+          id: '1',
+          title: 'Daily Task 1',
+          note: 'Description for daily task 1',
+          category: 'personal',
+          date: DateTime.now(),
+          time: '10:00',
+          isDone: false,
+        ),
+        TaskEntity(
+          id: '2',
+          title: 'Daily Task 2',
+          note: 'Description for daily task 2',
+          category: 'work',
+          date: DateTime.now(),
+          time: '23:00',
+          isDone: false,
+        ),
+        TaskEntity(
+          id: '1',
+          title: 'Daily Task 1',
+          note: 'Description for daily task 1',
+          category: 'personal',
+          date: DateTime.now(),
+          time: '10:00',
+          isDone: false,
+        ),
+        TaskEntity(
+          id: '2',
+          title: 'Daily Task 2',
+          note: 'Description for daily task 2',
+          category: 'work',
+          date: DateTime.now(),
+          time: '23:00',
+          isDone: false,
+        ),
+      ];
+    });
+  }
+}
