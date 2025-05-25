@@ -1,30 +1,29 @@
 import 'package:eling_app/presentation/enum/task_type.dart';
-import 'package:eling_app/presentation/enum/task_tabs_type.dart';
+import 'package:eling_app/presentation/enum/task_schedule_type.dart';
 import 'package:eling_app/presentation/pages/task/provider/task_provider.dart';
 import 'package:eling_app/presentation/utils/extensions/input_error_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/shared/sizes/app_spaces.dart';
+import 'package:flutter_ui/widgets/appDropdown/app_dropdown.dart';
 import 'package:flutter_ui/widgets/appField/app_date_field.dart';
 import 'package:flutter_ui/widgets/appField/app_text_field.dart';
 import 'package:flutter_ui/widgets/appField/app_time_field.dart';
-import 'package:flutter_ui/widgets/dropdown/app_dropdown.dart';
 
 class TaskForm extends ConsumerWidget {
-  final TaskTabsType tabsType;
+  final TaskScheduleType? taskScheduleType;
   final TaskType? taskType;
   final bool enabled;
 
   const TaskForm({
     super.key,
-    required this.tabsType,
     required this.enabled,
+    this.taskScheduleType,
     this.taskType,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    debugPrint("TaskForm: ${taskType?.name} - ${tabsType.name}");
     final selectedCategory = ref.watch(
       taskProvider.select((state) => state.selectedCategory),
     );
@@ -84,7 +83,7 @@ class TaskForm extends ConsumerWidget {
         ),
         AppSpaces.h24,
         Visibility(
-          visible: tabsType != TaskTabsType.recurring,
+          visible: taskScheduleType != TaskScheduleType.recurring,
           child: Column(
             children: [
               AppDateField(

@@ -1,4 +1,3 @@
-import 'package:eling_app/presentation/enum/task_tabs_type.dart';
 import 'package:eling_app/presentation/pages/task/provider/task_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -65,17 +64,11 @@ class TablePage extends ConsumerWidget {
                             .map(
                               (todo) => DataRow(
                                 onSelectChanged: (selected) {
-                                  notifier.setUpdateForm(
-                                    todo,
-                                    TaskTabsType.completed,
-                                  );
+                                  notifier.setUpdateForm(todo, null);
                                   appSheet(
                                     context: context,
                                     side: SheetSide.right,
-                                    builder:
-                                        (context) => TaskSheet.detail(
-                                          tabsType: TaskTabsType.completed,
-                                        ),
+                                    builder: (context) => TaskSheet.detail(),
                                   );
                                 },
                                 cells: [

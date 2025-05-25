@@ -1,6 +1,6 @@
 import 'package:eling_app/presentation/enum/task_type.dart';
 import 'package:eling_app/presentation/enum/form_mode.dart';
-import 'package:eling_app/presentation/enum/task_tabs_type.dart';
+import 'package:eling_app/presentation/enum/task_schedule_type.dart';
 import 'package:eling_app/presentation/pages/task/provider/task_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,26 +10,27 @@ import 'package:eling_app/presentation/pages/task/widget/task_form.dart';
 
 class TaskSheet extends ConsumerWidget {
   final FormMode? type;
-  final TaskTabsType tabsType;
+  final TaskScheduleType? taskScheduleType;
   final TaskType? taskType;
   final bool? isDone;
 
   const TaskSheet.create({
     super.key,
-    required this.tabsType,
+    required this.taskScheduleType,
     required this.taskType,
   }) : type = FormMode.create,
        isDone = false;
 
   const TaskSheet.update({
     super.key,
-    required this.tabsType,
+    required this.taskScheduleType,
     required this.taskType,
     required this.isDone,
   }) : type = FormMode.update;
 
-  const TaskSheet.detail({super.key, required this.tabsType})
+  const TaskSheet.detail({super.key})
     : type = FormMode.detail,
+      taskScheduleType = null,
       isDone = false,
       taskType = null;
 
@@ -40,7 +41,7 @@ class TaskSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final notifier = ref.read(taskProvider.notifier);
-    final isValid = ref.watch(taskProvider.select((state) => state.isvalid));
+    final isValid = ref.watch(taskProvider.select((state) => state.isValid));
 
     bool enabled = (isDone == true) || (idDetail) ? false : true;
 
@@ -53,39 +54,37 @@ class TaskSheet extends ConsumerWidget {
           Flexible(
             child: SingleChildScrollView(
               child: TaskForm(
-                tabsType: tabsType,
+                taskScheduleType: taskScheduleType,
                 taskType: taskType,
                 enabled: enabled,
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 16.0),
-            child: Row(
-              children: [
-                if (enabled)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        child: const Text('Cancel'),
-                      ),
-                      AppSpaces.w8,
-                      ElevatedButton(
-                        onPressed:
-                            isValid == true
-                                ? () =>
-                                    isCreate
-                                        ? notifier.saveTask()
-                                        : notifier.updateTask()
-                                : null,
-                        child: Text(isCreate ? 'Create' : 'Update'),
-                      ),
-                    ],
-                  ),
-              ],
-            ),
+          AppSpaces.h16,
+          Row(
+            children: [
+              if (enabled)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: const Text('Cancel'),
+                    ),
+                    AppSpaces.w8,
+                    ElevatedButton(
+                      onPressed:
+                          isValid
+                              ? () =>
+                                  isCreate
+                                      ? notifier.saveTask()
+                                      : notifier.updateTask()
+                              : null,
+                      child: Text(isCreate ? 'Create' : 'Update'),
+                    ),
+                  ],
+                ),
+            ],
           ),
         ],
       ),

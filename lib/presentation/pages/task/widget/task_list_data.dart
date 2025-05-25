@@ -3,7 +3,7 @@
 import 'package:eling_app/core/utils/resource.dart';
 import 'package:eling_app/domain/entities/taskGroupResult/task_group_result.dart';
 import 'package:eling_app/presentation/enum/task_type.dart';
-import 'package:eling_app/presentation/enum/task_tabs_type.dart';
+import 'package:eling_app/presentation/enum/task_schedule_type.dart';
 import 'package:eling_app/presentation/pages/task/provider/task_provider.dart';
 import 'package:eling_app/presentation/pages/task/widget/task_sheet.dart';
 import 'package:flutter/material.dart';
@@ -14,12 +14,12 @@ import 'package:flutter_ui/widgets/appSheet/app_sheet.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TaskListData extends ConsumerWidget {
-  final TaskTabsType tabsType;
+  final TaskScheduleType taskScheduleType;
   final TaskType taskType;
 
   const TaskListData({
     super.key,
-    required this.tabsType,
+    required this.taskScheduleType,
     required this.taskType,
   });
 
@@ -27,15 +27,14 @@ class TaskListData extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final notifier = ref.read(taskProvider.notifier);
     late final Resource<TaskGroupResultEntity> tasks;
-    switch (tabsType) {
-      case TaskTabsType.upcoming:
+    switch (taskScheduleType) {
+      case TaskScheduleType.upcoming:
         tasks = ref.watch(taskProvider.select((s) => s.upcomingTask));
         break;
-      case TaskTabsType.recurring:
+      case TaskScheduleType.recurring:
         tasks = ref.watch(taskProvider.select((s) => s.recurringTask));
         break;
-      case TaskTabsType.today:
-      default:
+      case TaskScheduleType.today:
         tasks = ref.watch(taskProvider.select((s) => s.todayTask));
         break;
     }
@@ -50,14 +49,14 @@ class TaskListData extends ConsumerWidget {
               height: 50,
               child: InkWell(
                 onTap: () {
-                  notifier.resetForm(tabsType);
+                  notifier.resetForm(taskScheduleType);
                   appSheet(
                     side: SheetSide.right,
                     context: context,
                     builder:
                         (context) => TaskSheet.create(
                           taskType: taskType,
-                          tabsType: tabsType,
+                          taskScheduleType: taskScheduleType,
                         ),
                   );
                 },
@@ -95,15 +94,15 @@ class TaskListData extends ConsumerWidget {
                           id: task.id ?? "",
                           onUpdateStatus: (fd) {},
                           onDelete: (fd) {},
-                          leading: true,
+                          leading: taskScheduleType != TaskScheduleType.recurring,
                           ontap: () {
-                            notifier.setUpdateForm(task, tabsType);
+                            notifier.setUpdateForm(task, taskScheduleType);
                             appSheet(
                               context: context,
                               side: SheetSide.right,
                               builder:
                                   (context) => TaskSheet.update(
-                                    tabsType: tabsType,
+                                    taskScheduleType: taskScheduleType,
                                     taskType: taskType,
                                     isDone: task.isDone,
                                   ),
