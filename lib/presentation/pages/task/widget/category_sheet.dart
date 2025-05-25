@@ -75,7 +75,8 @@ class CategorySheet extends ConsumerWidget {
                   ),
                   AppSpaces.w8,
                   ElevatedButton(
-                    onPressed: isValidCategory ? () => {} : null,
+                    onPressed:
+                        isValidCategory ? () => notifier.saveCategory() : null,
                     child: Text('Create'),
                   ),
                 ],
@@ -109,9 +110,10 @@ class CategorySheet extends ConsumerWidget {
                           Icons.delete_outline,
                           color: Colors.red,
                         ),
-                        onPressed: () {
-                          // Handle delete action
-                        },
+                        onPressed:
+                            () => notifier.deleteCategory(
+                              categories[index].name ?? '',
+                            ),
                       ),
                     ),
                   );

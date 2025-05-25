@@ -37,7 +37,7 @@ class TaskPage extends ConsumerWidget {
             TablePage(),
           ],
           tabBarChild: SizedBox(
-            height: 60,
+            height: AppSizes.dimen60,
             child: AppPopOver(
               padding: AppPadding.all12,
               content: Column(
@@ -64,9 +64,14 @@ class TaskPage extends ConsumerWidget {
                   ),
                 ],
               ),
-              trigger: ElevatedButton(
-                onPressed: () {},
-                child: const Icon(Icons.more_horiz),
+              trigger: Material(
+                color: Colors.black,
+                elevation: 4,
+                borderRadius: BorderRadius.circular(8),
+                child: SizedBox(
+                  width: AppSizes.dimen60,
+                  child: Icon(Icons.more_horiz, color: Colors.white),
+                ),
               ),
             ),
           ),

@@ -91,10 +91,13 @@ class TaskListData extends ConsumerWidget {
                           category: task.category ?? "",
                           time: task.time ?? "",
                           isDone: task.isDone ?? false,
-                          id: task.id ?? "",
-                          onUpdateStatus: (fd) {},
-                          onDelete: (fd) {},
-                          leading: taskScheduleType != TaskScheduleType.recurring,
+                          id: task.id,
+                          onUpdateStatus:
+                              () =>
+                                  notifier.updateStatus(task.id, task.isDone!),
+                          onDelete: () => notifier.deleteTask(task.id),
+                          leading:
+                              taskScheduleType != TaskScheduleType.recurring,
                           ontap: () {
                             notifier.setUpdateForm(task, taskScheduleType);
                             appSheet(

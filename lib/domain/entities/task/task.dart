@@ -8,7 +8,7 @@ abstract class TaskEntity with _$TaskEntity {
   // ignore: invalid_annotation_target
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory TaskEntity({
-    @Default('') String? id,
+    required String id,
     required String title,
     @Default('') String? note,
     required DateTime date,
