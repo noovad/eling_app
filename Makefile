@@ -10,19 +10,19 @@ endif
 
 .PHONY: get build clean
 
-## Run flutter pub get
+# Run flutter pub get
 get:
 	flutter pub get
 
-## Run build_runner
+# Run build_runner
 gen:
 	flutter pub run build_runner build --delete-conflicting-outputs
 
-## Clean build files
+# Clean build files
 clean:
 	flutter clean
 
-## Generate usecase [make usecase entity=user operation=create_user]
+# Generate usecase [make usecase entity=user operation=create_user]
 usecase:
 	@if [ -z "$(entity)" ] || [ -z "$(operation)" ]; then \
 		echo "❌ Error: entity and operation are required"; \
@@ -31,7 +31,7 @@ usecase:
 	fi
 	@dart lib/core/generate/generate_usecase.dart $(entity) $(operation)
 
-## Generate entity [make entity entity=note]
+# Generate entity [make entity entity=note]
 entity:
 	@if [ -z "$(entity)" ]; then \
 		echo "❌ Error: entity is required"; \
@@ -40,7 +40,7 @@ entity:
 	fi
 	@dart lib/core/generate/generate_entity.dart $(entity)
 
-	## Generate page [make page entity=book]
+# Generate page [make page page=book]
 page:
 	@if [ -z "$(page)" ]; then \
 		echo "❌ Error: page is required"; \

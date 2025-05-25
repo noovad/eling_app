@@ -1,6 +1,6 @@
 import 'package:eling_app/presentation/enum/task_type.dart';
 import 'package:eling_app/presentation/enum/task_schedule_type.dart';
-import 'package:eling_app/presentation/pages/task/provider/task_provider.dart';
+import 'package:eling_app/presentation/pages/todoPage/task/provider/task_provider.dart';
 import 'package:eling_app/presentation/utils/extensions/input_error_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -65,7 +65,7 @@ class TaskForm extends ConsumerWidget {
           items: categories ?? [],
           label: "Category",
           hint: "Select category",
-          enable: enabled,
+          enabled: enabled,
           selectedItem:
               selectedCategory != null
                   ? DropdownItem<String>(
@@ -80,6 +80,7 @@ class TaskForm extends ConsumerWidget {
         AppTimeField(
           onChanged: (value) => notifier.timeChanged(value),
           initialValue: time,
+          enabled: enabled,
         ),
         AppSpaces.h24,
         Visibility(
@@ -90,6 +91,7 @@ class TaskForm extends ConsumerWidget {
                 onChanged: (value) => notifier.dateChanged(value.toString()),
                 initialValue: date.isValid ? DateTime.parse(date.value) : null,
                 errorText: date.displayError?.message,
+                enabled: enabled,
               ),
               AppSpaces.h24,
             ],

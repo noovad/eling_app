@@ -9,9 +9,9 @@ import 'package:eling_app/domain/usecases/task/getCategories/get_tasks_request.d
 import 'package:eling_app/domain/usecases/task/get_completed_tasks/get_completed_tasks_request.dart';
 import 'package:eling_app/domain/usecases/task/get_completed_tasks/get_completed_tasks_usecase.dart';
 import 'package:eling_app/presentation/enum/task_schedule_type.dart';
-import 'package:eling_app/presentation/pages/task/models/category_title.dart';
-import 'package:eling_app/presentation/pages/task/models/date.dart';
-import 'package:eling_app/presentation/pages/task/models/title.dart';
+import 'package:eling_app/presentation/pages/todoPage/task/models/category_title.dart';
+import 'package:eling_app/presentation/pages/todoPage/task/models/date.dart';
+import 'package:eling_app/presentation/pages/todoPage/task/models/title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:formz/formz.dart';

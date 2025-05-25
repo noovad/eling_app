@@ -31,6 +31,72 @@ class GetNotesUseCaseImpl extends BaseUsecase<NoRequest, List<NoteEntity>>
           content: 'This is the content of the second note.',
           isPinned: true,
         ),
+        NoteEntity(
+          id: '2',
+          title: 'Second Note',
+          content: 'This is the content of the second note.',
+          isPinned: true,
+        ),
+        NoteEntity(
+          id: '2',
+          title: 'Second Note',
+          content: 'This is the content of the second note.',
+          isPinned: true,
+        ),
+        NoteEntity(
+          id: '2',
+          title: 'Second Note',
+          content: 'This is the content of the second note.',
+          isPinned: true,
+        ),
+        NoteEntity(
+          id: '2',
+          title: 'Second Note',
+          content: 'This is the content of the second note.',
+          isPinned: true,
+        ),
+        NoteEntity(
+          id: '2',
+          title: 'Second Note',
+          content: 'This is the content of the second note.',
+          isPinned: true,
+        ),
+        NoteEntity(
+          id: '2',
+          title: 'Second Note',
+          content: 'This is the content of the second note.',
+          isPinned: true,
+        ),
+        NoteEntity(
+          id: '2',
+          title: 'Second Note',
+          content: 'This is the content of the second note.',
+          isPinned: true,
+        ),
+        NoteEntity(
+          id: '2',
+          title: 'Second Note',
+          content: 'This is the content of the second note.',
+          isPinned: true,
+        ),
+        NoteEntity(
+          id: '2',
+          title: 'Second Note',
+          content: 'This is the content of the second note.',
+          isPinned: true,
+        ),
+        NoteEntity(
+          id: '2',
+          title: 'Second Note',
+          content: 'This is the content of the second note.',
+          isPinned: true,
+        ),
+        NoteEntity(
+          id: '2',
+          title: 'Second Note',
+          content: 'This is the content of the second note.',
+          isPinned: true,
+        ),
       ];
     });
   }

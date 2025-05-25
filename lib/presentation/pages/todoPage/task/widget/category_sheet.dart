@@ -3,7 +3,7 @@
 import 'package:eling_app/core/enum/category_type.dart';
 import 'package:eling_app/core/utils/resource.dart';
 import 'package:eling_app/domain/entities/category/category.dart';
-import 'package:eling_app/presentation/pages/task/provider/task_provider.dart';
+import 'package:eling_app/presentation/pages/todoPage/task/provider/task_provider.dart';
 import 'package:eling_app/presentation/utils/extensions/input_error_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -65,21 +65,17 @@ class CategorySheet extends ConsumerWidget {
             // initialValue: title.value,
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  ElevatedButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('Cancel'),
-                  ),
-                  AppSpaces.w8,
-                  ElevatedButton(
-                    onPressed:
-                        isValidCategory ? () => notifier.saveCategory() : null,
-                    child: Text('Create'),
-                  ),
-                ],
+              ElevatedButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('Cancel'),
+              ),
+              AppSpaces.w8,
+              ElevatedButton(
+                onPressed:
+                    isValidCategory ? () => notifier.saveCategory() : null,
+                child: Text('Create'),
               ),
             ],
           ),
@@ -106,10 +102,7 @@ class CategorySheet extends ConsumerWidget {
                     child: ListTile(
                       title: Text(categories[index].name ?? ''),
                       trailing: IconButton(
-                        icon: const Icon(
-                          Icons.delete_outline,
-                          color: Colors.red,
-                        ),
+                        icon: const Icon(Icons.delete_outline),
                         onPressed:
                             () => notifier.deleteCategory(
                               categories[index].name ?? '',

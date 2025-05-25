@@ -4,8 +4,8 @@ import 'package:eling_app/core/utils/resource.dart';
 import 'package:eling_app/domain/entities/taskGroupResult/task_group_result.dart';
 import 'package:eling_app/presentation/enum/task_type.dart';
 import 'package:eling_app/presentation/enum/task_schedule_type.dart';
-import 'package:eling_app/presentation/pages/task/provider/task_provider.dart';
-import 'package:eling_app/presentation/pages/task/widget/task_sheet.dart';
+import 'package:eling_app/presentation/pages/todoPage/task/provider/task_provider.dart';
+import 'package:eling_app/presentation/pages/todoPage/task/widget/task_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
 import 'package:flutter_ui/widgets/appCard/app_task_card.dart';
@@ -92,6 +92,10 @@ class TaskListData extends ConsumerWidget {
                           time: task.time ?? "",
                           isDone: task.isDone ?? false,
                           id: task.id,
+                          date:
+                              TaskScheduleType.upcoming == taskScheduleType
+                                  ? "${task.date.day.toString().padLeft(2, '0')} ${task.date.month.toString().padLeft(2, '0')} ${task.date.year}"
+                                  : null,
                           onUpdateStatus:
                               () =>
                                   notifier.updateStatus(task.id, task.isDone!),

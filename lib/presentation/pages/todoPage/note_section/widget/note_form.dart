@@ -5,7 +5,7 @@ import 'package:flutter_ui/widgets/appDropdown/app_dropdown.dart';
 import 'package:flutter_ui/widgets/appField/app_text_field.dart';
 import 'package:flutter_ui/shared/sizes/app_sizes.dart';
 import 'package:eling_app/domain/entities/note/note.dart';
-import 'package:eling_app/presentation/pages/note_section/providers/note_provider.dart';
+import 'package:eling_app/presentation/pages/todoPage/note_section/providers/note_provider.dart';
 
 class NoteForm extends ConsumerWidget {
   final NoteEntity? note;
