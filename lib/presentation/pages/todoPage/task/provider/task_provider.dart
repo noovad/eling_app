@@ -1,3 +1,4 @@
+import 'package:eling_app/data/repositories/task_repository.dart';
 import 'package:eling_app/domain/usecases/category/getCategories/get_categories.dart';
 import 'package:eling_app/domain/usecases/task/getCategories/get_tasks.dart';
 import 'package:eling_app/domain/usecases/task/get_completed_tasks/get_completed_tasks_usecase.dart';
@@ -13,8 +14,15 @@ final getCategoriesUseCaseProvider = Provider<GetCategoriesUseCase>((ref) {
   return GetCategoriesUseCaseImpl(logger: Logger());
 });
 
+final taskRepositoryProvider = Provider((ref) {
+  return TaskRepository();
+});
+
 final getCompletedTasksProvider = Provider<GetCompletedTasksUseCaseImpl>((ref) {
-  return GetCompletedTasksUseCaseImpl(logger: Logger());
+  return GetCompletedTasksUseCaseImpl(
+    logger: Logger(),
+    taskRepository: ref.watch(taskRepositoryProvider),
+  );
 });
 
 final taskProvider = StateNotifierProvider<TaskNotifier, TaskState>((ref) {

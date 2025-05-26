@@ -100,12 +100,12 @@ class CategorySheet extends ConsumerWidget {
                     elevation: 4,
                     shadowColor: Theme.of(context).colorScheme.outline,
                     child: ListTile(
-                      title: Text(categories[index].name ?? ''),
+                      title: Text(categories[index].name),
                       trailing: IconButton(
                         icon: const Icon(Icons.delete_outline),
                         onPressed:
                             () => notifier.deleteCategory(
-                              categories[index].name ?? '',
+                              categories[index].name,
                             ),
                       ),
                     ),

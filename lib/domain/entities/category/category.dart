@@ -8,7 +8,11 @@ abstract class CategoryEntity with _$CategoryEntity {
   // ignore: invalid_annotation_target
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory CategoryEntity({
-    @Default('') String? name,
+    @Default('') String id,
+    @Default('') String name,
+    String? color,
+    String? icon,
+    String? type, // "task", "note", etc.
   }) = _CategoryEntity;
 
   factory CategoryEntity.fromJson(Map<String, Object?> json) =>

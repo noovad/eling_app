@@ -40,7 +40,7 @@ class NotePage extends ConsumerWidget {
                 noteTitle: note.title ?? "",
                 noteContent: note.content ?? "",
                 noteCategory: note.category ?? "",
-                noteId: note.id ?? "",
+                noteId: note.id,
                 isPinned: note.isPinned ?? false,
                 onDelete: (value) => notifier.deleteNote(value),
                 onUpdate: (value) => notifier.togglePin(value),

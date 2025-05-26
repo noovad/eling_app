@@ -40,7 +40,7 @@ class NoteSheet extends ConsumerWidget {
                           ? () {
                             isCreate
                                 ? notifier.addNote()
-                                : notifier.updateNote(note!.id ?? '');
+                                : notifier.updateNote(note!.id);
 
                             Navigator.of(context).pop();
                           }

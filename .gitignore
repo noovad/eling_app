@@ -46,3 +46,4 @@ app.*.map.json
 TODO.json
 *.freezed.dart
 *.g.dart
+eling.db

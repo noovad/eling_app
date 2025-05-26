@@ -44,7 +44,7 @@ class TaskForm extends ConsumerWidget {
       success:
           (data) =>
               data
-                  .map((e) => DropdownItem<String>(id: e.name!, label: e.name!))
+                  .map((e) => DropdownItem<String>(id: e.name, label: e.name))
                   .toList(),
     );
 

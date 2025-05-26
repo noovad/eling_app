@@ -8,11 +8,13 @@ abstract class NoteEntity with _$NoteEntity {
   // ignore: invalid_annotation_target
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory NoteEntity({
-    @Default('') String? id,
+    @Default('') String id,
     @Default('') String? title,
     @Default('') String? content,
     @Default('') String? category,
     @Default(false) bool? isPinned,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   }) = _NoteEntity;
 
   factory NoteEntity.fromJson(Map<String, Object?> json) =>

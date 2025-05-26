@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'package:eling_app/core/utils/result.dart';
 
@@ -31,41 +30,9 @@ abstract class BaseUsecase<Request, Response> {
   }
 }
 
-void validateStatusCode(Response response) {
-  final statusCode = response.statusCode ?? 0;
-
-  if (statusCode >= 400 && statusCode < 500) {
-    throw ClientException(response.data['message']);
-  } else if (statusCode >= 500) {
-    throw ServerException(response.data['message']);
-  }
-}
-
 class NoRequest {
   @override
   String toString() {
     return 'NoRequest';
-  }
-}
-
-class ClientException implements Exception {
-  final String? message;
-
-  ClientException(this.message);
-
-  @override
-  String toString() {
-    return message ?? 'Terjadi kesalahan';
-  }
-}
-
-class ServerException implements Exception {
-  final String? message;
-
-  ServerException(this.message);
-
-  @override
-  String toString() {
-    return message ?? 'Terjadi kesalahan';
   }
 }

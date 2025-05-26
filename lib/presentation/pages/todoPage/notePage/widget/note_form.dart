@@ -23,7 +23,7 @@ class NoteForm extends ConsumerWidget {
                   data
                       .map(
                         (e) =>
-                            DropdownItem<String>(id: e.name!, label: e.name!),
+                            DropdownItem<String>(id: e.name, label: e.name),
                       )
                       .toList(),
         );
