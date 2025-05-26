@@ -4,23 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/widgets/appNav/app_date_nav.dart';
 
-class SummaryPage extends ConsumerStatefulWidget {
+class SummaryPage extends ConsumerWidget {
   const SummaryPage({super.key});
 
   @override
-  ConsumerState<SummaryPage> createState() => _SummaryPageState();
-}
-
-class _SummaryPageState extends ConsumerState<SummaryPage> {
-  @override
-  Widget build(BuildContext context) {
-    final dailyActivites = ref.watch(
-      summaryProvider.select((state) => state.dailyActivities),
-    );
-    final daysInMonth =
-        DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day;
-    final startDay =
-        DateTime(DateTime.now().year, DateTime.now().month, 1).weekday % 7;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final notifier = ref.watch(summaryProvider.notifier);
 
     return Padding(
       padding: const EdgeInsets.all(16),
@@ -28,17 +17,12 @@ class _SummaryPageState extends ConsumerState<SummaryPage> {
         spacing: 12,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          AppDateNav(),
-          Calender(
-            daysInMonth: daysInMonth,
-            startDay: startDay,
-            date: DateTime.now(),
-            data:
-                dailyActivites.whenOrNull(
-                  success: (dailyActivities) => dailyActivities,
-                ) ??
-                [],
+          AppDateNav(
+            onChange: (newDate) {
+              notifier.getDailyActivities(newDate.month, newDate.year);
+            },
           ),
+          Calender(),
         ],
       ),
     );

@@ -52,6 +52,5 @@ class TaskNotifier extends StateNotifier<TaskState>
     getCategories(CategoryType.daily);
     getCategories(CategoryType.productivity);
     getCategories(CategoryType.note);
-    getCompletedTasks(state.monthFilter, state.yearFilter);
   }
 }

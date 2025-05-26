@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
 import 'package:flutter_ui/shared/sizes/app_spaces.dart';
 import 'package:eling_app/domain/entities/note/note.dart';
-import 'package:eling_app/presentation/pages/todoPage/note_section/providers/note_provider.dart';
-import 'package:eling_app/presentation/pages/todoPage/note_section/widget/note_form.dart';
+import 'package:eling_app/presentation/pages/todoPage/notePage/providers/note_provider.dart';
+import 'package:eling_app/presentation/pages/todoPage/notePage/widget/note_form.dart';
 
 class NoteSheet extends ConsumerWidget {
   final bool isCreate;

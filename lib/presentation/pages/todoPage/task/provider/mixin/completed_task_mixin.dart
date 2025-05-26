@@ -19,12 +19,4 @@ mixin CompletedTaskMixin on StateNotifier<TaskState> {
       },
     );
   }
-
-  void monthFilterChanged(int value) {
-    state = state.copyWith(monthFilter: value);
-  }
-
-  void yearFilterChanged(int value) {
-    state = state.copyWith(yearFilter: value);
-  }
 }

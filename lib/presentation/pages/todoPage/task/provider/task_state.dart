@@ -23,8 +23,6 @@ abstract class TaskState with _$TaskState {
 
     // Completed Tasks
     required Resource<List<TaskEntity>> completedTasks,
-    required int monthFilter,
-    required int yearFilter,
   }) = _TaskState;
 
   factory TaskState.initial() => TaskState(
@@ -40,7 +38,5 @@ abstract class TaskState with _$TaskState {
 
     // Completed Tasks
     completedTasks: Resource.initial(),
-    monthFilter: DateTime.now().month,
-    yearFilter: DateTime.now().year,
   );
 }

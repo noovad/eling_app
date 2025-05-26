@@ -1,5 +1,5 @@
-import 'package:eling_app/presentation/pages/todoPage/note_section/models/content.dart';
-import 'package:eling_app/presentation/pages/todoPage/note_section/models/title.dart';
+import 'package:eling_app/presentation/pages/todoPage/notePage/models/content.dart';
+import 'package:eling_app/presentation/pages/todoPage/notePage/models/title.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:formz/formz.dart';

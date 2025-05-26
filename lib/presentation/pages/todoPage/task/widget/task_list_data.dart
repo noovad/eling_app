@@ -9,6 +9,7 @@ import 'package:eling_app/presentation/pages/todoPage/task/widget/task_sheet.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
 import 'package:flutter_ui/widgets/appCard/app_task_card.dart';
+import 'package:flutter_ui/widgets/appCard/app_task_shimmer_card.dart';
 import 'package:flutter_ui/widgets/appSheet/app_sheet.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -70,8 +71,8 @@ class TaskListData extends ConsumerWidget {
             alignment: Alignment.topCenter,
             width: MediaQuery.of(context).size.width,
             child: tasks.when(
-              initial: () => const Center(child: CircularProgressIndicator()),
-              loading: () => const Center(child: CircularProgressIndicator()),
+              initial: () => _buildShimmerList(),
+              loading: () => _buildShimmerList(),
               failure: (message) {
                 return Text(message);
               },
@@ -122,6 +123,21 @@ class TaskListData extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildShimmerList() {
+    return ListView.builder(
+      itemCount: 4,
+      shrinkWrap: true,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 8),
+          child: AppTaskShimmerCard(
+            withLeading: taskScheduleType != TaskScheduleType.recurring,
+          ),
+        );
+      },
     );
   }
 

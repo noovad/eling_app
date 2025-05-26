@@ -1,4 +1,4 @@
-import 'package:eling_app/presentation/pages/todoPage/note_section/note_section.dart';
+import 'package:eling_app/presentation/pages/todoPage/notePage/note_page.dart';
 import 'package:eling_app/presentation/pages/todoPage/summary/summary_page.dart';
 import 'package:eling_app/presentation/pages/todoPage/task/task_page.dart';
 import 'package:flutter/material.dart';
