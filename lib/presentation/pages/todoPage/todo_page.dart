@@ -12,7 +12,8 @@ class TodoPage extends StatelessWidget {
       body: Row(
         children: [
           Expanded(child: TaskPage()),
-          SizedBox(
+          Container(
+            color: Colors.white,
             width: 700,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

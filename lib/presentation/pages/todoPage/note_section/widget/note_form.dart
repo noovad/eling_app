@@ -38,6 +38,7 @@ class NoteForm extends ConsumerWidget {
           label: 'Title',
           hint: 'Enter note title',
           errorText: state.title.displayError?.message,
+          isRequired: true,
         ),
 
         AppDropdown<String>(
@@ -63,6 +64,7 @@ class NoteForm extends ConsumerWidget {
           hint: 'Write your note here...',
           label: 'Content',
           errorText: state.content.displayError?.message,
+          isRequired: true,
         ),
       ],
     );

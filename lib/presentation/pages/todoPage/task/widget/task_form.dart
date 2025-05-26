@@ -59,6 +59,7 @@ class TaskForm extends ConsumerWidget {
           errorText: title.displayError?.message,
           initialValue: title.value,
           enabled: enabled,
+          isRequired: true,
         ),
         AppSpaces.h24,
         AppDropdown(
@@ -92,6 +93,7 @@ class TaskForm extends ConsumerWidget {
                 initialValue: date.isValid ? DateTime.parse(date.value) : null,
                 errorText: date.displayError?.message,
                 enabled: enabled,
+                isRequired: true,
               ),
               AppSpaces.h24,
             ],

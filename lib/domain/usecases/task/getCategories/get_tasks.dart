@@ -47,15 +47,15 @@ class GetTasksUseCaseImpl
                 ),
               ],
               TaskType.productivity: [
-                TaskEntity(
-                  id: '3',
-                  title: 'Productivity Task 1',
-                  note: 'Description for productivity task 1',
-                  category: 'work',
-                  date: DateTime.now(),
-                  time: '23:00',
-                  isDone: false,
-                ),
+                // TaskEntity(
+                //   id: '3',
+                //   title: 'Productivity Task 1',
+                //   note: 'Description for productivity task 1',
+                //   category: 'work',
+                //   date: DateTime.now(),
+                //   time: '23:00',
+                //   isDone: false,
+                // ),
               ],
             },
           );

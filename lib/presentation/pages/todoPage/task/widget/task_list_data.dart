@@ -12,6 +12,7 @@ import 'package:flutter_ui/widgets/appCard/app_task_card.dart';
 import 'package:flutter_ui/widgets/appSheet/app_sheet.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_ui/widgets/utils/app_no_data_found.dart';
 
 class TaskListData extends ConsumerWidget {
   final TaskScheduleType taskScheduleType;
@@ -43,27 +44,24 @@ class TaskListData extends ConsumerWidget {
       child: Column(
         spacing: 12,
         children: [
-          Padding(
-            padding: AppPadding.h12,
-            child: appCard(
-              height: 50,
-              child: InkWell(
-                onTap: () {
-                  notifier.resetForm(taskScheduleType);
-                  appSheet(
-                    side: SheetSide.right,
-                    context: context,
-                    builder:
-                        (context) => TaskSheet.create(
-                          taskType: taskType,
-                          taskScheduleType: taskScheduleType,
-                        ),
-                  );
-                },
-                child: const Padding(
-                  padding: AppPadding.h8,
-                  child: Icon(Icons.add, size: 24),
-                ),
+          appCard(
+            height: 50,
+            child: InkWell(
+              onTap: () {
+                notifier.resetForm(taskScheduleType);
+                appSheet(
+                  side: SheetSide.right,
+                  context: context,
+                  builder:
+                      (context) => TaskSheet.create(
+                        taskType: taskType,
+                        taskScheduleType: taskScheduleType,
+                      ),
+                );
+              },
+              child: const Padding(
+                padding: AppPadding.h8,
+                child: Icon(Icons.add, size: 24),
               ),
             ),
           ),
@@ -77,48 +75,49 @@ class TaskListData extends ConsumerWidget {
               failure: (message) {
                 return Text(message);
               },
-              success:
-                  (data) => ListView.builder(
-                    padding: AppPadding.h12,
-                    itemCount: data.tasksByType[taskType]?.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      final task = data.tasksByType[taskType]![index];
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 8),
-                        child: AppTaskCard(
-                          title: task.title,
-                          category: task.category ?? "",
-                          time: task.time ?? "",
-                          isDone: task.isDone ?? false,
-                          id: task.id,
-                          date:
-                              TaskScheduleType.upcoming == taskScheduleType
-                                  ? "${task.date.day.toString().padLeft(2, '0')} ${task.date.month.toString().padLeft(2, '0')} ${task.date.year}"
-                                  : null,
-                          onUpdateStatus:
-                              () =>
-                                  notifier.updateStatus(task.id, task.isDone!),
-                          onDelete: () => notifier.deleteTask(task.id),
-                          leading:
-                              taskScheduleType != TaskScheduleType.recurring,
-                          ontap: () {
-                            notifier.setUpdateForm(task, taskScheduleType);
-                            appSheet(
-                              context: context,
-                              side: SheetSide.right,
-                              builder:
-                                  (context) => TaskSheet.update(
-                                    taskScheduleType: taskScheduleType,
-                                    taskType: taskType,
-                                    isDone: task.isDone,
-                                  ),
-                            );
-                          },
-                        ),
-                      );
-                    },
-                  ),
+              success: (data) {
+                if (data.tasksByType[taskType]!.isEmpty) {
+                  return AppNoDataFound();
+                }
+                return ListView.builder(
+                  itemCount: data.tasksByType[taskType]?.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    final task = data.tasksByType[taskType]![index];
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: AppTaskCard(
+                        title: task.title,
+                        category: task.category ?? "",
+                        time: task.time ?? "",
+                        isDone: task.isDone ?? false,
+                        id: task.id,
+                        date:
+                            TaskScheduleType.upcoming == taskScheduleType
+                                ? "${task.date.day.toString().padLeft(2, '0')} ${task.date.month.toString().padLeft(2, '0')} ${task.date.year}"
+                                : null,
+                        onUpdateStatus:
+                            () => notifier.updateStatus(task.id, task.isDone!),
+                        onDelete: () => notifier.deleteTask(task.id),
+                        leading: taskScheduleType != TaskScheduleType.recurring,
+                        ontap: () {
+                          notifier.setUpdateForm(task, taskScheduleType);
+                          appSheet(
+                            context: context,
+                            side: SheetSide.right,
+                            builder:
+                                (context) => TaskSheet.update(
+                                  taskScheduleType: taskScheduleType,
+                                  taskType: taskType,
+                                  isDone: task.isDone,
+                                ),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                );
+              },
             ),
           ),
         ],

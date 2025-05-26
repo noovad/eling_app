@@ -62,7 +62,7 @@ class CategorySheet extends ConsumerWidget {
             hint: "Enter title",
             onChanged: (value) => notifier.categoyrTitleChanged(value),
             errorText: titleCategory.displayError?.message,
-            // initialValue: title.value,
+            isRequired: true,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
