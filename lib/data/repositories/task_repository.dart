@@ -32,8 +32,8 @@ class TaskRepository {
 
     final overdueTasks = await db.query(
       TableNames.tasks,
-      where: '${TaskFields.date} < ? AND ${TaskFields.isDone} = ?',
-      whereArgs: [todayStr, 0],
+      where: '${TaskFields.date} < ?',
+      whereArgs: [todayStr],
     );
 
     final allTasks = [
@@ -62,18 +62,6 @@ class TaskRepository {
     return _groupTasksByType(tasks);
   }
 
-  Future<List<TaskEntity>> getTasksByType(String type) async {
-    final db = await _database.database;
-
-    final result = await db.query(
-      TableNames.tasks,
-      where: '${TaskFields.category} = ?',
-      whereArgs: [type],
-    );
-
-    return result.map((json) => TaskEntity.fromJson(json)).toList();
-  }
-
   Future<List<TaskEntity>> readCompletedTasks({
     required int month,
     required int year,
@@ -93,8 +81,8 @@ class TaskRepository {
     return result.map((json) => TaskEntity.fromJson(json)).toList();
   }
 
-  Future<int> updateTask(TaskEntity task) async {
-    return _database.update(TableNames.tasks, task.toJson(), task.id);
+  Future<int> updateTask(TaskEntity task, String id) async {
+    return _database.update(TableNames.tasks, task.toJson(), id);
   }
 
   Future<int> updateTaskStatus(String id, bool isDone) async {
@@ -102,7 +90,7 @@ class TaskRepository {
 
     return await db.update(
       TableNames.tasks,
-      {TaskFields.isDone: isDone ? 1 : 0},
+      {TaskFields.isDone: !isDone ? 1 : 0},
       where: '${TaskFields.id} = ?',
       whereArgs: [id],
     );
@@ -119,15 +107,15 @@ class TaskRepository {
 
     for (final task in tasks) {
       TaskType? taskType;
-      switch (task.category?.toLowerCase()) {
-        case 'daily':
+      switch (task.type) {
+        case TaskType.daily:
           taskType = TaskType.daily;
           break;
-        case 'productivity':
+        case TaskType.productivity:
           taskType = TaskType.productivity;
           break;
         default:
-          taskType = TaskType.daily;
+          taskType = null;
       }
 
       tasksByType[taskType]?.add(task);

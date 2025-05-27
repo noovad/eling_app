@@ -15,7 +15,10 @@ abstract class TaskState with _$TaskState {
     String? time,
 
     // Task CRUD
-    required Resource<bool> isSaving,
+    required Resource<bool> saveResult,
+    required Resource<bool> updateResult,
+    required Resource<bool> updateStatusResult,
+    required Resource<bool> deleteResult,
 
     // Category
     required Resource<List<CategoryEntity>> dailyCategories,
@@ -33,7 +36,10 @@ abstract class TaskState with _$TaskState {
     todayTask: Resource.initial(),
     upcomingTask: Resource.initial(),
     recurringTask: Resource.initial(),
-    isSaving: Resource.initial(),
+    saveResult: Resource.initial(),
+    updateResult: Resource.initial(),
+    updateStatusResult: Resource.initial(),
+    deleteResult: Resource.initial(),
 
     // Category
     dailyCategories: Resource.initial(),

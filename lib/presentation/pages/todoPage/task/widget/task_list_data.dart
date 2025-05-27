@@ -92,14 +92,18 @@ class TaskListData extends ConsumerWidget {
                         category: task.category ?? "",
                         time: task.time ?? "",
                         isDone: task.isDone ?? false,
-                        id: task.id,
+                        id: task.id!,
                         date:
                             TaskScheduleType.upcoming == taskScheduleType
                                 ? "${task.date.day.toString().padLeft(2, '0')} ${task.date.month.toString().padLeft(2, '0')} ${task.date.year}"
                                 : null,
                         onUpdateStatus:
-                            () => notifier.updateStatus(task.id, task.isDone!),
-                        onDelete: () => notifier.deleteTask(task.id),
+                            () => notifier.updateStatus(
+                              task.id!,
+                              task.isDone!,
+                              taskScheduleType,
+                            ),
+                        onDelete: () => notifier.deleteTask(task.id!),
                         leading: taskScheduleType != TaskScheduleType.recurring,
                         ontap: () {
                           notifier.setUpdateForm(task, taskScheduleType);
@@ -111,6 +115,7 @@ class TaskListData extends ConsumerWidget {
                                   taskScheduleType: taskScheduleType,
                                   taskType: taskType,
                                   isDone: task.isDone,
+                                  taskId: task.id,
                                 ),
                           );
                         },

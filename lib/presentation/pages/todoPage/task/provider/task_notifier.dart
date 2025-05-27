@@ -6,10 +6,16 @@ import 'package:eling_app/domain/usecases/category/getCategories/get_categories.
 import 'package:eling_app/domain/usecases/category/getCategories/get_categories_request.dart';
 import 'package:eling_app/domain/usecases/task/createTask/create_task_request.dart';
 import 'package:eling_app/domain/usecases/task/createTask/create_task_usecase.dart';
-import 'package:eling_app/domain/usecases/task/getCategories/get_tasks.dart';
-import 'package:eling_app/domain/usecases/task/getCategories/get_tasks_request.dart';
+import 'package:eling_app/domain/usecases/task/deleteTask/delete_task_request.dart';
+import 'package:eling_app/domain/usecases/task/deleteTask/delete_task_usecase.dart';
+import 'package:eling_app/domain/usecases/task/getTasks/get_tasks.dart';
+import 'package:eling_app/domain/usecases/task/getTasks/get_tasks_request.dart';
 import 'package:eling_app/domain/usecases/task/getCompletedTasks/get_completed_tasks_request.dart';
 import 'package:eling_app/domain/usecases/task/getCompletedTasks/get_completed_tasks_usecase.dart';
+import 'package:eling_app/domain/usecases/task/updateStatusTask/update_status_task_request.dart';
+import 'package:eling_app/domain/usecases/task/updateStatusTask/update_status_task_usecase.dart';
+import 'package:eling_app/domain/usecases/task/updateTask/update_task_request.dart';
+import 'package:eling_app/domain/usecases/task/updateTask/update_task_usecase.dart';
 import 'package:eling_app/presentation/enum/task_schedule_type.dart';
 import 'package:eling_app/presentation/enum/task_type.dart';
 import 'package:eling_app/presentation/pages/todoPage/task/models/category_title.dart';
@@ -46,12 +52,22 @@ class TaskNotifier extends StateNotifier<TaskState>
   final GetCompletedTasksUseCase getCompletedTasksUseCase;
   @override
   final CreateTaskUseCase createTaskUseCase;
+  @override
+  UpdateStatusTaskUseCase updateStatusTaskUseCase;
+  @override
+  UpdateTaskUseCase updateTaskUseCase;
+  @override
+  DeleteTaskUseCase deleteTaskUseCase;
 
   TaskNotifier(
     this.getTasksUseCase,
     this.getCategoriesUseCase,
     this.getCompletedTasksUseCase,
     this.createTaskUseCase,
+    this.updateTaskUseCase,
+    this.updateStatusTaskUseCase,
+    this.deleteTaskUseCase,
+
   ) : super(TaskState.initial()) {
     getTasks(TaskScheduleType.today);
     getTasks(TaskScheduleType.recurring);

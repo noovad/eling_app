@@ -9,6 +9,7 @@ import 'package:flutter_ui/shared/sizes/app_spaces.dart';
 import 'package:eling_app/presentation/pages/todoPage/task/widget/task_form.dart';
 
 class TaskSheet extends ConsumerWidget {
+  final String? taskId;
   final FormMode? type;
   final TaskScheduleType? taskScheduleType;
   final TaskType? taskType;
@@ -19,10 +20,12 @@ class TaskSheet extends ConsumerWidget {
     required this.taskScheduleType,
     required this.taskType,
   }) : type = FormMode.create,
+       taskId = null,
        isDone = false;
 
   const TaskSheet.update({
     super.key,
+    required this.taskId,
     required this.taskScheduleType,
     required this.taskType,
     required this.isDone,
@@ -32,6 +35,7 @@ class TaskSheet extends ConsumerWidget {
     : type = FormMode.detail,
       taskScheduleType = null,
       isDone = false,
+      taskId = null,
       taskType = null;
 
   bool get isCreate => type == FormMode.create;
@@ -44,6 +48,17 @@ class TaskSheet extends ConsumerWidget {
     final isValid = ref.watch(taskProvider.select((state) => state.isValid));
 
     bool enabled = (isDone == true) || (idDetail) ? false : true;
+
+    VoidCallback? isButtonValid;
+    if (isValid) {
+      if (isCreate) {
+        isButtonValid = () => notifier.saveTask(taskType!);
+      } else {
+        isButtonValid = () => notifier.updateTask(taskId!);
+      }
+    } else {
+      isButtonValid = null;
+    }
 
     return Padding(
       padding: AppPadding.all16,
@@ -63,8 +78,9 @@ class TaskSheet extends ConsumerWidget {
           AppSpaces.h16,
           Row(
             children: [
-              if (enabled)
-                Row(
+              Visibility(
+                visible: enabled,
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     ElevatedButton(
@@ -73,17 +89,12 @@ class TaskSheet extends ConsumerWidget {
                     ),
                     AppSpaces.w8,
                     ElevatedButton(
-                      onPressed:
-                          isValid
-                              ? () =>
-                                  isCreate
-                                      ? notifier.saveTask(taskType!)
-                                      : notifier.updateTask()
-                              : null,
+                      onPressed: isButtonValid,
                       child: Text(isCreate ? 'Create' : 'Update'),
                     ),
                   ],
                 ),
+              ),
             ],
           ),
         ],

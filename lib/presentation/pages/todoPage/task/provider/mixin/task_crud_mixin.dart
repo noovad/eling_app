@@ -3,10 +3,11 @@ part of '../task_notifier.dart';
 mixin TaskCRUDMixin on StateNotifier<TaskState> {
   GetTasksUseCase get getTasksUseCase;
   CreateTaskUseCase get createTaskUseCase;
+  UpdateTaskUseCase get updateTaskUseCase;
+  UpdateStatusTaskUseCase get updateStatusTaskUseCase;
+  DeleteTaskUseCase get deleteTaskUseCase;
 
   void saveTask(TaskType type) async {
-    state = state.copyWith(isSaving: Resource.loading());
-
     final task = TaskEntity(
       id: const Uuid().v4(),
       title: state.title.value,
@@ -24,30 +25,75 @@ mixin TaskCRUDMixin on StateNotifier<TaskState> {
     );
     result.when(
       success: (data) {
-        state = state.copyWith(isSaving: Resource.success(true));
+        getTasks(TaskScheduleType.today);
+        getTasks(TaskScheduleType.upcoming);
+        state = state.copyWith(saveResult: Resource.success(true));
       },
       failure: (error) {
-        state = state.copyWith(isSaving: Resource.failure(error));
+        state = state.copyWith(saveResult: Resource.failure(error));
       },
     );
   }
 
   void deleteTask(String taskId) async {
-    debugPrint('Deleting task with ID: $taskId');
+    final result = await deleteTaskUseCase.execute(
+      DeleteTaskRequest(id: taskId),
+    );
+    result.when(
+      success: (data) {
+        state = state.copyWith(deleteResult: Resource.success(true));
+        getTasks(TaskScheduleType.today);
+        getTasks(TaskScheduleType.upcoming);
+      },
+      failure: (error) {
+        state = state.copyWith(deleteResult: Resource.failure(error));
+      },
+    );
   }
 
-  void updateStatus(String taskId, bool status) async {
-    debugPrint('Updating task with ID: $taskId from status: $status');
+  void updateStatus(
+    String id,
+    bool status,
+    TaskScheduleType taskTabsType,
+  ) async {
+    final result = await updateStatusTaskUseCase.execute(
+      UpdateStatusTaskRequest(id: id, status: status),
+    );
+    result.when(
+      success: (data) {
+        state = state.copyWith(updateResult: Resource.success(true));
+        getTasks(taskTabsType);
+      },
+      failure: (error) {
+        state = state.copyWith(updateResult: Resource.failure(error));
+      },
+    );
   }
 
-  void updateTask() async {
-    final title = state.title.value;
-    final date = state.date.value;
-    final time = state.time ?? '';
-    final category = state.selectedCategory ?? '';
-    final note = state.note ?? '';
-    debugPrint(
-      'Updating task with title: $title, date: $date, time: $time, category: $category, note: $note',
+  void updateTask(String id) async {
+    final task = TaskEntity(
+      id: id,
+      title: state.title.value,
+      note: state.note,
+      date: DateTime.parse(state.date.value),
+      time: state.time,
+      category: state.selectedCategory,
+      updatedAt: DateTime.now(),
+    );
+
+    final result = await updateTaskUseCase.execute(
+      UpdateTaskRequest(task: task, id: id),
+    );
+
+    result.when(
+      success: (data) {
+        state = state.copyWith(updateResult: Resource.success(true));
+        getTasks(TaskScheduleType.today);
+        getTasks(TaskScheduleType.upcoming);
+      },
+      failure: (error) {
+        state = state.copyWith(updateResult: Resource.failure(error));
+      },
     );
   }
 

@@ -11,7 +11,7 @@ abstract class TaskEntity with _$TaskEntity {
   @JsonSerializable(fieldRename: FieldRename.snake)
   
   const factory TaskEntity({
-    required String id,
+    String? id,
     required String title,
     @Default('') String? note,
     required DateTime date,

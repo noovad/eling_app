@@ -53,4 +53,12 @@ mixin TaskFormMixin on StateNotifier<TaskState> {
       time: null,
     );
   }
+
+  void resetIsSaving() {
+    state = state.copyWith(saveResult: Resource.initial());
+  }
+
+  void resetIsUpdate() {
+    state = state.copyWith(updateResult: Resource.initial());
+  }
 }
