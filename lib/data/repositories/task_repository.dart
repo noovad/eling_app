@@ -1,3 +1,4 @@
+import 'package:eling_app/core/utils/constants/date_constants.dart';
 import 'package:eling_app/data/eling_database.dart';
 import 'package:eling_app/data/model/database_constants.dart';
 import 'package:eling_app/domain/entities/task/task.dart';
@@ -20,9 +21,7 @@ class TaskRepository {
 
   Future<TaskGroupResultEntity> getTodayTasks() async {
     final db = await _database.database;
-    final today = DateTime.now();
-    final todayStr =
-        "${today.year}-${today.month.toString().padLeft(2, '0')}-${today.day.toString().padLeft(2, '0')}";
+    final todayStr = DateConstants.todayStr;
 
     final todayTasks = await db.query(
       TableNames.tasks,
@@ -46,9 +45,7 @@ class TaskRepository {
 
   Future<TaskGroupResultEntity> getUpcomingTasks() async {
     final db = await _database.database;
-    final today = DateTime.now();
-    final todayStr =
-        "${today.year}-${today.month.toString().padLeft(2, '0')}-${today.day.toString().padLeft(2, '0')}";
+    final todayStr = DateConstants.todayStr;
 
     final futureTasks = await db.query(
       TableNames.tasks,
@@ -114,8 +111,6 @@ class TaskRepository {
         case TaskType.productivity:
           taskType = TaskType.productivity;
           break;
-        default:
-          taskType = null;
       }
 
       tasksByType[taskType]?.add(task);

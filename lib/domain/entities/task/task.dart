@@ -1,4 +1,4 @@
-import 'package:eling_app/core/utils/bool_to_int_converter.dart';
+import 'package:eling_app/core/utils/data_type_converter.dart';
 import 'package:eling_app/presentation/enum/task_type.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -9,15 +9,14 @@ part 'task.g.dart';
 abstract class TaskEntity with _$TaskEntity {
   // ignore: invalid_annotation_target
   @JsonSerializable(fieldRename: FieldRename.snake)
-  
   const factory TaskEntity({
-    String? id,
+    required String id,
     required String title,
+    @DateOnlyConverter() required DateTime date,
+    required TaskType type,
     @Default('') String? note,
-    required DateTime date,
     @Default('') String? time,
     @Default('') String? category,
-    TaskType? type,
     @BoolToIntConverter() @Default(false) bool? isDone,
     DateTime? createdAt,
     DateTime? updatedAt,

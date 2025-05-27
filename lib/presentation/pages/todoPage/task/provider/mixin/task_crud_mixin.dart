@@ -61,18 +61,21 @@ mixin TaskCRUDMixin on StateNotifier<TaskState> {
     );
     result.when(
       success: (data) {
-        state = state.copyWith(updateResult: Resource.success(true));
+        state = state.copyWith(updateStatusResult: Resource.success(true));
         getTasks(taskTabsType);
       },
       failure: (error) {
-        state = state.copyWith(updateResult: Resource.failure(error));
+        state = state.copyWith(updateStatusResult: Resource.failure(error));
       },
     );
   }
 
-  void updateTask(String id) async {
-    final task = TaskEntity(
-      id: id,
+  void updateTask(TaskEntity task) async {
+    final data = TaskEntity(
+      id: task.id,
+      isDone: task.isDone,
+      type: task.type,
+      createdAt: task.createdAt,
       title: state.title.value,
       note: state.note,
       date: DateTime.parse(state.date.value),
@@ -82,7 +85,7 @@ mixin TaskCRUDMixin on StateNotifier<TaskState> {
     );
 
     final result = await updateTaskUseCase.execute(
-      UpdateTaskRequest(task: task, id: id),
+      UpdateTaskRequest(task: data, id: task.id),
     );
 
     result.when(

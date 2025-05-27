@@ -1,3 +1,4 @@
+import 'package:eling_app/domain/entities/task/task.dart';
 import 'package:eling_app/presentation/enum/task_type.dart';
 import 'package:eling_app/presentation/enum/form_mode.dart';
 import 'package:eling_app/presentation/enum/task_schedule_type.dart';
@@ -9,7 +10,7 @@ import 'package:flutter_ui/shared/sizes/app_spaces.dart';
 import 'package:eling_app/presentation/pages/todoPage/task/widget/task_form.dart';
 
 class TaskSheet extends ConsumerWidget {
-  final String? taskId;
+  final TaskEntity? task;
   final FormMode? type;
   final TaskScheduleType? taskScheduleType;
   final TaskType? taskType;
@@ -20,12 +21,12 @@ class TaskSheet extends ConsumerWidget {
     required this.taskScheduleType,
     required this.taskType,
   }) : type = FormMode.create,
-       taskId = null,
+       task = null,
        isDone = false;
 
   const TaskSheet.update({
     super.key,
-    required this.taskId,
+    required this.task,
     required this.taskScheduleType,
     required this.taskType,
     required this.isDone,
@@ -35,7 +36,7 @@ class TaskSheet extends ConsumerWidget {
     : type = FormMode.detail,
       taskScheduleType = null,
       isDone = false,
-      taskId = null,
+      task = null,
       taskType = null;
 
   bool get isCreate => type == FormMode.create;
@@ -54,7 +55,7 @@ class TaskSheet extends ConsumerWidget {
       if (isCreate) {
         isButtonValid = () => notifier.saveTask(taskType!);
       } else {
-        isButtonValid = () => notifier.updateTask(taskId!);
+        isButtonValid = () => notifier.updateTask(task!);
       }
     } else {
       isButtonValid = null;

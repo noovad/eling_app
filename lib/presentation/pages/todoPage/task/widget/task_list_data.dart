@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:eling_app/core/utils/constants/date_constants.dart';
 import 'package:eling_app/core/utils/resource.dart';
 import 'package:eling_app/domain/entities/taskGroupResult/task_group_result.dart';
 import 'package:eling_app/presentation/enum/task_type.dart';
@@ -92,18 +93,18 @@ class TaskListData extends ConsumerWidget {
                         category: task.category ?? "",
                         time: task.time ?? "",
                         isDone: task.isDone ?? false,
-                        id: task.id!,
+                        id: task.id,
                         date:
                             TaskScheduleType.upcoming == taskScheduleType
-                                ? "${task.date.day.toString().padLeft(2, '0')} ${task.date.month.toString().padLeft(2, '0')} ${task.date.year}"
+                                ? DateConstants.formatToShortDate(task.date)
                                 : null,
                         onUpdateStatus:
                             () => notifier.updateStatus(
-                              task.id!,
-                              task.isDone!,
+                              task.id,
+                              task.isDone ?? false,
                               taskScheduleType,
                             ),
-                        onDelete: () => notifier.deleteTask(task.id!),
+                        onDelete: () => notifier.deleteTask(task.id),
                         leading: taskScheduleType != TaskScheduleType.recurring,
                         ontap: () {
                           notifier.setUpdateForm(task, taskScheduleType);
@@ -115,7 +116,7 @@ class TaskListData extends ConsumerWidget {
                                   taskScheduleType: taskScheduleType,
                                   taskType: taskType,
                                   isDone: task.isDone,
-                                  taskId: task.id,
+                                  task: task,
                                 ),
                           );
                         },
