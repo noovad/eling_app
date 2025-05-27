@@ -22,8 +22,7 @@ class NoteForm extends ConsumerWidget {
               (data) =>
                   data
                       .map(
-                        (e) =>
-                            DropdownItem<String>(id: e.name, label: e.name),
+                        (e) => DropdownItem<String>(id: e.name, label: e.name),
                       )
                       .toList(),
         );
@@ -60,7 +59,7 @@ class NoteForm extends ConsumerWidget {
           initialValue: state.content.value,
           onChanged: (value) => notifier.contentChanged(value),
           minLines: 5,
-          maxLines: 10,
+          maxLines: 30,
           hint: 'Write your note here...',
           label: 'Content',
           errorText: state.content.displayError?.message,

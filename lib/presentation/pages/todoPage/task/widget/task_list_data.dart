@@ -7,6 +7,7 @@ import 'package:eling_app/presentation/enum/task_type.dart';
 import 'package:eling_app/presentation/enum/task_schedule_type.dart';
 import 'package:eling_app/presentation/pages/todoPage/task/provider/task_provider.dart';
 import 'package:eling_app/presentation/pages/todoPage/task/widget/task_sheet.dart';
+import 'package:eling_app/presentation/utils/task_converters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
 import 'package:flutter_ui/widgets/appCard/app_task_card.dart';
@@ -35,7 +36,9 @@ class TaskListData extends ConsumerWidget {
         tasks = ref.watch(taskProvider.select((s) => s.upcomingTask));
         break;
       case TaskScheduleType.recurring:
-        tasks = ref.watch(taskProvider.select((s) => s.recurringTask));
+        tasks = TaskConverters.convertRecurringToTaskGroupResource(
+          ref.watch(taskProvider.select((s) => s.recurringTask)),
+        );
         break;
       case TaskScheduleType.today:
         tasks = ref.watch(taskProvider.select((s) => s.todayTask));
@@ -104,7 +107,13 @@ class TaskListData extends ConsumerWidget {
                               task.isDone ?? false,
                               taskScheduleType,
                             ),
-                        onDelete: () => notifier.deleteTask(task.id),
+                        onDelete: () {
+                          if (taskScheduleType == TaskScheduleType.recurring) {
+                            notifier.onDeleteRT(task.id);
+                          } else {
+                            notifier.deleteTask(task.id);
+                          }
+                        },
                         leading: taskScheduleType != TaskScheduleType.recurring,
                         ontap: () {
                           notifier.setUpdateForm(task, taskScheduleType);

@@ -1,0 +1,87 @@
+part of '../task_notifier.dart';
+
+mixin RecurringTaskCRUDMixin on StateNotifier<TaskState> {
+  GetRecurringTasksUseCase get getRecurringTasksUseCase;
+  CreateRecurringTaskUseCase get createRecurringTaskUseCase;
+  UpdateRecurringTaskUseCase get updateRecurringTaskUseCase;
+  DeleteRecurringTaskUseCase get deleteRecurringTaskUseCase;
+
+  void onSaveRT(TaskType type) async {
+    final data = RecurringTaskEntity(
+      id: const Uuid().v4(),
+      title: state.title.value,
+      note: state.note,
+      time: state.time,
+      category: state.selectedCategory,
+      type: type,
+      createdAt: DateTime.now(),
+    );
+
+    final result = await createRecurringTaskUseCase.execute(
+      CreateRecurringTaskRequest(recurringTask: data),
+    );
+    result.when(
+      success: (data) {
+        onFetchRT();
+        state = state.copyWith(saveResult: Resource.success(true));
+      },
+      failure: (error) {
+        state = state.copyWith(saveResult: Resource.failure(error));
+      },
+    );
+  }
+
+  void onDeleteRT(String taskId) async {
+    final result = await deleteRecurringTaskUseCase.execute(
+      DeleteRecurringTaskRequest(id: taskId),
+    );
+    result.when(
+      success: (data) {
+        onFetchRT();
+        state = state.copyWith(deleteResult: Resource.success(true));
+      },
+      failure: (error) {
+        state = state.copyWith(deleteResult: Resource.failure(error));
+      },
+    );
+  }
+
+  void onUpdateRT(TaskEntity task) async {
+    final data = RecurringTaskEntity(
+      id: task.id,
+      type: task.type,
+      createdAt: task.createdAt,
+      title: state.title.value,
+      note: state.note,
+      time: state.time,
+      category: state.selectedCategory,
+      updatedAt: DateTime.now(),
+    );
+
+    final result = await updateRecurringTaskUseCase.execute(
+      UpdateRecurringTaskRequest(recurringTask: data),
+    );
+
+    result.when(
+      success: (data) {
+        onFetchRT();
+        state = state.copyWith(updateResult: Resource.success(true));
+      },
+      failure: (error) {
+        state = state.copyWith(updateResult: Resource.failure(error));
+      },
+    );
+  }
+
+  void onFetchRT() async {
+    final result = await getRecurringTasksUseCase.execute(NoRequest());
+    result.when(
+      success: (data) {
+        state = state.copyWith(recurringTask: Resource.success(data));
+      },
+      failure: (error) {
+        state = state.copyWith(recurringTask: Resource.failure(error));
+      },
+    );
+  }
+}

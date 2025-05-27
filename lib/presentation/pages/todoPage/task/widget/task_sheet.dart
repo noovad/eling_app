@@ -49,13 +49,20 @@ class TaskSheet extends ConsumerWidget {
     final isValid = ref.watch(taskProvider.select((state) => state.isValid));
 
     bool enabled = (isDone == true) || (idDetail) ? false : true;
+    bool isRecurring = taskScheduleType == TaskScheduleType.recurring;
 
     VoidCallback? isButtonValid;
     if (isValid) {
       if (isCreate) {
-        isButtonValid = () => notifier.saveTask(taskType!);
+        isButtonValid = () {
+          isRecurring
+              ? notifier.onSaveRT(taskType!)
+              : notifier.saveTask(taskType!);
+        };
       } else {
-        isButtonValid = () => notifier.updateTask(task!);
+        isButtonValid = () {
+          isRecurring ? notifier.onUpdateRT(task!) : notifier.updateTask(task!);
+        };
       }
     } else {
       isButtonValid = null;

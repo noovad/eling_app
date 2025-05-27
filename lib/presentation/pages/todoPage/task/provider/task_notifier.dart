@@ -1,9 +1,19 @@
 import 'package:eling_app/core/enum/category_type.dart';
 import 'package:eling_app/domain/entities/category/category.dart';
+import 'package:eling_app/domain/entities/recurringTask/recurring_task.dart';
+import 'package:eling_app/domain/entities/recurringTaskGroupResult/recurring_task_group_result.dart';
 import 'package:eling_app/domain/entities/task/task.dart';
 import 'package:eling_app/domain/entities/taskGroupResult/task_group_result.dart';
+import 'package:eling_app/domain/usecases/base_usecase.dart';
 import 'package:eling_app/domain/usecases/category/getCategories/get_categories.dart';
 import 'package:eling_app/domain/usecases/category/getCategories/get_categories_request.dart';
+import 'package:eling_app/domain/usecases/recurringTask/createRecurringTask/create_recurring_task_request.dart';
+import 'package:eling_app/domain/usecases/recurringTask/createRecurringTask/create_recurring_task_usecase.dart';
+import 'package:eling_app/domain/usecases/recurringTask/deleteRecurringTask/delete_recurring_task_request.dart';
+import 'package:eling_app/domain/usecases/recurringTask/deleteRecurringTask/delete_recurring_task_usecase.dart';
+import 'package:eling_app/domain/usecases/recurringTask/getRecurringTasks/get_recurring_tasks_usecase.dart';
+import 'package:eling_app/domain/usecases/recurringTask/updateRecurringTask/update_recurring_task_request.dart';
+import 'package:eling_app/domain/usecases/recurringTask/updateRecurringTask/update_recurring_task_usecase.dart';
 import 'package:eling_app/domain/usecases/task/createTask/create_task_request.dart';
 import 'package:eling_app/domain/usecases/task/createTask/create_task_usecase.dart';
 import 'package:eling_app/domain/usecases/task/deleteTask/delete_task_request.dart';
@@ -36,6 +46,7 @@ part 'mixin/category_crud_mixin.dart';
 part 'mixin/task_form_mixin.dart';
 part 'mixin/category_form_mixin.dart';
 part 'mixin/completed_task_mixin.dart';
+part 'mixin/recurring_taks_crud_mixin.dart';
 
 class TaskNotifier extends StateNotifier<TaskState>
     with
@@ -43,7 +54,8 @@ class TaskNotifier extends StateNotifier<TaskState>
         CategoryCRUDMixin,
         TaskFormMixin,
         CategoryFormMixin,
-        CompletedTaskMixin {
+        CompletedTaskMixin,
+        RecurringTaskCRUDMixin {
   @override
   final GetTasksUseCase getTasksUseCase;
   @override
@@ -58,6 +70,14 @@ class TaskNotifier extends StateNotifier<TaskState>
   UpdateTaskUseCase updateTaskUseCase;
   @override
   DeleteTaskUseCase deleteTaskUseCase;
+  @override
+  final GetRecurringTasksUseCase getRecurringTasksUseCase;
+  @override
+  final CreateRecurringTaskUseCase createRecurringTaskUseCase;
+  @override
+  final UpdateRecurringTaskUseCase updateRecurringTaskUseCase;
+  @override
+  final DeleteRecurringTaskUseCase deleteRecurringTaskUseCase;
 
   TaskNotifier(
     this.getTasksUseCase,
@@ -67,13 +87,16 @@ class TaskNotifier extends StateNotifier<TaskState>
     this.updateTaskUseCase,
     this.updateStatusTaskUseCase,
     this.deleteTaskUseCase,
-
+    this.getRecurringTasksUseCase,
+    this.createRecurringTaskUseCase,
+    this.updateRecurringTaskUseCase,
+    this.deleteRecurringTaskUseCase,
   ) : super(TaskState.initial()) {
     getTasks(TaskScheduleType.today);
-    getTasks(TaskScheduleType.recurring);
     getTasks(TaskScheduleType.upcoming);
     getCategories(CategoryType.daily);
     getCategories(CategoryType.productivity);
     getCategories(CategoryType.note);
+    onFetchRT();
   }
 }

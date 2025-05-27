@@ -6,7 +6,7 @@ abstract class TaskState with _$TaskState {
     // Task
     required Resource<TaskGroupResultEntity> todayTask,
     required Resource<TaskGroupResultEntity> upcomingTask,
-    required Resource<TaskGroupResultEntity> recurringTask,
+    required Resource<RecurringTaskGroupResultEntity> recurringTask,
     @Default(TitleInput.pure()) TitleInput title,
     @Default(DateInput.pure()) DateInput date,
     @Default(false) bool isValid,
@@ -14,7 +14,7 @@ abstract class TaskState with _$TaskState {
     String? note,
     String? time,
 
-    // Task CRUD
+    // Result
     required Resource<bool> saveResult,
     required Resource<bool> updateResult,
     required Resource<bool> updateStatusResult,

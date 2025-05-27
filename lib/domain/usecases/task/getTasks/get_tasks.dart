@@ -1,4 +1,5 @@
 import 'package:eling_app/core/utils/result.dart';
+import 'package:eling_app/data/repositories/recurring_task_repository.dart';
 import 'package:eling_app/data/repositories/task_repository.dart';
 import 'package:eling_app/domain/entities/taskGroupResult/task_group_result.dart';
 import 'package:eling_app/domain/usecases/base_usecase.dart';
@@ -20,6 +21,7 @@ class GetTasksUseCaseImpl
   GetTasksUseCaseImpl({
     required super.logger,
     required TaskRepository taskRepository,
+    required RecurringTaskRepository recurringTaskRepository,
   }) : _taskRepository = taskRepository;
 
   @override
@@ -33,8 +35,7 @@ class GetTasksUseCaseImpl
           final tasks = await _taskRepository.getUpcomingTasks();
           return tasks;
         case TaskScheduleType.recurring:
-          final tasks = await _taskRepository.getUpcomingTasks();
-          return tasks;
+          throw UnimplementedError();
       }
     });
   }

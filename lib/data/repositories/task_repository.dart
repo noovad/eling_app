@@ -78,8 +78,8 @@ class TaskRepository {
     return result.map((json) => TaskEntity.fromJson(json)).toList();
   }
 
-  Future<int> updateTask(TaskEntity task, String id) async {
-    return _database.update(TableNames.tasks, task.toJson(), id);
+  Future<int> updateTask(TaskEntity task) async {
+    return _database.update(TableNames.tasks, task.toJson(), task.id);
   }
 
   Future<int> updateTaskStatus(String id, bool isDone) async {

@@ -8,7 +8,7 @@ part 'update_task_request.g.dart';
 abstract class UpdateTaskRequest with _$UpdateTaskRequest {
   // ignore: invalid_annotation_target
   @JsonSerializable(fieldRename: FieldRename.snake)
-  const factory UpdateTaskRequest({required TaskEntity task, required String id}) =
+  const factory UpdateTaskRequest({required TaskEntity task}) =
       _UpdateTaskRequest;
 
   factory UpdateTaskRequest.fromJson(Map<String, Object?> json) =>

@@ -22,7 +22,7 @@ class UpdateTaskUseCaseImpl extends BaseUsecase<UpdateTaskRequest, int>
   @override
   Future<Result<int>> execute(UpdateTaskRequest request) async {
     return safeExecute(request, () async {
-      final tasks = await _taskRepository.updateTask(request.task, request.id);
+      final tasks = await _taskRepository.updateTask(request.task);
       return tasks;
     });
   }

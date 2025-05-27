@@ -11,9 +11,10 @@ void main(List<String> args) {
 
   final entityName = args[0].toLowerCase();
   final entityPascal = toPascalCase(entityName);
+  final entityCamel = toCamelCase(entityName);
 
   // Create directory
-  final entityDir = Directory('lib/domain/entities/$entityName');
+  final entityDir = Directory('lib/domain/entities/$entityCamel');
   entityDir.createSync(recursive: true);
 
   // Generate Entity file
@@ -28,6 +29,19 @@ String toPascalCase(String input) {
       .split('_')
       .map((word) => word[0].toUpperCase() + word.substring(1).toLowerCase())
       .join('');
+}
+
+
+String toCamelCase(String input) {
+  final parts = input.split('_');
+  if (parts.isEmpty) return '';
+  return parts.first.toLowerCase() +
+      parts
+          .skip(1)
+          .map(
+            (word) => word[0].toUpperCase() + word.substring(1).toLowerCase(),
+          )
+          .join('');
 }
 
 void generateEntity(String entityName, String entityPascal, String dirPath) {

@@ -85,7 +85,7 @@ mixin TaskCRUDMixin on StateNotifier<TaskState> {
     );
 
     final result = await updateTaskUseCase.execute(
-      UpdateTaskRequest(task: data, id: task.id),
+      UpdateTaskRequest(task: data),
     );
 
     result.when(
@@ -106,29 +106,17 @@ mixin TaskCRUDMixin on StateNotifier<TaskState> {
     );
     result.when(
       success: (data) {
-        switch (taskTabsType) {
-          case TaskScheduleType.today:
-            state = state.copyWith(todayTask: Resource.success(data));
-            break;
-          case TaskScheduleType.upcoming:
-            state = state.copyWith(upcomingTask: Resource.success(data));
-            break;
-          case TaskScheduleType.recurring:
-            state = state.copyWith(recurringTask: Resource.success(data));
-            break;
+        if (taskTabsType case TaskScheduleType.today) {
+          state = state.copyWith(todayTask: Resource.success(data));
+        } else if (taskTabsType case TaskScheduleType.upcoming) {
+          state = state.copyWith(upcomingTask: Resource.success(data));
         }
       },
       failure: (error) {
-        switch (taskTabsType) {
-          case TaskScheduleType.today:
-            state = state.copyWith(todayTask: Resource.failure(error));
-            break;
-          case TaskScheduleType.upcoming:
-            state = state.copyWith(upcomingTask: Resource.failure(error));
-            break;
-          case TaskScheduleType.recurring:
-            state = state.copyWith(recurringTask: Resource.failure(error));
-            break;
+        if (taskTabsType case TaskScheduleType.today) {
+          state = state.copyWith(todayTask: Resource.failure(error));
+        } else if (taskTabsType case TaskScheduleType.upcoming) {
+          state = state.copyWith(upcomingTask: Resource.failure(error));
         }
       },
     );
