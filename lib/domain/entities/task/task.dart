@@ -1,3 +1,5 @@
+import 'package:eling_app/core/utils/bool_to_int_converter.dart';
+import 'package:eling_app/presentation/enum/task_type.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'task.freezed.dart';
@@ -15,25 +17,12 @@ abstract class TaskEntity with _$TaskEntity {
     required DateTime date,
     @Default('') String? time,
     @Default('') String? category,
+    TaskType? type,
     @BoolToIntConverter() @Default(false) bool? isDone,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   }) = _TaskEntity;
 
   factory TaskEntity.fromJson(Map<String, Object?> json) =>
       _$TaskEntityFromJson(json);
-}
-
-class BoolToIntConverter implements JsonConverter<bool?, int?> {
-  const BoolToIntConverter();
-
-  @override
-  bool? fromJson(int? json) {
-    if (json == null) return null;
-    return json == 1;
-  }
-
-  @override
-  int? toJson(bool? object) {
-    if (object == null) return null;
-    return object ? 1 : 0;
-  }
 }

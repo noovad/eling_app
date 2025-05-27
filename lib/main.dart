@@ -8,5 +8,4 @@ void main() {
   databaseFactory = databaseFactoryFfi;
 
   runApp(const ProviderScope(child: MyApp()));
-//   await runCrudTest();
 }

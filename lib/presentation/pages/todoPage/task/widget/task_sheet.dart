@@ -77,7 +77,7 @@ class TaskSheet extends ConsumerWidget {
                           isValid
                               ? () =>
                                   isCreate
-                                      ? notifier.saveTask()
+                                      ? notifier.saveTask(taskType!)
                                       : notifier.updateTask()
                               : null,
                       child: Text(isCreate ? 'Create' : 'Update'),

@@ -4,11 +4,14 @@ import 'package:eling_app/domain/entities/task/task.dart';
 import 'package:eling_app/domain/entities/taskGroupResult/task_group_result.dart';
 import 'package:eling_app/domain/usecases/category/getCategories/get_categories.dart';
 import 'package:eling_app/domain/usecases/category/getCategories/get_categories_request.dart';
+import 'package:eling_app/domain/usecases/task/createTask/create_task_request.dart';
+import 'package:eling_app/domain/usecases/task/createTask/create_task_usecase.dart';
 import 'package:eling_app/domain/usecases/task/getCategories/get_tasks.dart';
 import 'package:eling_app/domain/usecases/task/getCategories/get_tasks_request.dart';
-import 'package:eling_app/domain/usecases/task/get_completed_tasks/get_completed_tasks_request.dart';
-import 'package:eling_app/domain/usecases/task/get_completed_tasks/get_completed_tasks_usecase.dart';
+import 'package:eling_app/domain/usecases/task/getCompletedTasks/get_completed_tasks_request.dart';
+import 'package:eling_app/domain/usecases/task/getCompletedTasks/get_completed_tasks_usecase.dart';
 import 'package:eling_app/presentation/enum/task_schedule_type.dart';
+import 'package:eling_app/presentation/enum/task_type.dart';
 import 'package:eling_app/presentation/pages/todoPage/task/models/category_title.dart';
 import 'package:eling_app/presentation/pages/todoPage/task/models/date.dart';
 import 'package:eling_app/presentation/pages/todoPage/task/models/title.dart';
@@ -17,6 +20,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:eling_app/core/utils/resource.dart';
+import 'package:uuid/uuid.dart';
 
 part 'task_state.dart';
 part 'task_notifier.freezed.dart';
@@ -40,11 +44,14 @@ class TaskNotifier extends StateNotifier<TaskState>
   final GetCategoriesUseCase getCategoriesUseCase;
   @override
   final GetCompletedTasksUseCase getCompletedTasksUseCase;
+  @override
+  final CreateTaskUseCase createTaskUseCase;
 
   TaskNotifier(
     this.getTasksUseCase,
     this.getCategoriesUseCase,
     this.getCompletedTasksUseCase,
+    this.createTaskUseCase,
   ) : super(TaskState.initial()) {
     getTasks(TaskScheduleType.today);
     getTasks(TaskScheduleType.recurring);

@@ -5,25 +5,29 @@ import 'dart:io';
 void main(List<String> args) {
   if (args.length < 2) {
     print('Usage: dart scripts/generate_usecase.dart <entity> <operation>');
-    print('Example: dart scripts/generate_usecase.dart category get_categories');
+    print(
+      'Example: dart scripts/generate_usecase.dart category get_categories',
+    );
     exit(1);
   }
 
   final entity = args[0];
   final operation = args[1];
   final returnType = 'bool';
-
-  // Convert to PascalCase
   final operationPascal = toPascalCase(operation);
-  
-  // Create directories
-  final usecaseDir = Directory('lib/domain/usecases/$entity/$operation');
+  final operationCamel = toCamelCase(operation);
+  final usecaseDir = Directory('lib/domain/usecases/$entity/$operationCamel');
   usecaseDir.createSync(recursive: true);
 
-  // Generate UseCase file
-  generateUseCase(entity, operation, operationPascal, returnType, usecaseDir.path);
-  
-  // Generate Request file
+  generateUseCase(
+    entity,
+    operation,
+    operationPascal,
+    operationCamel,
+    returnType,
+    usecaseDir.path,
+  );
+
   generateRequest(operation, operationPascal, usecaseDir.path);
 
   print('✅ Generated UseCase and Request for $operationPascal');
@@ -37,11 +41,30 @@ String toPascalCase(String input) {
       .join('');
 }
 
-void generateUseCase(String entity, String operation, String operationPascal, String returnType, String dirPath) {
+String toCamelCase(String input) {
+  final parts = input.split('_');
+  if (parts.isEmpty) return '';
+  return parts.first.toLowerCase() +
+      parts
+          .skip(1)
+          .map(
+            (word) => word[0].toUpperCase() + word.substring(1).toLowerCase(),
+          )
+          .join('');
+}
+
+void generateUseCase(
+  String entity,
+  String operation,
+  String operationPascal,
+  String operationCamel,
+  String returnType,
+  String dirPath,
+) {
   final content = '''
 import 'package:eling_app/core/utils/result.dart';
 import 'package:eling_app/domain/usecases/base_usecase.dart';
-import 'package:eling_app/domain/usecases/$entity/$operation/${operation}_request.dart';
+import 'package:eling_app/domain/usecases/$entity/$operationCamel/${operation}_request.dart';
 
 abstract class ${operationPascal}UseCase {
   Future<Result<bool>> execute(${operationPascal}Request request);

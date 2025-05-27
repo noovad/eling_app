@@ -2,15 +2,33 @@ part of '../task_notifier.dart';
 
 mixin TaskCRUDMixin on StateNotifier<TaskState> {
   GetTasksUseCase get getTasksUseCase;
+  CreateTaskUseCase get createTaskUseCase;
 
-  void saveTask() async {
-    final title = state.title.value;
-    final date = state.date.value;
-    final time = state.time ?? '';
-    final category = state.selectedCategory ?? '';
-    final note = state.note ?? '';
-    debugPrint(
-      'Saving task with title: $title, date: $date, time: $time, category: $category, note: $note',
+  void saveTask(TaskType type) async {
+    state = state.copyWith(isSaving: Resource.loading());
+
+    final task = TaskEntity(
+      id: const Uuid().v4(),
+      title: state.title.value,
+      note: state.note,
+      date: DateTime.parse(state.date.value),
+      time: state.time,
+      category: state.selectedCategory,
+      isDone: false,
+      type: type,
+      createdAt: DateTime.now(),
+    );
+
+    final result = await createTaskUseCase.execute(
+      CreateTaskRequest(task: task),
+    );
+    result.when(
+      success: (data) {
+        state = state.copyWith(isSaving: Resource.success(true));
+      },
+      failure: (error) {
+        state = state.copyWith(isSaving: Resource.failure(error));
+      },
     );
   }
 

@@ -1,7 +1,7 @@
 import 'package:eling_app/core/utils/result.dart';
 import 'package:eling_app/domain/entities/dailyActivity/daily_activity.dart';
 import 'package:eling_app/domain/usecases/base_usecase.dart';
-import 'package:eling_app/domain/usecases/dailyActivity/get_daily_activities/get_daily_activities_request.dart';
+import 'package:eling_app/domain/usecases/dailyActivity/getDailyActivities/get_daily_activities_request.dart';
 
 abstract class GetDailyActivitiesUseCase {
   Future<Result<List<DailyActivityEntity>>> execute(

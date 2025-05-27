@@ -6,6 +6,7 @@ class DatabaseMigrations {
 
   static Future<void> onCreate(Database db, int version) async {
     await _createTasksTable(db);
+    await _createRecurringTasksTable(db);
     await _createNotesTable(db);
     await _createCategoriesTable(db);
   }
@@ -17,6 +18,7 @@ class DatabaseMigrations {
   ) async {
     if (oldVersion < 1) {
       await _createTasksTable(db);
+      await _createRecurringTasksTable(db);
       await _createNotesTable(db);
       await _createCategoriesTable(db);
     }
@@ -27,6 +29,8 @@ class DatabaseMigrations {
     const textType = 'TEXT';
     const boolType = 'INTEGER';
     const dateTimeType = 'TEXT';
+    const taskType =
+        "TEXT CHECK(${TaskFields.type} IN ('daily', 'productivity'))";
 
     await db.execute('''
       CREATE TABLE ${TableNames.tasks} (
@@ -36,7 +40,31 @@ class DatabaseMigrations {
         ${TaskFields.date} $dateTimeType,
         ${TaskFields.time} $textType,
         ${TaskFields.category} $textType,
-        ${TaskFields.isDone} $boolType
+        ${TaskFields.isDone} $boolType,
+        ${TaskFields.type} $taskType,
+        ${TaskFields.createdAt} $dateTimeType,
+        ${TaskFields.updatedAt} $dateTimeType
+      )
+    ''');
+  }
+
+  static Future<void> _createRecurringTasksTable(Database db) async {
+    const idType = 'TEXT PRIMARY KEY';
+    const textType = 'TEXT';
+    const dateTimeType = 'TEXT';
+    const taskType =
+        "TEXT CHECK(${RecurringTaskFields.type} IN ('daily', 'productivity'))";
+
+    await db.execute('''
+      CREATE TABLE ${TableNames.recurringTasks} (
+        ${RecurringTaskFields.id} $idType,
+        ${RecurringTaskFields.title} $textType,
+        ${RecurringTaskFields.note} $textType,
+        ${RecurringTaskFields.time} $textType,
+        ${RecurringTaskFields.category} $textType,
+        ${RecurringTaskFields.type} $taskType,
+        ${RecurringTaskFields.createdAt} $dateTimeType,
+        ${RecurringTaskFields.updatedAt} $dateTimeType
       )
     ''');
   }
@@ -68,8 +96,6 @@ class DatabaseMigrations {
       CREATE TABLE ${TableNames.categories} (
         ${CategoryFields.id} $idType,
         ${CategoryFields.name} $textType,
-        ${CategoryFields.color} $textType,
-        ${CategoryFields.icon} $textType,
         ${CategoryFields.type} $textType
       )
     ''');

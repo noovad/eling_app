@@ -12,7 +12,7 @@ abstract class CategoryEntity with _$CategoryEntity {
     @Default('') String name,
     String? color,
     String? icon,
-    String? type, // "task", "note", etc.
+    String? type,
   }) = _CategoryEntity;
 
   factory CategoryEntity.fromJson(Map<String, Object?> json) =>

@@ -1,6 +1,6 @@
 import 'package:eling_app/domain/entities/dailyActivity/daily_activity.dart';
-import 'package:eling_app/domain/usecases/dailyActivity/get_daily_activities/get_daily_activities_request.dart';
-import 'package:eling_app/domain/usecases/dailyActivity/get_daily_activities/get_daily_activities_usecase.dart';
+import 'package:eling_app/domain/usecases/dailyActivity/getDailyActivities/get_daily_activities_request.dart';
+import 'package:eling_app/domain/usecases/dailyActivity/getDailyActivities/get_daily_activities_usecase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
