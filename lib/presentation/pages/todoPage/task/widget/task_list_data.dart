@@ -5,7 +5,7 @@ import 'package:eling_app/core/utils/resource.dart';
 import 'package:eling_app/domain/entities/taskGroupResult/task_group_result.dart';
 import 'package:eling_app/presentation/enum/task_type.dart';
 import 'package:eling_app/presentation/enum/task_schedule_type.dart';
-import 'package:eling_app/presentation/pages/todoPage/task/provider/task_provider.dart';
+import 'package:eling_app/core/providers/notifier/task_notifier_provider.dart';
 import 'package:eling_app/presentation/pages/todoPage/task/widget/task_sheet.dart';
 import 'package:eling_app/presentation/utils/task_converters.dart';
 import 'package:flutter/material.dart';
@@ -29,19 +29,19 @@ class TaskListData extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final notifier = ref.read(taskProvider.notifier);
+    final notifier = ref.read(taskNotifierProvider.notifier);
     late final Resource<TaskGroupResultEntity> tasks;
     switch (taskScheduleType) {
       case TaskScheduleType.upcoming:
-        tasks = ref.watch(taskProvider.select((s) => s.upcomingTask));
+        tasks = ref.watch(taskNotifierProvider.select((s) => s.upcomingTask));
         break;
       case TaskScheduleType.recurring:
         tasks = TaskConverters.convertRecurringToTaskGroupResource(
-          ref.watch(taskProvider.select((s) => s.recurringTask)),
+          ref.watch(taskNotifierProvider.select((s) => s.recurringTask)),
         );
         break;
       case TaskScheduleType.today:
-        tasks = ref.watch(taskProvider.select((s) => s.todayTask));
+        tasks = ref.watch(taskNotifierProvider.select((s) => s.todayTask));
         break;
     }
 

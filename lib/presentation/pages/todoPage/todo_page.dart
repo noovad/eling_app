@@ -1,6 +1,6 @@
 import 'package:eling_app/presentation/pages/todoPage/notePage/note_page.dart';
 import 'package:eling_app/presentation/pages/todoPage/summary/summary_page.dart';
-import 'package:eling_app/presentation/pages/todoPage/task/provider/task_provider.dart';
+import 'package:eling_app/core/providers/notifier/task_notifier_provider.dart';
 import 'package:eling_app/presentation/pages/todoPage/task/task_page.dart';
 import 'package:eling_app/presentation/utils/result_handler.dart';
 import 'package:eling_app/presentation/widgets/success_toast.dart';
@@ -12,10 +12,10 @@ class TodoPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final notifier = ref.read(taskProvider.notifier);
+    final notifier = ref.read(taskNotifierProvider.notifier);
 
     ref.listen(
-      taskProvider.select((state) => state.saveResult),
+      taskNotifierProvider.select((state) => state.saveResult),
       (previous, current) => ResultHandler.handleResult(
         context: context,
         result: current,
@@ -25,7 +25,7 @@ class TodoPage extends ConsumerWidget {
     );
 
     ref.listen(
-      taskProvider.select((state) => state.updateResult),
+      taskNotifierProvider.select((state) => state.updateResult),
       (previous, current) => ResultHandler.handleResult(
         context: context,
         result: current,

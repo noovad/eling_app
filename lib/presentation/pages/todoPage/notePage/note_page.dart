@@ -1,10 +1,10 @@
+import 'package:eling_app/core/providers/notifier/note_notifier_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
 import 'package:flutter_ui/widgets/appCard/app_note_card.dart';
 import 'package:flutter_ui/widgets/appCard/app_note_shimmer_card.dart';
 import 'package:flutter_ui/widgets/appSheet/app_sheet.dart';
-import 'package:eling_app/presentation/pages/todoPage/notePage/providers/note_provider.dart';
 import 'package:eling_app/presentation/pages/todoPage/notePage/widget/note_sheet.dart';
 
 class NotePage extends ConsumerWidget {
@@ -12,8 +12,8 @@ class NotePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final notes = ref.watch(noteProvider.select((s) => s.notes));
-    final notifier = ref.read(noteProvider.notifier);
+    final notes = ref.watch(noteNotifierProvider.select((s) => s.notes));
+    final notifier = ref.read(noteNotifierProvider.notifier);
 
     return notes.when(
       initial: () => _buildShimmerGrid(context),

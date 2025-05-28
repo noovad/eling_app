@@ -1,9 +1,9 @@
+import 'package:eling_app/core/providers/notifier/note_notifier_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
 import 'package:flutter_ui/shared/sizes/app_spaces.dart';
 import 'package:eling_app/domain/entities/note/note.dart';
-import 'package:eling_app/presentation/pages/todoPage/notePage/providers/note_provider.dart';
 import 'package:eling_app/presentation/pages/todoPage/notePage/widget/note_form.dart';
 
 class NoteSheet extends ConsumerWidget {
@@ -14,8 +14,8 @@ class NoteSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final notifier = ref.read(noteProvider.notifier);
-    final isValid = ref.watch(noteProvider.select((s) => s.isValid));
+    final notifier = ref.read(noteNotifierProvider.notifier);
+    final isValid = ref.watch(noteNotifierProvider.select((s) => s.isValid));
 
     return Padding(
       padding: AppPadding.all16,

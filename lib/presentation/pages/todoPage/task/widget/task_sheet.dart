@@ -1,8 +1,8 @@
+import 'package:eling_app/core/providers/notifier/task_notifier_provider.dart';
 import 'package:eling_app/domain/entities/task/task.dart';
 import 'package:eling_app/presentation/enum/task_type.dart';
 import 'package:eling_app/presentation/enum/form_mode.dart';
 import 'package:eling_app/presentation/enum/task_schedule_type.dart';
-import 'package:eling_app/presentation/pages/todoPage/task/provider/task_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
@@ -45,8 +45,10 @@ class TaskSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final notifier = ref.read(taskProvider.notifier);
-    final isValid = ref.watch(taskProvider.select((state) => state.isValid));
+    final notifier = ref.read(taskNotifierProvider.notifier);
+    final isValid = ref.watch(
+      taskNotifierProvider.select((state) => state.isValid),
+    );
 
     bool enabled = (isDone == true) || (idDetail) ? false : true;
     bool isRecurring = taskScheduleType == TaskScheduleType.recurring;

@@ -4,8 +4,8 @@ import 'dart:io';
 
 void main(List<String> args) {
   if (args.isEmpty) {
-    print('Usage: dart scripts/generate_entity.dart <entity_name>');
-    print('Example: dart scripts/generate_entity.dart note');
+    print('Usage: dart lib/core/generate/generate_entity.dart <entity_name>');
+    print('Example: dart lib/core/generate/generate_entity.dart note');
     exit(1);
   }
 

@@ -1,9 +1,9 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:eling_app/core/enum/category_type.dart';
+import 'package:eling_app/core/providers/notifier/task_notifier_provider.dart';
 import 'package:eling_app/core/utils/resource.dart';
 import 'package:eling_app/domain/entities/category/category.dart';
-import 'package:eling_app/presentation/pages/todoPage/task/provider/task_provider.dart';
 import 'package:eling_app/presentation/utils/extensions/input_error_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,29 +19,29 @@ class CategorySheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final notifier = ref.read(taskProvider.notifier);
+    final notifier = ref.read(taskNotifierProvider.notifier); // OK
     final isValidCategory = ref.watch(
-      taskProvider.select((state) => state.isValidCategory),
-    );
+      taskNotifierProvider.select((state) => state.isValidCategory),
+    ); // OK
     final titleCategory = ref.watch(
-      taskProvider.select((s) => s.categoryTitle),
-    );
+      taskNotifierProvider.select((s) => s.categoryTitle),
+    ); // OK
 
     late final Resource<List<CategoryEntity>> resourceCategories;
     switch (categoryType) {
       case CategoryType.daily:
         resourceCategories = ref.watch(
-          taskProvider.select((s) => s.dailyCategories),
+          taskNotifierProvider.select((s) => s.dailyCategories),
         );
         break;
       case CategoryType.productivity:
         resourceCategories = ref.watch(
-          taskProvider.select((s) => s.productivityCategories),
+          taskNotifierProvider.select((s) => s.productivityCategories),
         );
         break;
       case CategoryType.note:
         resourceCategories = ref.watch(
-          taskProvider.select((s) => s.noteCategories),
+          taskNotifierProvider.select((s) => s.noteCategories),
         );
         break;
       case null:
@@ -104,9 +104,8 @@ class CategorySheet extends ConsumerWidget {
                       trailing: IconButton(
                         icon: const Icon(Icons.delete_outline),
                         onPressed:
-                            () => notifier.deleteCategory(
-                              categories[index].name,
-                            ),
+                            () =>
+                                notifier.deleteCategory(categories[index].name),
                       ),
                     ),
                   );

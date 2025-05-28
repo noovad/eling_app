@@ -4,8 +4,8 @@ import 'dart:io';
 
 void main(List<String> args) {
   if (args.isEmpty) {
-    print('Usage: dart scripts/generate_page.dart <page_name>');
-    print('Example: dart scripts/generate_page.dart note');
+    print('Usage: dart lib/core/generate/generate_page.dart <page_name>');
+    print('Example: dart lib/core/generate/generate_page.dart note');
     exit(1);
   }
 
@@ -22,22 +22,20 @@ void main(List<String> args) {
   final widgetDir = Directory('${pageDir.path}/widget');
   widgetDir.createSync(recursive: true);
 
-  final providerDir = Directory('${pageDir.path}/provider');
-  providerDir.createSync(recursive: true);
+  final notifierDir = Directory('${pageDir.path}/notifier');
+  notifierDir.createSync(recursive: true);
 
   // Generate files
   generatePage(pageName, pagePascal, pageDir.path);
-  generateProvider(pageName, pagePascal, providerDir.path);
-  generateState(pageName, pagePascal, providerDir.path);
-  generateNotifier(pageName, pagePascal, providerDir.path);
+  generateState(pageName, pagePascal, notifierDir.path);
+  generateNotifier(pageName, pagePascal, notifierDir.path);
 
   print('✅ Generated Page for $pagePascal');
   print('📁 Location: ${pageDir.path}');
   print('📄 Files created:');
   print('   - ${pageName}_page.dart');
-  print('   - provider/${pageName}_provider.dart');
-  print('   - provider/${pageName}_state.dart');
-  print('   - provider/${pageName}_notifier.dart');
+  print('   - notifier/${pageName}_state.dart');
+  print('   - notifier/${pageName}_notifier.dart');
   print('   - models/ (empty)');
   print('   - widget/ (empty)');
 }
@@ -71,22 +69,6 @@ class ${pagePascal}Page extends StatelessWidget {
 ''';
 
   final file = File('$dirPath/${pageName}_page.dart');
-  file.writeAsStringSync(content.trim());
-}
-
-void generateProvider(String pageName, String pagePascal, String dirPath) {
-  final content = '''
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '${pageName}_notifier.dart';
-
-final ${pageName}Provider = StateNotifierProvider<${pagePascal}Notifier, ${pagePascal}State>((ref) {
-  return ${pagePascal}Notifier(
-    // Add your dependencies here
-  );
-});
-''';
-
-  final file = File('$dirPath/${pageName}_provider.dart');
   file.writeAsStringSync(content.trim());
 }
 

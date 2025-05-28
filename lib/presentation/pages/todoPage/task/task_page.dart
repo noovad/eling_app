@@ -1,7 +1,7 @@
 import 'package:eling_app/core/enum/category_type.dart';
 import 'package:eling_app/presentation/enum/task_schedule_type.dart';
-import 'package:eling_app/presentation/pages/todoPage/task/provider/task_notifier.dart';
-import 'package:eling_app/presentation/pages/todoPage/task/provider/task_provider.dart';
+import 'package:eling_app/core/providers/notifier/task_notifier_provider.dart';
+import 'package:eling_app/presentation/pages/todoPage/task/notifier/task_notifier.dart';
 import 'package:eling_app/presentation/pages/todoPage/task/widget/category_sheet.dart';
 import 'package:eling_app/presentation/pages/todoPage/task/widget/task_section.dart';
 import 'package:eling_app/presentation/pages/todoPage/task/widget/task_table.dart';
@@ -18,7 +18,7 @@ class TaskPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final notifier = ref.read(taskProvider.notifier);
+    final notifier = ref.read(taskNotifierProvider.notifier);
 
     return Padding(
       padding: AppPadding.all12,

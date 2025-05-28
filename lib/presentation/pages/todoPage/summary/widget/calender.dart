@@ -1,4 +1,4 @@
-import 'package:eling_app/presentation/pages/todoPage/summary/provider/summary_provider.dart';
+import 'package:eling_app/core/providers/notifier/summary_notifier_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/widgets/appCard/app_daily_summary_card.dart';
@@ -10,9 +10,11 @@ class Calender extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final dailyActivites = ref.watch(
-      summaryProvider.select((state) => state.dailyActivities),
+      summaryNotifierProvider.select((state) => state.dailyActivities),
     );
-    final date = ref.watch(summaryProvider.select((state) => state.date));
+    final date = ref.watch(
+      summaryNotifierProvider.select((state) => state.date),
+    );
 
     final daysInMonth = DateTime(date.year, date.month + 1, 0).day;
     final startDay = DateTime(date.year, date.month, 1).weekday % 7;

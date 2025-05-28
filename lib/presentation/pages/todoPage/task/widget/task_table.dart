@@ -1,4 +1,4 @@
-import 'package:eling_app/presentation/pages/todoPage/task/provider/task_provider.dart';
+import 'package:eling_app/core/providers/notifier/task_notifier_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/widgets/appNav/app_date_nav.dart';
@@ -12,9 +12,9 @@ class TablePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final notifier = ref.read(taskProvider.notifier);
+    final notifier = ref.read(taskNotifierProvider.notifier);
     final completedTasks = ref.watch(
-      taskProvider.select((s) => s.completedTasks),
+      taskNotifierProvider.select((s) => s.completedTasks),
     );
 
     return SizedBox(

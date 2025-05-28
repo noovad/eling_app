@@ -1,6 +1,6 @@
 import 'package:eling_app/presentation/enum/task_type.dart';
 import 'package:eling_app/presentation/enum/task_schedule_type.dart';
-import 'package:eling_app/presentation/pages/todoPage/task/provider/task_provider.dart';
+import 'package:eling_app/core/providers/notifier/task_notifier_provider.dart';
 import 'package:eling_app/presentation/utils/extensions/input_error_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,19 +25,25 @@ class TaskForm extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedCategory = ref.watch(
-      taskProvider.select((state) => state.selectedCategory),
+      taskNotifierProvider.select((state) => state.selectedCategory),
     );
-    final title = ref.watch(taskProvider.select((state) => state.title));
-    final time = ref.watch(taskProvider.select((state) => state.time));
-    final date = ref.watch(taskProvider.select((state) => state.date));
-    final note = ref.watch(taskProvider.select((state) => state.note));
-    final notifier = ref.read(taskProvider.notifier);
+    final title = ref.watch(
+      taskNotifierProvider.select((state) => state.title),
+    );
+    final time = ref.watch(taskNotifierProvider.select((state) => state.time));
+    final date = ref.watch(taskNotifierProvider.select((state) => state.date));
+    final note = ref.watch(taskNotifierProvider.select((state) => state.note));
+    final notifier = ref.read(taskNotifierProvider.notifier);
 
     final dataCategories =
         taskType == TaskType.daily
-            ? ref.watch(taskProvider.select((state) => state.dailyCategories))
+            ? ref.watch(
+              taskNotifierProvider.select((state) => state.dailyCategories),
+            )
             : ref.watch(
-              taskProvider.select((state) => state.productivityCategories),
+              taskNotifierProvider.select(
+                (state) => state.productivityCategories,
+              ),
             );
 
     final categories = dataCategories.whenOrNull(

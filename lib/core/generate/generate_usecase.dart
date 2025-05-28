@@ -4,9 +4,9 @@ import 'dart:io';
 
 void main(List<String> args) {
   if (args.length < 2) {
-    print('Usage: dart scripts/generate_usecase.dart <entity> <operation>');
+    print('Usage: dart lib/core/generate/generate_usecase.dart <entity> <operation>');
     print(
-      'Example: dart scripts/generate_usecase.dart category get_categories',
+      'Example: dart lib/core/generate/generate_usecase.dart category get_categories',
     );
     exit(1);
   }
