@@ -8,7 +8,7 @@ import 'dart:io';
 void main() async {
   sqfliteFfiInit();
   databaseFactory = databaseFactoryFfi;
-  
+
   WidgetsFlutterBinding.ensureInitialized();
 
   if (Platform.isLinux || Platform.isWindows || Platform.isMacOS) {

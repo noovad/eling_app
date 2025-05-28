@@ -20,7 +20,6 @@ class TaskPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final notifier = ref.read(taskProvider.notifier);
 
-    
     return Padding(
       padding: AppPadding.all12,
       child: AppTabs(

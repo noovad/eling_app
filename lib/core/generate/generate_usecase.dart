@@ -90,7 +90,7 @@ class ${operationPascal}UseCaseImpl
 }
 ''';
 
-  final file = File('$dirPath/${operation}_usecase.dart');
+  final file = File('$dirPath/$operation.dart');
   file.writeAsStringSync(content.trim());
 }
 
