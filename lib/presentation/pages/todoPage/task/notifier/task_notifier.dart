@@ -5,6 +5,10 @@ import 'package:eling_app/domain/entities/recurringTaskGroupResult/recurring_tas
 import 'package:eling_app/domain/entities/task/task.dart';
 import 'package:eling_app/domain/entities/taskGroupResult/task_group_result.dart';
 import 'package:eling_app/domain/usecases/base_usecase.dart';
+import 'package:eling_app/domain/usecases/category/createCategory/create_category.dart';
+import 'package:eling_app/domain/usecases/category/createCategory/create_category_request.dart';
+import 'package:eling_app/domain/usecases/category/deleteCategory/delete_category.dart';
+import 'package:eling_app/domain/usecases/category/deleteCategory/delete_category_request.dart';
 import 'package:eling_app/domain/usecases/category/getCategories/get_categories.dart';
 import 'package:eling_app/domain/usecases/category/getCategories/get_categories_request.dart';
 import 'package:eling_app/domain/usecases/recurringTask/createRecurringTask/create_recurring_task_request.dart';
@@ -31,7 +35,6 @@ import 'package:eling_app/presentation/enum/task_type.dart';
 import 'package:eling_app/presentation/pages/todoPage/task/models/category_title.dart';
 import 'package:eling_app/presentation/pages/todoPage/task/models/date.dart';
 import 'package:eling_app/presentation/pages/todoPage/task/models/title.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -78,6 +81,10 @@ class TaskNotifier extends StateNotifier<TaskState>
   final UpdateRecurringTaskUseCase updateRecurringTaskUseCase;
   @override
   final DeleteRecurringTaskUseCase deleteRecurringTaskUseCase;
+  @override
+  final CreateCategoryUseCase createCategoryUseCase;
+  @override
+  final DeleteCategoryUseCase deleteCategoryUseCase;
 
   TaskNotifier(
     this.getTasksUseCase,
@@ -91,6 +98,8 @@ class TaskNotifier extends StateNotifier<TaskState>
     this.createRecurringTaskUseCase,
     this.updateRecurringTaskUseCase,
     this.deleteRecurringTaskUseCase,
+    this.createCategoryUseCase,
+    this.deleteCategoryUseCase,
   ) : super(TaskState.initial()) {
     getTasks(TaskScheduleType.today);
     getTasks(TaskScheduleType.upcoming);

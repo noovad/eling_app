@@ -13,7 +13,7 @@ import 'package:flutter_ui/shared/sizes/app_spaces.dart';
 import 'package:flutter_ui/widgets/appField/app_text_field.dart';
 
 class CategorySheet extends ConsumerWidget {
-  final CategoryType? categoryType;
+  final CategoryType categoryType;
 
   const CategorySheet({super.key, required this.categoryType});
 
@@ -44,7 +44,6 @@ class CategorySheet extends ConsumerWidget {
           taskNotifierProvider.select((s) => s.noteCategories),
         );
         break;
-      case null:
     }
 
     final categories =
@@ -74,7 +73,7 @@ class CategorySheet extends ConsumerWidget {
               AppSpaces.w8,
               ElevatedButton(
                 onPressed:
-                    isValidCategory ? () => notifier.saveCategory() : null,
+                    isValidCategory ? () => notifier.saveCategory(categoryType) : null,
                 child: Text('Create'),
               ),
             ],
@@ -105,7 +104,7 @@ class CategorySheet extends ConsumerWidget {
                         icon: const Icon(Icons.delete_outline),
                         onPressed:
                             () =>
-                                notifier.deleteCategory(categories[index].name),
+                                notifier.deleteCategory(categories[index].id, categoryType),
                       ),
                     ),
                   );

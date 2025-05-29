@@ -16,20 +16,6 @@ class CategoryRepository {
     );
   }
 
-  Future<CategoryEntity?> readCategory(String id) async {
-    final results = await _database.read(
-      TableNames.categories,
-      where: '${CategoryFields.id} = ?',
-      whereArgs: [id],
-    );
-
-    if (results.isNotEmpty) {
-      return CategoryEntity.fromJson(results.first);
-    } else {
-      return null;
-    }
-  }
-
   Future<List<CategoryEntity>> readAllCategories({String? type}) async {
     final results = await _database.read(
       TableNames.categories,
@@ -37,14 +23,6 @@ class CategoryRepository {
       whereArgs: type != null ? [type] : null,
     );
     return results.map((json) => CategoryEntity.fromJson(json)).toList();
-  }
-
-  Future<int> updateCategory(CategoryEntity category) async {
-    return _database.update(
-      TableNames.categories,
-      category.toJson(),
-      category.id,
-    );
   }
 
   Future<int> deleteCategory(String id) async {

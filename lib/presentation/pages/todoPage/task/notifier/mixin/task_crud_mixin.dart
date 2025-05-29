@@ -27,7 +27,7 @@ mixin TaskCRUDMixin on StateNotifier<TaskState> {
       success: (data) {
         getTasks(TaskScheduleType.today);
         getTasks(TaskScheduleType.upcoming);
-        state = state.copyWith(saveResult: Resource.success(true));
+        state = state.copyWith(saveResult: Resource.success('task'));
       },
       failure: (error) {
         state = state.copyWith(saveResult: Resource.failure(error));
@@ -41,7 +41,7 @@ mixin TaskCRUDMixin on StateNotifier<TaskState> {
     );
     result.when(
       success: (data) {
-        state = state.copyWith(deleteResult: Resource.success(true));
+        state = state.copyWith(deleteResult: Resource.success('task'));
         getTasks(TaskScheduleType.today);
         getTasks(TaskScheduleType.upcoming);
       },
@@ -61,7 +61,7 @@ mixin TaskCRUDMixin on StateNotifier<TaskState> {
     );
     result.when(
       success: (data) {
-        state = state.copyWith(updateStatusResult: Resource.success(true));
+        state = state.copyWith(updateStatusResult: Resource.success('task'));
         getTasks(taskTabsType);
       },
       failure: (error) {
@@ -90,7 +90,7 @@ mixin TaskCRUDMixin on StateNotifier<TaskState> {
 
     result.when(
       success: (data) {
-        state = state.copyWith(updateResult: Resource.success(true));
+        state = state.copyWith(updateResult: Resource.success('task'));
         getTasks(TaskScheduleType.today);
         getTasks(TaskScheduleType.upcoming);
       },

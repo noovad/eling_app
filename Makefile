@@ -30,6 +30,7 @@ usecase:
 		exit 1; \
 	fi
 	@dart lib/core/generate/generate_usecase.dart $(entity) $(operation)
+	@dart lib/core/generate/generate_usecase_provider.dart $(entity) $(operation)
 
 # Generate entity [make entity entity=note]
 entity:

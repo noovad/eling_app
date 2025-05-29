@@ -1,3 +1,5 @@
+import 'package:eling_app/core/providers/usecase/category/createCategory/create_category_provider.dart';
+import 'package:eling_app/core/providers/usecase/category/deleteCategory/delete_category_provider.dart';
 import 'package:eling_app/core/providers/usecase/category/getCategories/get_categories_provider.dart';
 import 'package:eling_app/core/providers/usecase/recurringTask/createRecurringTask/create_recurring_task_provider.dart';
 import 'package:eling_app/core/providers/usecase/recurringTask/deleteRecurringTask/delete_recurring_task_provider.dart';
@@ -27,5 +29,7 @@ final taskNotifierProvider = StateNotifierProvider<TaskNotifier, TaskState>((
     ref.watch(createRecurringTaskUseCaseProvider),
     ref.watch(updateRecurringTaskUseCaseProvider),
     ref.watch(deleteRecurringTaskUseCaseProvider),
+    ref.watch(createCategoryUseCaseProvider),
+    ref.watch(deleteCategoryUseCaseProvider),
   );
 });
