@@ -1,6 +1,6 @@
 part of '../task_notifier.dart';
 
-mixin RecurringTaskCRUDMixin on StateNotifier<TaskState> {
+mixin RecurringTaksMixin on StateNotifier<TaskState> {
   GetRecurringTasksUseCase get getRecurringTasksUseCase;
   CreateRecurringTaskUseCase get createRecurringTaskUseCase;
   UpdateRecurringTaskUseCase get updateRecurringTaskUseCase;
@@ -23,7 +23,7 @@ mixin RecurringTaskCRUDMixin on StateNotifier<TaskState> {
     result.when(
       success: (data) {
         onFetchRT();
-        state = state.copyWith(saveResult: Resource.success(true));
+        state = state.copyWith(saveResult: Resource.success('recurring_task'));
       },
       failure: (error) {
         state = state.copyWith(saveResult: Resource.failure(error));
@@ -38,7 +38,7 @@ mixin RecurringTaskCRUDMixin on StateNotifier<TaskState> {
     result.when(
       success: (data) {
         onFetchRT();
-        state = state.copyWith(deleteResult: Resource.success(true));
+        state = state.copyWith(deleteResult: Resource.success('recurring_task'));
       },
       failure: (error) {
         state = state.copyWith(deleteResult: Resource.failure(error));
@@ -65,7 +65,7 @@ mixin RecurringTaskCRUDMixin on StateNotifier<TaskState> {
     result.when(
       success: (data) {
         onFetchRT();
-        state = state.copyWith(updateResult: Resource.success(true));
+        state = state.copyWith(updateResult: Resource.success('recurring_task'));
       },
       failure: (error) {
         state = state.copyWith(updateResult: Resource.failure(error));

@@ -6,17 +6,18 @@ import 'package:flutter/material.dart';
 class ResultHandler {
   static void handleResult({
     required BuildContext context,
-    required Resource<bool> result,
+    required Resource<String> result,
     required SuccessAction successAction,
     required VoidCallback resetAction,
-    bool navigatorPop = true,
     FailureAction failureAction = FailureAction.save,
   }) {
     result.whenOrNull(
       success: (_) {
         SuccessToast.show(context, successAction);
         resetAction();
-        if (navigatorPop && Navigator.of(context).canPop()) {
+        bool isCategory =
+            result.whenOrNull(success: (value) => "category") != "category";
+        if (isCategory && Navigator.of(context).canPop()) {
           Navigator.of(context).pop();
         }
       },

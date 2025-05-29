@@ -10,8 +10,6 @@ abstract class CategoryEntity with _$CategoryEntity {
   const factory CategoryEntity({
     @Default('') String id,
     @Default('') String name,
-    String? color,
-    String? icon,
     String? type,
   }) = _CategoryEntity;
 

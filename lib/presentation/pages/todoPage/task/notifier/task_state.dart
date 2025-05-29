@@ -15,10 +15,10 @@ abstract class TaskState with _$TaskState {
     String? time,
 
     // Result
-    required Resource<bool> saveResult,
-    required Resource<bool> updateResult,
-    required Resource<bool> updateStatusResult,
-    required Resource<bool> deleteResult,
+    required Resource<String> saveResult,
+    required Resource<String> updateResult,
+    required Resource<String> updateStatusResult,
+    required Resource<String> deleteResult,
 
     // Category
     required Resource<List<CategoryEntity>> dailyCategories,

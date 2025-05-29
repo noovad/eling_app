@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:eling_app/core/enum/category_type.dart';
 import 'package:eling_app/core/providers/notifier/task_notifier_provider.dart';
 import 'package:eling_app/core/utils/resource.dart';
@@ -12,23 +10,50 @@ import 'package:flutter_ui/shared/sizes/app_sizes.dart';
 import 'package:flutter_ui/shared/sizes/app_spaces.dart';
 import 'package:flutter_ui/widgets/appField/app_text_field.dart';
 
-class CategorySheet extends ConsumerWidget {
-  final CategoryType? categoryType;
+class CategorySheet extends ConsumerStatefulWidget {
+  final CategoryType categoryType;
 
   const CategorySheet({super.key, required this.categoryType});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final notifier = ref.read(taskNotifierProvider.notifier); // OK
-    final isValidCategory = ref.watch(
-      taskNotifierProvider.select((state) => state.isValidCategory),
-    ); // OK
-    final titleCategory = ref.watch(
+  ConsumerState<CategorySheet> createState() => _CategorySheetState();
+}
+
+class _CategorySheetState extends ConsumerState<CategorySheet> {
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    final categoryTitle = ref.read(taskNotifierProvider).categoryTitle;
+    _controller = TextEditingController(text: categoryTitle.value);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _listenToReset() {
+    final categoryTitle = ref.watch(
       taskNotifierProvider.select((s) => s.categoryTitle),
-    ); // OK
+    );
+    if (categoryTitle.isPure && _controller.text.isNotEmpty) {
+      _controller.clear();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _listenToReset();
+    final notifier = ref.read(taskNotifierProvider.notifier);
+    final isValidCategory = ref.watch(
+      taskNotifierProvider.select((s) => s.isValidCategory),
+    );
 
     late final Resource<List<CategoryEntity>> resourceCategories;
-    switch (categoryType) {
+    switch (widget.categoryType) {
       case CategoryType.daily:
         resourceCategories = ref.watch(
           taskNotifierProvider.select((s) => s.dailyCategories),
@@ -44,7 +69,6 @@ class CategorySheet extends ConsumerWidget {
           taskNotifierProvider.select((s) => s.noteCategories),
         );
         break;
-      case null:
     }
 
     final categories =
@@ -60,8 +84,13 @@ class CategorySheet extends ConsumerWidget {
           AppTextField(
             label: "Title",
             hint: "Enter title",
+            controller: _controller,
             onChanged: (value) => notifier.categoyrTitleChanged(value),
-            errorText: titleCategory.displayError?.message,
+            errorText: ref.watch(
+              taskNotifierProvider.select(
+                (s) => s.categoryTitle.displayError?.message,
+              ),
+            ),
             isRequired: true,
           ),
           Row(
@@ -74,7 +103,9 @@ class CategorySheet extends ConsumerWidget {
               AppSpaces.w8,
               ElevatedButton(
                 onPressed:
-                    isValidCategory ? () => notifier.saveCategory() : null,
+                    isValidCategory
+                        ? () => notifier.saveCategory(widget.categoryType)
+                        : null,
                 child: Text('Create'),
               ),
             ],
@@ -104,8 +135,10 @@ class CategorySheet extends ConsumerWidget {
                       trailing: IconButton(
                         icon: const Icon(Icons.delete_outline),
                         onPressed:
-                            () =>
-                                notifier.deleteCategory(categories[index].name),
+                            () => notifier.deleteCategory(
+                              categories[index].id,
+                              widget.categoryType,
+                            ),
                       ),
                     ),
                   );

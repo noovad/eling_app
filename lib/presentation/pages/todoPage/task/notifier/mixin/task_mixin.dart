@@ -1,11 +1,12 @@
 part of '../task_notifier.dart';
 
-mixin TaskCRUDMixin on StateNotifier<TaskState> {
+mixin TaskMixin on StateNotifier<TaskState> {
   GetTasksUseCase get getTasksUseCase;
   CreateTaskUseCase get createTaskUseCase;
   UpdateTaskUseCase get updateTaskUseCase;
   UpdateStatusTaskUseCase get updateStatusTaskUseCase;
   DeleteTaskUseCase get deleteTaskUseCase;
+  GetCompletedTasksUseCase get getCompletedTasksUseCase;
 
   void saveTask(TaskType type) async {
     final task = TaskEntity(
@@ -27,7 +28,7 @@ mixin TaskCRUDMixin on StateNotifier<TaskState> {
       success: (data) {
         getTasks(TaskScheduleType.today);
         getTasks(TaskScheduleType.upcoming);
-        state = state.copyWith(saveResult: Resource.success(true));
+        state = state.copyWith(saveResult: Resource.success('task'));
       },
       failure: (error) {
         state = state.copyWith(saveResult: Resource.failure(error));
@@ -41,7 +42,7 @@ mixin TaskCRUDMixin on StateNotifier<TaskState> {
     );
     result.when(
       success: (data) {
-        state = state.copyWith(deleteResult: Resource.success(true));
+        state = state.copyWith(deleteResult: Resource.success('task'));
         getTasks(TaskScheduleType.today);
         getTasks(TaskScheduleType.upcoming);
       },
@@ -61,7 +62,7 @@ mixin TaskCRUDMixin on StateNotifier<TaskState> {
     );
     result.when(
       success: (data) {
-        state = state.copyWith(updateStatusResult: Resource.success(true));
+        state = state.copyWith(updateStatusResult: Resource.success('task'));
         getTasks(taskTabsType);
       },
       failure: (error) {
@@ -90,7 +91,7 @@ mixin TaskCRUDMixin on StateNotifier<TaskState> {
 
     result.when(
       success: (data) {
-        state = state.copyWith(updateResult: Resource.success(true));
+        state = state.copyWith(updateResult: Resource.success('task'));
         getTasks(TaskScheduleType.today);
         getTasks(TaskScheduleType.upcoming);
       },
@@ -120,5 +121,83 @@ mixin TaskCRUDMixin on StateNotifier<TaskState> {
         }
       },
     );
+  }
+
+  void getCompletedTasks(int month, int year) async {
+    Future.microtask(() {
+      state = state.copyWith(completedTasks: Resource.loading());
+    });
+    final result = await getCompletedTasksUseCase.execute(
+      GetCompletedTasksRequest(month: month, year: year),
+    );
+    result.when(
+      success: (data) {
+        state = state.copyWith(completedTasks: Resource.success(data));
+      },
+      failure: (error) {
+        state = state.copyWith(completedTasks: Resource.failure(error));
+      },
+    );
+  }
+
+  void titleChanged(String value) {
+    final title = TitleInput.dirty(value: value);
+    final isValid = Formz.validate([title, state.date]);
+    state = state.copyWith(title: title, isValid: isValid);
+  }
+
+  void dateChanged(String value) {
+    final date = DateInput.dirty(value: value);
+    final isValid = Formz.validate([state.title, date]);
+    state = state.copyWith(date: date, isValid: isValid);
+  }
+
+  void categoryChanged(String value) {
+    state = state.copyWith(selectedCategory: value);
+  }
+
+  void timeChanged(String value) {
+    state = state.copyWith(time: value);
+  }
+
+  void noteChanged(String value) {
+    state = state.copyWith(note: value);
+  }
+
+  void setUpdateForm(TaskEntity task, TaskScheduleType? tabsType) {
+    final isRecurring = tabsType == TaskScheduleType.recurring;
+    final dateValue =
+        isRecurring ? DateTime.now().toString() : task.date.toString();
+    state = state.copyWith(
+      title: TitleInput.dirty(value: task.title),
+      date: DateInput.dirty(value: dateValue),
+      isValid: true,
+      selectedCategory: task.category,
+      note: task.note,
+      time: task.time,
+    );
+  }
+
+  void resetForm(TaskScheduleType tabsType) {
+    final isRecurring = tabsType == TaskScheduleType.recurring;
+    state = state.copyWith(
+      title: TitleInput.pure(),
+      date:
+          isRecurring
+              ? DateInput.dirty(value: DateTime.now().toString())
+              : DateInput.pure(),
+      isValid: false,
+      selectedCategory: null,
+      note: null,
+      time: null,
+    );
+  }
+
+  void resetIsSaving() {
+    state = state.copyWith(saveResult: Resource.initial());
+  }
+
+  void resetIsUpdate() {
+    state = state.copyWith(updateResult: Resource.initial());
   }
 }
