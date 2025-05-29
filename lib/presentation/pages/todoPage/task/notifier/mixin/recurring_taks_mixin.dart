@@ -1,6 +1,6 @@
 part of '../task_notifier.dart';
 
-mixin RecurringTaskCRUDMixin on StateNotifier<TaskState> {
+mixin RecurringTaksMixin on StateNotifier<TaskState> {
   GetRecurringTasksUseCase get getRecurringTasksUseCase;
   CreateRecurringTaskUseCase get createRecurringTaskUseCase;
   UpdateRecurringTaskUseCase get updateRecurringTaskUseCase;

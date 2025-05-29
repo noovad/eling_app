@@ -44,21 +44,12 @@ import 'package:uuid/uuid.dart';
 part 'task_state.dart';
 part 'task_notifier.freezed.dart';
 
-part 'mixin/task_crud_mixin.dart';
-part 'mixin/category_crud_mixin.dart';
-part 'mixin/task_form_mixin.dart';
-part 'mixin/category_form_mixin.dart';
-part 'mixin/completed_task_mixin.dart';
-part 'mixin/recurring_taks_crud_mixin.dart';
+part 'mixin/task_mixin.dart';
+part 'mixin/category_mixin.dart';
+part 'mixin/recurring_taks_mixin.dart';
 
 class TaskNotifier extends StateNotifier<TaskState>
-    with
-        TaskCRUDMixin,
-        CategoryCRUDMixin,
-        TaskFormMixin,
-        CategoryFormMixin,
-        CompletedTaskMixin,
-        RecurringTaskCRUDMixin {
+    with TaskMixin, CategoryMixin, RecurringTaksMixin {
   @override
   final GetTasksUseCase getTasksUseCase;
   @override
