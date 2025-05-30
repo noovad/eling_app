@@ -89,6 +89,9 @@ class TaskListData extends ConsumerWidget {
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     final task = data.tasksByType[taskType]![index];
+                    bool isOverDue =
+                        task.date.isBefore(DateTime.now()) &&
+                        !DateConstants.isToday(task.date);
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 8),
                       child: AppTaskCard(
@@ -97,6 +100,7 @@ class TaskListData extends ConsumerWidget {
                         time: task.time ?? "",
                         isDone: task.isDone ?? false,
                         id: task.id,
+                        isOverDue: isOverDue,
                         date:
                             TaskScheduleType.upcoming == taskScheduleType
                                 ? DateConstants.formatToShortDate(task.date)

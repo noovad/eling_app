@@ -23,24 +23,16 @@ class TaskRepository {
     final db = await _database.database;
     final todayStr = DateConstants.todayStr;
 
-    final todayTasks = await db.query(
+    final tasks = await db.query(
       TableNames.tasks,
-      where: '${TaskFields.date} = ?',
-      whereArgs: [todayStr],
+      where: '(${TaskFields.date} < ? AND ${TaskFields.isDone} = 0) OR ${TaskFields.date} = ?',
+      whereArgs: [todayStr, todayStr],
+      orderBy: '${TaskFields.isDone} ASC, ${TaskFields.date} ASC',
     );
 
-    final overdueTasks = await db.query(
-      TableNames.tasks,
-      where: '${TaskFields.date} < ?',
-      whereArgs: [todayStr],
+    return _groupTasksByType(
+      tasks.map((json) => TaskEntity.fromJson(json)).toList(),
     );
-
-    final allTasks = [
-      ...todayTasks.map((json) => TaskEntity.fromJson(json)),
-      ...overdueTasks.map((json) => TaskEntity.fromJson(json)),
-    ];
-
-    return _groupTasksByType(allTasks);
   }
 
   Future<TaskGroupResultEntity> getUpcomingTasks() async {
@@ -51,7 +43,7 @@ class TaskRepository {
       TableNames.tasks,
       where: '${TaskFields.date} > ? AND ${TaskFields.isDone} = ?',
       whereArgs: [todayStr, 0],
-      orderBy: '${TaskFields.date} ASC',
+      orderBy: '${TaskFields.isDone} ASC, ${TaskFields.date} ASC',
     );
 
     final tasks = futureTasks.map((json) => TaskEntity.fromJson(json)).toList();
@@ -73,6 +65,7 @@ class TaskRepository {
         strftime('%Y', ${TaskFields.date}) = ?
       ''',
       whereArgs: [1, month.toString().padLeft(2, '0'), year.toString()],
+      orderBy: '${TaskFields.date} ASC',
     );
 
     return result.map((json) => TaskEntity.fromJson(json)).toList();
