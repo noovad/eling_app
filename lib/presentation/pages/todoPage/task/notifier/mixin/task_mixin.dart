@@ -62,8 +62,8 @@ mixin TaskMixin on StateNotifier<TaskState> {
     );
     result.when(
       success: (data) {
-        state = state.copyWith(updateStatusResult: Resource.success('task'));
         getTasks(taskTabsType);
+        state = state.copyWith(updateStatusResult: Resource.success('task'));
       },
       failure: (error) {
         state = state.copyWith(updateStatusResult: Resource.failure(error));

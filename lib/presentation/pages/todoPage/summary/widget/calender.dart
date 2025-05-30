@@ -1,5 +1,7 @@
 import 'package:eling_app/core/providers/notifier/summary_notifier_provider.dart';
+import 'package:eling_app/core/providers/notifier/task_notifier_provider.dart';
 import 'package:eling_app/core/utils/constants/date_constants.dart';
+import 'package:eling_app/presentation/pages/todoPage/task/notifier/task_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/widgets/appCard/app_daily_summary_card.dart';
@@ -16,9 +18,16 @@ class Calender extends ConsumerWidget {
     final date = ref.watch(
       summaryNotifierProvider.select((state) => state.date),
     );
+    final notifier = ref.watch(summaryNotifierProvider.notifier);
 
     final daysInMonth = DateTime(date.year, date.month + 1, 0).day;
     final startDay = DateTime(date.year, date.month, 1).weekday % 7;
+
+    ref.listen<TaskState>(taskNotifierProvider, (prev, next) {
+      next.updateStatusResult.whenOrNull(
+        success: (_) => notifier.getDailyActivities(date.month, date.year),
+      );
+    });
 
     return GridView.builder(
       shrinkWrap: true,
@@ -63,10 +72,6 @@ class Calender extends ConsumerWidget {
             final hasCoding = currentDayActivities.any((a) => a.coding);
             final hasGym = currentDayActivities.any((a) => a.gym);
             final hasCardio = currentDayActivities.any((a) => a.cardio);
-            final amount =
-                currentDayActivities.isNotEmpty
-                    ? currentDayActivities.first.amount
-                    : null;
             final sholatCount =
                 currentDayActivities.isNotEmpty
                     ? currentDayActivities.first.sholat.toString()
@@ -78,7 +83,7 @@ class Calender extends ConsumerWidget {
             return AppDailySummaryCard(
               isToday: isToday,
               sholatCount: sholatCount,
-              amount: amount,
+              amount: 0,
               hasCoding: hasCoding,
               hasGym: hasGym,
               hasCardio: hasCardio,

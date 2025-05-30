@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:eling_app/core/enum/category_type.dart';
 import 'package:eling_app/core/providers/notifier/task_notifier_provider.dart';
 import 'package:eling_app/core/utils/resource.dart';

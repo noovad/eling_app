@@ -14,6 +14,15 @@ class NotePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final notes = ref.watch(noteNotifierProvider.select((s) => s.notes));
     final notifier = ref.read(noteNotifierProvider.notifier);
+    final countPinnedNotes = ref.watch(
+      noteNotifierProvider.select((s) => s.countPinnedNotes),
+    );
+    final maxPinned = 5;
+    final pinnedNotesCount = countPinnedNotes.maybeWhen(
+      success: (count) => count,
+      orElse: () => 0,
+    );
+    final showIsPinned = pinnedNotesCount < maxPinned;
 
     return notes.when(
       initial: () => _buildShimmerGrid(context),
@@ -58,11 +67,12 @@ class NotePage extends ConsumerWidget {
                 noteContent: note.content,
                 noteCategory: note.category,
                 noteId: note.id,
+                showIsPinned: showIsPinned,
                 isPinned: note.isPinned ?? false,
                 onDelete: (value) => notifier.deleteNote(note.id),
-                onUpdate:
-                    (value) =>
-                        notifier.updatePinned(note.id, note.isPinned ?? false),
+                onUpdate: (value) {
+                  notifier.updatePinned(note.id, note.isPinned ?? false);
+                },
                 onTap: () {
                   notifier.set(note);
                   notifier.fetchNoteCategories();

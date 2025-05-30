@@ -1,4 +1,5 @@
 import 'package:eling_app/core/providers/usecase/category/getCategories/get_categories_provider.dart';
+import 'package:eling_app/core/providers/usecase/note/countPinnedNotes/count_pinned_notes_provider.dart';
 import 'package:eling_app/core/providers/usecase/note/createNote/create_note_provider.dart';
 import 'package:eling_app/core/providers/usecase/note/deleteNote/delete_note_provider.dart';
 import 'package:eling_app/core/providers/usecase/note/getNotes/get_notes_provider.dart';
@@ -17,5 +18,6 @@ final noteNotifierProvider = StateNotifierProvider<NoteNotifier, NoteState>((
     ref.watch(updateNoteUseCaseProvider),
     ref.watch(updatePinnedNoteUseCaseProvider),
     ref.watch(deleteNoteUseCaseProvider),
+    ref.watch(countPinnedNotesUseCaseProvider),
   );
 });

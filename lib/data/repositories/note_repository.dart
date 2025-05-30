@@ -37,4 +37,13 @@ class NoteRepository {
   Future<int> deleteNote(String id) async {
     return _database.delete(TableNames.notes, id);
   }
+
+  Future<int> countPinnedNotes() async {
+    final results = await _database.read(
+      TableNames.notes,
+      where: 'is_pinned = ?',
+      whereArgs: [1],
+    );
+    return results.length;
+  }
 }

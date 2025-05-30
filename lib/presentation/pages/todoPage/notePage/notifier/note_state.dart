@@ -5,6 +5,7 @@ abstract class NoteState with _$NoteState {
   const factory NoteState({
     required Resource<List<NoteEntity>> notes,
     required Resource<List<CategoryEntity>> categories,
+    required Resource<int> countPinnedNotes,
 
     // Result
     required Resource<String> saveResult,
@@ -21,6 +22,7 @@ abstract class NoteState with _$NoteState {
   factory NoteState.initial() => NoteState(
     notes: Resource.initial(),
     categories: Resource.initial(),
+    countPinnedNotes: Resource.initial(),
     saveResult: Resource.initial(),
     updateResult: Resource.initial(),
     updateStatusResult: Resource.initial(),

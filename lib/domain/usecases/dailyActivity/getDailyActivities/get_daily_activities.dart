@@ -27,42 +27,11 @@ class GetDailyActivitiesUseCaseImpl
     GetDailyActivitiesRequest request,
   ) async {
     return safeExecute(request, () async {
-      final result = await _taskRepository.getDailyActivities(month: request.month, year: request.year);
-      if (result.isEmpty) {
-        return [];
-      }
+      final result = await _taskRepository.getDailyActivities(
+        month: request.month,
+        year: request.year,
+      );
       return result;
-      // await Future.delayed(const Duration(seconds: 2));
-      // final List<DailyActivityEntity> may = List.generate(31, (index) {
-      //   final date = DateTime(DateTime.now().year, 5, index + 1);
-      //   return DailyActivityEntity(
-      //     date: date,
-      //     sholat: (index % 6),
-      //     gym: true,
-      //     cardio: true,
-      //     coding: true,
-      //     amount: 5,
-      //     calorieControlled: index % 2 == 0,
-      //   );
-      // });
-      // final List<DailyActivityEntity> jun = List.generate(31, (index) {
-      //   final date = DateTime(DateTime.now().year, 6, index + 1);
-      //   return DailyActivityEntity(
-      //     date: date,
-      //     sholat: (index % 6),
-      //     gym: true,
-      //     cardio: true,
-      //     coding: true,
-      //     amount: 6,
-      //     calorieControlled: index % 2 == 0,
-      //   );
-      // });
-      // if (request.month == 5 && request.year == DateTime.now().year) {
-      //   return may;
-      // } else if (request.month == 6 && request.year == DateTime.now().year) {
-      //   return jun;
-      // }
-      // return [];
     });
   }
 }

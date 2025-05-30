@@ -167,7 +167,6 @@ class TaskRepository {
       final calorieControlled = tasksForDay.any(
         (t) => t.category == 'Calorie Controlled',
       );
-      final amount = tasksForDay.length;
 
       dailyActivities.add(
         DailyActivityEntity(
@@ -176,7 +175,7 @@ class TaskRepository {
           gym: gym,
           cardio: cardio,
           coding: coding,
-          amount: amount,
+          amount: 0,
           calorieControlled: calorieControlled,
         ),
       );

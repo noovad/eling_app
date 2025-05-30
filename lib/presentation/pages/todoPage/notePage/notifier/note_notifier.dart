@@ -1,3 +1,4 @@
+import 'package:eling_app/domain/usecases/note/countPinnedNotes/count_pinned_notes.dart';
 import 'package:eling_app/domain/usecases/note/createNote/create_note.dart';
 import 'package:eling_app/domain/usecases/note/createNote/create_note_request.dart';
 import 'package:eling_app/domain/usecases/note/deleteNote/delete_note.dart';
@@ -32,6 +33,7 @@ class NoteNotifier extends StateNotifier<NoteState> {
   final UpdateNoteUseCase updateNoteUseCase;
   final UpdatePinnedNoteUseCase updatePinnedNoteUseCase;
   final DeleteNoteUseCase deleteNoteUseCase;
+  final CountPinnedNotesUseCase countPinnedNotesUseCase;
 
   NoteNotifier(
     this.getNotesUseCase,
@@ -40,8 +42,10 @@ class NoteNotifier extends StateNotifier<NoteState> {
     this.updateNoteUseCase,
     this.updatePinnedNoteUseCase,
     this.deleteNoteUseCase,
+    this.countPinnedNotesUseCase,
   ) : super(NoteState.initial()) {
     fetchNotes();
+    countPinnedNotes();
   }
 
   void fetchNotes() async {
@@ -89,6 +93,7 @@ class NoteNotifier extends StateNotifier<NoteState> {
     result.when(
       success: (data) {
         fetchNotes();
+        clear();
         state = state.copyWith(saveResult: Resource.success('note'));
       },
       failure: (error) {
@@ -131,6 +136,7 @@ class NoteNotifier extends StateNotifier<NoteState> {
     result.when(
       success: (data) {
         fetchNotes();
+        countPinnedNotes();
         state = state.copyWith(saveResult: Resource.success('pinned'));
       },
       failure: (error) {
@@ -149,6 +155,19 @@ class NoteNotifier extends StateNotifier<NoteState> {
       },
       failure: (error) {
         state = state.copyWith(deleteResult: Resource.failure(error));
+      },
+    );
+  }
+
+  void countPinnedNotes() async {
+    final result = await countPinnedNotesUseCase.execute(NoRequest());
+
+    result.when(
+      success: (data) {
+        state = state.copyWith(countPinnedNotes: Resource.success(data));
+      },
+      failure: (message) {
+        state = state.copyWith(countPinnedNotes: Resource.failure(message));
       },
     );
   }
