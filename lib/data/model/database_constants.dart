@@ -58,9 +58,9 @@ class NoteFields {
   static const String title = 'title';
   static const String content = 'content';
   static const String category = 'category';
-  static const String createdAt = 'createdAt';
-  static const String updatedAt = 'updatedAt';
-  static const String isPinned = 'isPinned';
+  static const String createdAt = 'created_at';
+  static const String updatedAt = 'updated_at';
+  static const String isPinned = 'is_pinned';
 
   static const List<String> values = [
     id,

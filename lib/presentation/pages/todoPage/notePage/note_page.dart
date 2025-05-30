@@ -33,19 +33,39 @@ class NotePage extends ConsumerWidget {
             itemCount: notes.length + 1,
             itemBuilder: (context, index) {
               if (index == 0) {
-                return _buildCreateCard(context);
+                return Card(
+                  elevation: 4,
+                  shadowColor: Colors.grey,
+                  child: InkWell(
+                    onTap: () {
+                      notifier.fetchNoteCategories();
+                      appSheet(
+                        side: SheetSide.left,
+                        context: context,
+                        builder: (_) => const NoteSheet(isCreate: true),
+                      );
+                    },
+                    child: const Padding(
+                      padding: AppPadding.all12,
+                      child: Center(child: Icon(Icons.add, size: 42)),
+                    ),
+                  ),
+                );
               }
               final note = notes[index - 1];
               return AppNoteCard(
-                noteTitle: note.title ?? "",
-                noteContent: note.content ?? "",
-                noteCategory: note.category ?? "",
+                noteTitle: note.title,
+                noteContent: note.content,
+                noteCategory: note.category,
                 noteId: note.id,
                 isPinned: note.isPinned ?? false,
-                onDelete: (value) => notifier.deleteNote(value),
-                onUpdate: (value) => notifier.togglePin(value),
+                onDelete: (value) => notifier.deleteNote(note.id),
+                onUpdate:
+                    (value) =>
+                        notifier.updatePinned(note.id, note.isPinned ?? false),
                 onTap: () {
                   notifier.set(note);
+                  notifier.fetchNoteCategories();
                   appSheet(
                     side: SheetSide.left,
                     context: context,
@@ -72,31 +92,27 @@ class NotePage extends ConsumerWidget {
         itemCount: 12, // Create card + 5 shimmer notes
         itemBuilder: (context, index) {
           if (index == 0) {
-            return _buildCreateCard(context);
+            return Card(
+              elevation: 4,
+              shadowColor: Colors.grey,
+              child: InkWell(
+                onTap:
+                    () => {
+                      appSheet(
+                        side: SheetSide.left,
+                        context: context,
+                        builder: (_) => const NoteSheet(isCreate: true),
+                      ),
+                    },
+                child: const Padding(
+                  padding: AppPadding.all12,
+                  child: Center(child: Icon(Icons.add, size: 42)),
+                ),
+              ),
+            );
           }
           return const AppNoteShimmerCard();
         },
-      ),
-    );
-  }
-
-  Widget _buildCreateCard(BuildContext context) {
-    return Card(
-      elevation: 4,
-      shadowColor: Colors.grey,
-      child: InkWell(
-        onTap:
-            () => {
-              appSheet(
-                side: SheetSide.left,
-                context: context,
-                builder: (_) => const NoteSheet(isCreate: true),
-              ),
-            },
-        child: const Padding(
-          padding: AppPadding.all12,
-          child: Center(child: Icon(Icons.add, size: 42)),
-        ),
       ),
     );
   }

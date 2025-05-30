@@ -1,4 +1,5 @@
 import 'package:eling_app/core/utils/result.dart';
+import 'package:eling_app/data/repositories/note_repository.dart';
 import 'package:eling_app/domain/entities/note/note.dart';
 import 'package:eling_app/domain/usecases/base_usecase.dart';
 
@@ -8,96 +9,21 @@ abstract class GetNotesUseCase {
 
 class GetNotesUseCaseImpl extends BaseUsecase<NoRequest, List<NoteEntity>>
     implements GetNotesUseCase {
+  final NoteRepository _noteRepository;
+
   @override
   String get usecaseName => 'GetNotesUseCase';
 
-  GetNotesUseCaseImpl({required super.logger});
+  GetNotesUseCaseImpl({
+    required super.logger,
+    required NoteRepository noteRepository,
+  }) : _noteRepository = noteRepository;
 
   @override
   Future<Result<List<NoteEntity>>> execute(NoRequest request) async {
     return safeExecute(request, () async {
-      await Future.delayed(const Duration(seconds: 2));
-      return [
-        NoteEntity(
-          id: '1',
-          title: 'First Note',
-          content: 'This is the content of the first note.',
-          category: 'Work',
-          isPinned: false,
-        ),
-        NoteEntity(
-          id: '2',
-          title: 'Second Note',
-          content: 'This is the content of the second note.',
-          isPinned: true,
-        ),
-        NoteEntity(
-          id: '2',
-          title: 'Second Note',
-          content: 'This is the content of the second note.',
-          isPinned: true,
-        ),
-        NoteEntity(
-          id: '2',
-          title: 'Second Note',
-          content: 'This is the content of the second note.',
-          isPinned: true,
-        ),
-        NoteEntity(
-          id: '2',
-          title: 'Second Note',
-          content: 'This is the content of the second note.',
-          isPinned: true,
-        ),
-        NoteEntity(
-          id: '2',
-          title: 'Second Note',
-          content: 'This is the content of the second note.',
-          isPinned: true,
-        ),
-        NoteEntity(
-          id: '2',
-          title: 'Second Note',
-          content: 'This is the content of the second note.',
-          isPinned: true,
-        ),
-        NoteEntity(
-          id: '2',
-          title: 'Second Note',
-          content: 'This is the content of the second note.',
-          isPinned: true,
-        ),
-        NoteEntity(
-          id: '2',
-          title: 'Second Note',
-          content: 'This is the content of the second note.',
-          isPinned: true,
-        ),
-        NoteEntity(
-          id: '2',
-          title: 'Second Note',
-          content: 'This is the content of the second note.',
-          isPinned: true,
-        ),
-        NoteEntity(
-          id: '2',
-          title: 'Second Note',
-          content: 'This is the content of the second note.',
-          isPinned: true,
-        ),
-        NoteEntity(
-          id: '2',
-          title: 'Second Note',
-          content: 'This is the content of the second note.',
-          isPinned: true,
-        ),
-        NoteEntity(
-          id: '2',
-          title: 'Second Note',
-          content: 'This is the content of the second note.',
-          isPinned: true,
-        ),
-      ];
+      final result = _noteRepository.readAllNotes();
+      return result;
     });
   }
 }

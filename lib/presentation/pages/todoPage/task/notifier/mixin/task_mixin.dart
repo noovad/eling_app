@@ -157,7 +157,8 @@ mixin TaskMixin on StateNotifier<TaskState> {
   }
 
   void timeChanged(String value) {
-    state = state.copyWith(time: value);
+    final time = value == '00:00' ? null : value;
+    state = state.copyWith(time: time);
   }
 
   void noteChanged(String value) {
