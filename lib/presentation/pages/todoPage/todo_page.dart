@@ -35,18 +35,36 @@ class TodoPage extends ConsumerWidget {
     );
 
     return Scaffold(
-      body: Row(
-        children: [
-          Expanded(child: TaskPage()),
-          Container(
-            color: Colors.white,
-            width: 700,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [SummaryPage(), Expanded(child: NotePage())],
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          double screenWidth = constraints.maxWidth;
+          double taskWidth = screenWidth - 700;
+          if (taskWidth < 700) taskWidth = 700;
+          double totalContentWidth = taskWidth + 700;
+
+          return SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minWidth: totalContentWidth),
+              child: Row(
+                children: [
+                  SizedBox(width: taskWidth, child: TaskPage()),
+                  Container(
+                    color: Colors.white,
+                    width: 700,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        SummaryPage(),
+                        Expanded(child: NotePage()),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }

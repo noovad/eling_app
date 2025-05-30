@@ -9,7 +9,6 @@ class NoteRepository {
     : _database = database ?? ElingDatabase.instance;
 
   Future<NoteEntity> createNote(NoteEntity note) async {
-    print(note);
     return _database.create<NoteEntity>(
       TableNames.notes,
       note,

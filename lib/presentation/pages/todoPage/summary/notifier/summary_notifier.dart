@@ -1,7 +1,6 @@
 import 'package:eling_app/domain/entities/dailyActivity/daily_activity.dart';
 import 'package:eling_app/domain/usecases/dailyActivity/getDailyActivities/get_daily_activities_request.dart';
 import 'package:eling_app/domain/usecases/dailyActivity/getDailyActivities/get_daily_activities.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:eling_app/core/utils/resource.dart';
@@ -20,9 +19,6 @@ class SummaryNotifier extends StateNotifier<SummaryState> {
       state = state.copyWith(dailyActivities: Resource.loading());
       state = state.copyWith(date: DateTime(year, month));
     });
-
-    debugPrint(month.toString());
-    debugPrint(year.toString());
 
     final result = await getDailyActivitiesUseCase.execute(
       GetDailyActivitiesRequest(month: month, year: year),

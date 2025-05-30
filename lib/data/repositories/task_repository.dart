@@ -25,7 +25,8 @@ class TaskRepository {
 
     final tasks = await db.query(
       TableNames.tasks,
-      where: '(${TaskFields.date} < ? AND ${TaskFields.isDone} = 0) OR ${TaskFields.date} = ?',
+      where:
+          '(${TaskFields.date} < ? AND ${TaskFields.isDone} = 0) OR ${TaskFields.date} = ?',
       whereArgs: [todayStr, todayStr],
       orderBy: '${TaskFields.isDone} ASC, ${TaskFields.date} ASC',
     );

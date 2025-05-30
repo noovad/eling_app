@@ -11,18 +11,18 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
-  if (Platform.isLinux || Platform.isWindows || Platform.isMacOS) {
+  if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     await windowManager.ensureInitialized();
 
-    WindowOptions options = const WindowOptions(
-      size: Size(1920, 1080),
+    const Size minAppSize = Size(1280, 720);
+    const WindowOptions options = WindowOptions(
+      minimumSize: minAppSize,
       center: true,
       backgroundColor: Colors.transparent,
-      titleBarStyle: TitleBarStyle.hidden,
     );
 
     windowManager.waitUntilReadyToShow(options, () async {
-      await windowManager.maximize();
+      await windowManager.setMinimumSize(minAppSize);
       await windowManager.show();
       await windowManager.focus();
     });
