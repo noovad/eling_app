@@ -1,6 +1,7 @@
 import 'package:eling_app/core/utils/constants/date_constants.dart';
 import 'package:eling_app/data/eling_database.dart';
 import 'package:eling_app/data/model/database_constants.dart';
+import 'package:eling_app/domain/entities/dailyActivity/daily_activity.dart';
 import 'package:eling_app/domain/entities/task/task.dart';
 import 'package:eling_app/domain/entities/taskGroupResult/task_group_result.dart';
 import 'package:eling_app/presentation/enum/task_type.dart';
@@ -111,5 +112,76 @@ class TaskRepository {
     }
 
     return TaskGroupResultEntity(tasksByType: tasksByType);
+  }
+
+  Future<List<DailyActivityEntity>> getDailyActivities({
+    required int month,
+    required int year,
+  }) async {
+    final db = await _database.database;
+
+    // Format bulan & tahun ke string
+    final monthStr = month.toString().padLeft(2, '0');
+    final yearStr = year.toString();
+
+    // Ambil semua task yang selesai (is_done = true) untuk bulan dan tahun tersebut
+    final result = await db.query(
+      TableNames.tasks,
+      where: '''
+      ${TaskFields.isDone} = ? AND
+      strftime('%m', ${TaskFields.date}) = ? AND
+      strftime('%Y', ${TaskFields.date}) = ?
+    ''',
+      whereArgs: [1, monthStr, yearStr],
+    );
+
+    // Parse ke TaskEntity
+    final tasks = result.map((json) => TaskEntity.fromJson(json)).toList();
+
+    // Kelompokkan berdasarkan tanggal
+    final Map<DateTime, List<TaskEntity>> taskByDate = {};
+    for (final task in tasks) {
+      final date = DateTime.parse(
+        (task.date).toString(),
+      ).copyWith(hour: 0, minute: 0, second: 0, millisecond: 0);
+      taskByDate.putIfAbsent(date, () => []).add(task);
+    }
+
+    final List<DailyActivityEntity> dailyActivities = [];
+
+    for (int day = 1; day <= 31; day++) {
+      DateTime date;
+      try {
+        date = DateTime(year, month, day);
+      } catch (_) {
+        break; // Tanggal tidak valid
+      }
+
+      final tasksForDay = taskByDate[date] ?? [];
+
+      final sholat =
+          tasksForDay.where((t) => t.category == 'Sholat Fardhu').length;
+      final gym = tasksForDay.any((t) => t.category == 'Gym');
+      final cardio = tasksForDay.any((t) => t.category == 'Cardio');
+      final coding = tasksForDay.any((t) => t.category == 'Coding');
+      final calorieControlled = tasksForDay.any(
+        (t) => t.category == 'Calorie Controlled',
+      );
+      final amount = tasksForDay.length;
+
+      dailyActivities.add(
+        DailyActivityEntity(
+          date: date,
+          sholat: sholat,
+          gym: gym,
+          cardio: cardio,
+          coding: coding,
+          amount: amount,
+          calorieControlled: calorieControlled,
+        ),
+      );
+    }
+
+    return dailyActivities;
   }
 }

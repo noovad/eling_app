@@ -22,6 +22,7 @@ void main() async {
     );
 
     windowManager.waitUntilReadyToShow(options, () async {
+      await windowManager.maximize();
       await windowManager.setMinimumSize(minAppSize);
       await windowManager.show();
       await windowManager.focus();

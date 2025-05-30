@@ -15,11 +15,13 @@ class ResultHandler {
       success: (_) {
         SuccessToast.show(context, successAction);
         resetAction();
-        bool isCategory =
-            result.whenOrNull(success: (value) => "category") != "category";
-        if (isCategory && Navigator.of(context).canPop()) {
-          Navigator.of(context).pop();
-        }
+        result.whenOrNull(
+          success: (value) {
+            if (value != "category" && Navigator.of(context).canPop()) {
+              Navigator.of(context).pop();
+            }
+          },
+        );
       },
       failure: (errorMessage) => FailureToast.show(context, failureAction),
     );

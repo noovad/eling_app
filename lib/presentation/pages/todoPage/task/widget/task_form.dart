@@ -69,7 +69,20 @@ class TaskForm extends ConsumerWidget {
         ),
         AppSpaces.h24,
         AppDropdown(
-          items: categories ?? [],
+          items: [
+            if (taskType == TaskType.daily) ...[
+              DropdownItem<String>(id: 'Sholat Fardhu', label: 'Sholat Fardhu'),
+              DropdownItem<String>(id: 'Gym', label: 'Gym'),
+              DropdownItem<String>(id: 'Cardio', label: 'Cardio'),
+              DropdownItem<String>(
+                id: 'Calorie Controlled',
+                label: 'Calorie Controlled',
+              ),
+            ],
+            if (taskType == TaskType.productivity)
+              DropdownItem<String>(id: 'Coding', label: 'Coding'),
+            ...?categories,
+          ],
           label: "Category",
           hint: "Select category",
           enabled: enabled,

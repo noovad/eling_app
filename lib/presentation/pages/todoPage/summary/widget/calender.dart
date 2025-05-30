@@ -1,4 +1,5 @@
 import 'package:eling_app/core/providers/notifier/summary_notifier_provider.dart';
+import 'package:eling_app/core/utils/constants/date_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/widgets/appCard/app_daily_summary_card.dart';
@@ -54,6 +55,10 @@ class Calender extends ConsumerWidget {
                           a.date.year == date.year,
                     )
                     .toList();
+            final isToday =
+                currentDayActivities.isNotEmpty
+                    ? DateConstants.isToday(currentDayActivities.first.date)
+                    : false;
 
             final hasCoding = currentDayActivities.any((a) => a.coding);
             final hasGym = currentDayActivities.any((a) => a.gym);
@@ -71,6 +76,7 @@ class Calender extends ConsumerWidget {
             );
 
             return AppDailySummaryCard(
+              isToday: isToday,
               sholatCount: sholatCount,
               amount: amount,
               hasCoding: hasCoding,
