@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Name=Eling App
+GenericName=ElingApp
+Comment=Track productivity and wellness routines
+Exec=/usr/local/lib/eling_app/eling_app
+Icon=/usr/local/lib/eling_app/eling-app.png
+Terminal=false
+Type=Application
+Categories=Utility;
+Keywords=Productivity;Flutter;
