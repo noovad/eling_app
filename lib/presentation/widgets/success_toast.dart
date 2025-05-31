@@ -22,7 +22,7 @@ class SuccessToast {
 
     AppSimpleToast.show(
       context,
-      child: Text(message, style: TextStyle(color: Colors.white)),
+      child: Text(message),
       position: ToastPosition.bottomLeft,
       duration: Duration(seconds: 2),
       backgroundColor: backgroundColor,

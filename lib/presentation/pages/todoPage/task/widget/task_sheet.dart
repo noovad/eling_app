@@ -76,6 +76,7 @@ class TaskSheet extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          AppSpaces.h40,
           Flexible(
             child: SingleChildScrollView(
               child: TaskForm(
@@ -85,7 +86,7 @@ class TaskSheet extends ConsumerWidget {
               ),
             ),
           ),
-          AppSpaces.h16,
+          AppSpaces.h40,
           Row(
             children: [
               Visibility(

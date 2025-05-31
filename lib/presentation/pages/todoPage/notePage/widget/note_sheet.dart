@@ -23,32 +23,31 @@ class NoteSheet extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          AppSpaces.h40,
           Flexible(child: SingleChildScrollView(child: NoteForm(note: note))),
-          Padding(
-            padding: const EdgeInsets.only(top: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ElevatedButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: const Text('Cancel'),
-                ),
-                AppSpaces.w8,
-                ElevatedButton(
-                  onPressed:
-                      isValid == true
-                          ? () {
-                            isCreate
-                                ? notifier.addNote()
-                                : notifier.updateNote(note!);
+          AppSpaces.h40,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              ElevatedButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('Cancel'),
+              ),
+              AppSpaces.w8,
+              ElevatedButton(
+                onPressed:
+                    isValid == true
+                        ? () {
+                          isCreate
+                              ? notifier.addNote()
+                              : notifier.updateNote(note!);
 
-                            Navigator.of(context).pop();
-                          }
-                          : null,
-                  child: Text(isCreate ? 'Create' : 'Update'),
-                ),
-              ],
-            ),
+                          Navigator.of(context).pop();
+                        }
+                        : null,
+                child: Text(isCreate ? 'Create' : 'Update'),
+              ),
+            ],
           ),
         ],
       ),

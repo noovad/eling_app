@@ -2,12 +2,16 @@ import 'package:eling_app/core/utils/constants/date_constants.dart';
 import 'package:eling_app/data/eling_database.dart';
 import 'package:eling_app/data/model/database_constants.dart';
 import 'package:eling_app/domain/entities/dailyActivity/daily_activity.dart';
+import 'package:eling_app/domain/entities/recurringTask/recurring_task.dart';
 import 'package:eling_app/domain/entities/task/task.dart';
 import 'package:eling_app/domain/entities/taskGroupResult/task_group_result.dart';
 import 'package:eling_app/presentation/enum/task_type.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
 
 class TaskRepository {
   final ElingDatabase _database;
+  static const _lastRunKey = 'lastRecurringTaskGenerationDate';
 
   TaskRepository({ElingDatabase? database})
     : _database = database ?? ElingDatabase.instance;
@@ -120,11 +124,9 @@ class TaskRepository {
   }) async {
     final db = await _database.database;
 
-    // Format bulan & tahun ke string
     final monthStr = month.toString().padLeft(2, '0');
     final yearStr = year.toString();
 
-    // Ambil semua task yang selesai (is_done = true) untuk bulan dan tahun tersebut
     final result = await db.query(
       TableNames.tasks,
       where: '''
@@ -135,10 +137,8 @@ class TaskRepository {
       whereArgs: [1, monthStr, yearStr],
     );
 
-    // Parse ke TaskEntity
     final tasks = result.map((json) => TaskEntity.fromJson(json)).toList();
 
-    // Kelompokkan berdasarkan tanggal
     final Map<DateTime, List<TaskEntity>> taskByDate = {};
     for (final task in tasks) {
       final date = DateTime.parse(
@@ -154,7 +154,7 @@ class TaskRepository {
       try {
         date = DateTime(year, month, day);
       } catch (_) {
-        break; // Tanggal tidak valid
+        break;
       }
 
       final tasksForDay = taskByDate[date] ?? [];
@@ -182,5 +182,43 @@ class TaskRepository {
     }
 
     return dailyActivities;
+  }
+
+  Future<void> generateTodayTasksFromRecurring() async {
+    final db = await _database.database;
+    final todayStr = DateConstants.todayStr;
+
+    final recurringTasksData = await db.query(TableNames.recurringTasks);
+    final recurringTasks =
+        recurringTasksData
+            .map((json) => RecurringTaskEntity.fromJson(json))
+            .toList();
+
+    for (final task in recurringTasks) {
+      final newTask = TaskEntity(
+        id: const Uuid().v4(),
+        title: task.title,
+        type: task.type,
+        category: task.category,
+        date: DateTime.parse(todayStr),
+        isDone: false,
+        createdAt: DateTime.now(),
+      );
+      await createTask(newTask);
+    }
+  }
+
+  Future<void> generateTodayTasksFromRecurringOncePerDay() async {
+    final prefs = await SharedPreferences.getInstance();
+    final todayStr = DateConstants.todayStr;
+
+    final lastRun = prefs.getString(_lastRunKey);
+    if (lastRun == todayStr) {
+      return;
+    }
+
+    await generateTodayTasksFromRecurring();
+
+    await prefs.setString(_lastRunKey, todayStr);
   }
 }

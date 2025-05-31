@@ -165,13 +165,7 @@ class TaskListData extends ConsumerWidget {
       height: height,
       width: double.infinity,
       child: Card(
-        elevation: 4,
-        shadowColor: Colors.grey,
         color: color,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-          side: BorderSide(color: Colors.grey.withOpacity(0.25), width: 1),
-        ),
         child: child,
       ),
     );

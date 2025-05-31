@@ -50,7 +50,7 @@ class TodoPage extends ConsumerWidget {
                 children: [
                   SizedBox(width: taskWidth, child: TaskPage()),
                   Container(
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.surface,
                     width: 700,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

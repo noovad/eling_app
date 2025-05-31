@@ -6,7 +6,7 @@ enum FailureAction { save, update, delete }
 class FailureToast {
   static void show(BuildContext context, FailureAction action) {
     String message;
-    Color backgroundColor = Colors.red;
+    Color backgroundColor = Theme.of(context).colorScheme.error;
 
     switch (action) {
       case FailureAction.save:
@@ -22,7 +22,7 @@ class FailureToast {
 
     AppSimpleToast.show(
       context,
-      child: Text(message, style: TextStyle(color: Colors.white)),
+      child: Text(message),
       position: ToastPosition.bottomLeft,
       duration: Duration(seconds: 2),
       backgroundColor: backgroundColor,

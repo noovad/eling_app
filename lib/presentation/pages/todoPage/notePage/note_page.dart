@@ -43,8 +43,6 @@ class NotePage extends ConsumerWidget {
             itemBuilder: (context, index) {
               if (index == 0) {
                 return Card(
-                  elevation: 4,
-                  shadowColor: Colors.grey,
                   child: InkWell(
                     onTap: () {
                       notifier.fetchNoteCategories();
@@ -103,8 +101,6 @@ class NotePage extends ConsumerWidget {
         itemBuilder: (context, index) {
           if (index == 0) {
             return Card(
-              elevation: 4,
-              shadowColor: Colors.grey,
               child: InkWell(
                 onTap:
                     () => {

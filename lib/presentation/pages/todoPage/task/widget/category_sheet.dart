@@ -77,12 +77,13 @@ class _CategorySheetState extends ConsumerState<CategorySheet> {
         resourceCategories.whenOrNull(success: (value) => value) ?? [];
 
     return Padding(
-      padding: AppPadding.all16,
+      padding: AppPadding.h16,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         spacing: AppSizes.dimen16,
         children: [
+          AppSpaces.h40,
           AppTextField(
             label: "Title",
             hint: "Enter title",
@@ -112,6 +113,7 @@ class _CategorySheetState extends ConsumerState<CategorySheet> {
               ),
             ],
           ),
+          AppSpaces.h16,
           Expanded(
             child: SingleChildScrollView(
               child: ListView.builder(

@@ -39,30 +39,33 @@ class TaskPage extends ConsumerWidget {
         tabBarChild: SizedBox(
           height: AppSizes.dimen60,
           child: AppPopOver(
-            padding: AppPadding.all12,
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              spacing: AppSizes.dimen12,
-              children: [
-                categoryButton(
-                  context,
-                  CategoryType.daily,
-                  "Daily Category",
-                  notifier,
-                ),
-                categoryButton(
-                  context,
-                  CategoryType.productivity,
-                  "Productivity Category",
-                  notifier,
-                ),
-                categoryButton(
-                  context,
-                  CategoryType.note,
-                  "Note Category",
-                  notifier,
-                ),
-              ],
+            content: Padding(
+              padding: AppPadding.all24,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                spacing: AppSizes.dimen12,
+                children: [
+                  categoryButton(
+                    context,
+                    CategoryType.productivity,
+                    "Productivity Category",
+                    notifier,
+                  ),
+                  categoryButton(
+                    context,
+                    CategoryType.daily,
+                    "Daily Category",
+                    notifier,
+                  ),
+                  categoryButton(
+                    context,
+                    CategoryType.note,
+                    "Note Category",
+                    notifier,
+                  ),
+                ],
+              ),
             ),
             trigger: Material(
               color: Colors.black,

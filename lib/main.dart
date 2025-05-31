@@ -1,4 +1,5 @@
 import 'package:eling_app/app.dart';
+import 'package:eling_app/data/repositories/task_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -8,6 +9,7 @@ import 'dart:io';
 void main() async {
   sqfliteFfiInit();
   databaseFactory = databaseFactoryFfi;
+  final TaskRepository taskRepository = TaskRepository();
 
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -28,6 +30,8 @@ void main() async {
       await windowManager.focus();
     });
   }
+
+  await taskRepository.generateTodayTasksFromRecurringOncePerDay();
 
   runApp(const ProviderScope(child: MyApp()));
 }

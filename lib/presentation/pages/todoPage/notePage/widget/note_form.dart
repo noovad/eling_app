@@ -2,10 +2,10 @@ import 'package:eling_app/core/providers/notifier/note_notifier_provider.dart';
 import 'package:eling_app/presentation/utils/extensions/input_error_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:eling_app/domain/entities/note/note.dart';
+import 'package:flutter_ui/shared/sizes/app_sizes.dart';
 import 'package:flutter_ui/widgets/appDropdown/app_dropdown.dart';
 import 'package:flutter_ui/widgets/appField/app_text_field.dart';
-import 'package:flutter_ui/shared/sizes/app_sizes.dart';
-import 'package:eling_app/domain/entities/note/note.dart';
 
 class NoteForm extends ConsumerWidget {
   final NoteEntity? note;
