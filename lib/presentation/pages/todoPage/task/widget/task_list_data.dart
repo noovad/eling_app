@@ -10,6 +10,7 @@ import 'package:eling_app/presentation/pages/todoPage/task/widget/task_sheet.dar
 import 'package:eling_app/presentation/utils/task_converters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
+import 'package:flutter_ui/shared/sizes/app_spaces.dart';
 import 'package:flutter_ui/widgets/appCard/app_task_card.dart';
 import 'package:flutter_ui/widgets/appCard/app_task_shimmer_card.dart';
 import 'package:flutter_ui/widgets/appSheet/app_sheet.dart';
@@ -64,9 +65,22 @@ class TaskListData extends ConsumerWidget {
                       ),
                 );
               },
-              child: const Padding(
+              child: Padding(
                 padding: AppPadding.h8,
-                child: Icon(Icons.add, size: 24),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.add, size: 24),
+                    AppSpaces.w4,
+                    Text(
+                      taskType == TaskType.daily
+                          ? 'Daily Task'
+                          : 'Productivity Task',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -164,10 +178,7 @@ class TaskListData extends ConsumerWidget {
     return SizedBox(
       height: height,
       width: double.infinity,
-      child: Card(
-        color: color,
-        child: child,
-      ),
+      child: Card(color: color, child: child),
     );
   }
 }
