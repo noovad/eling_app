@@ -19,14 +19,11 @@ class FinanceInfo extends StatelessWidget {
           leading: true,
           icon: Icons.account_balance_wallet,
           subtitle: 'Rp 10.000 K',
-          onTap: () {
-            // Handle tap
-          },
         ),
         AppFinanceCard(
           title: 'Income',
           leading: true,
-          icon: Icons.account_balance_wallet,
+          icon: Icons.trending_up,
           subtitle: 'Rp 10.000 K',
           onTap: () {
             // Handle tap
@@ -35,31 +32,26 @@ class FinanceInfo extends StatelessWidget {
         AppFinanceCard(
           title: 'Savings',
           leading: true,
-          icon: Icons.account_balance_wallet,
+          icon: Icons.move_to_inbox,
           subtitle: 'Rp 10.000 K',
-          onTap: () {
-            // Handle tap
-          },
         ),
         SizedBox.shrink(),
 
         AppFinanceCard(
-          title: 'Outcome',
+          title: 'Expense',
           leading: true,
-          icon: Icons.account_balance_wallet,
+          icon: Icons.trending_down,
           subtitle: 'Rp 10.000 K',
           onTap: () {
             // Handle tap
           },
         ),
         AppFinanceCard(
-          title: 'Total Income',
+          title: 'Additional income.',
           leading: true,
-          icon: Icons.account_balance_wallet,
-          subtitle: 'Rp 10.000 K',
-          onTap: () {
-            // Handle tap
-          },
+          highlight: true,
+          icon: Icons.rocket,
+          subtitle: 'Is Required',
         ),
       ],
     );

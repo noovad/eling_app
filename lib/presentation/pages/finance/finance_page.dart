@@ -21,13 +21,12 @@ class FinancePage extends StatelessWidget {
               color: Theme.of(context).colorScheme.surface,
               width: 700,
               child: Column(
-                spacing: 16,
+                spacing: 24,
                 children: [
                   FinanceInfo(),
-                  Divider(height: 4),
+                  Divider(thickness: 2),
                   SizedBox(height: 300, child: BalanceSection()),
-                  Divider(height: 4),
-                  Expanded(child: Container(color: Colors.red)),
+                  Divider(thickness: 2),
                 ],
               ),
             ),
