@@ -28,30 +28,51 @@ class MonthlyTable extends StatelessWidget {
             columns: const [
               DataColumn(
                 columnWidth: FlexColumnWidth(2),
-                label: Text(
-                  'Date',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                label: Row(
+                  children: [
+                    Icon(Icons.calendar_today, size: 16),
+                    SizedBox(width: 4),
+                    Text('Date', style: TextStyle(fontWeight: FontWeight.bold)),
+                  ],
                 ),
               ),
               DataColumn(
                 columnWidth: FlexColumnWidth(4),
-                label: Text(
-                  'Title',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                label: Row(
+                  children: [
+                    Icon(Icons.title, size: 16),
+                    SizedBox(width: 4),
+                    Text(
+                      'Title',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
               ),
               DataColumn(
                 columnWidth: FlexColumnWidth(2),
-                label: Text(
-                  'Category',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                label: Row(
+                  children: [
+                    Icon(Icons.topic, size: 16),
+                    SizedBox(width: 4),
+                    Text(
+                      'Category',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
               ),
               DataColumn(
                 columnWidth: FlexColumnWidth(2),
-                label: Text(
-                  'Ammount',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                label: Row(
+                  children: [
+                    Icon(Icons.attach_money, size: 16),
+                    SizedBox(width: 4),
+                    Text(
+                      'Ammount',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
               ),
             ],

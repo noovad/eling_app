@@ -9,7 +9,7 @@ class TransactionTypeDropdown extends StatelessWidget {
     return AppDropdown<Object?>(
       showUnselect: false,
       withLabel: false,
-      initialValue: const DropdownItem(id: 'all', label: 'All'),
+      selectedItem: const DropdownItem(id: 'all', label: 'All'),
       items: const [
         DropdownItem(id: 'all', label: 'All'),
         DropdownItem(id: 'income', label: 'Income'),

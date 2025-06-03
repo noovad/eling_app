@@ -27,7 +27,7 @@ class _CategorySelectorState extends State<ButtonState> {
     setState(() {
       active = value;
     });
-    widget.onChanged(value); // Notify parent
+    widget.onChanged(value);
   }
 
   @override

@@ -17,30 +17,58 @@ class YearlyTable extends StatelessWidget {
             columns: const [
               DataColumn(
                 columnWidth: FlexColumnWidth(2),
-                label: Text(
-                  'Month',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+
+                label: Row(
+                  children: [
+                    Icon(Icons.calendar_today, size: 16),
+                    SizedBox(width: 4),
+                    Text(
+                      'Month',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
               ),
               DataColumn(
                 columnWidth: FlexColumnWidth(2),
-                label: Text(
-                  'Income',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+
+                label: Row(
+                  children: [
+                    Icon(Icons.trending_up, size: 16),
+                    SizedBox(width: 4),
+                    Text(
+                      'Income',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
               ),
               DataColumn(
                 columnWidth: FlexColumnWidth(2),
-                label: Text(
-                  'Expenses',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+
+                label: Row(
+                  children: [
+                    Icon(Icons.trending_down, size: 16),
+                    SizedBox(width: 4),
+                    Text(
+                      'Expenses',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
               ),
               DataColumn(
                 columnWidth: FlexColumnWidth(2),
-                label: Text(
-                  'Savings',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+
+                label: Row(
+                  children: [
+                    Icon(Icons.move_to_inbox, size: 16),
+                    SizedBox(width: 4),
+                    Text(
+                      'Savings',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
               ),
             ],
