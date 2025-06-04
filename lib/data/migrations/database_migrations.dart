@@ -2,13 +2,16 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:eling_app/data/model/database_constants.dart';
 
 class DatabaseMigrations {
-  static const int currentVersion = 1;
+  static const int currentVersion = 2;
 
   static Future<void> onCreate(Database db, int version) async {
     await _createTasksTable(db);
     await _createRecurringTasksTable(db);
     await _createNotesTable(db);
     await _createCategoriesTable(db);
+    await _createTransactionsTable(db);
+    await _createAccountsTable(db);
+    await _createTransactionCategoriesTable(db);
   }
 
   static Future<void> onUpgrade(
@@ -16,7 +19,7 @@ class DatabaseMigrations {
     int oldVersion,
     int newVersion,
   ) async {
-    if (oldVersion < 1) {
+    if (oldVersion < newVersion) {
       await _createTasksTable(db);
       await _createRecurringTasksTable(db);
       await _createNotesTable(db);
@@ -97,6 +100,55 @@ class DatabaseMigrations {
         ${CategoryFields.id} $idType,
         ${CategoryFields.name} $textType,
         ${CategoryFields.type} $textType
+      )
+    ''');
+  }
+
+  static Future<void> _createTransactionsTable(Database db) async {
+    const idType = 'TEXT PRIMARY KEY';
+    const textType = 'TEXT';
+    const dateTimeType = 'TEXT';
+    const doubleType = 'REAL';
+    const transactionType =
+        "TEXT CHECK(type IN ('income', 'expense', 'savings', 'transfer'))";
+
+    await db.execute('''
+      CREATE TABLE transactions (
+        id $idType,
+        type $transactionType,
+        title $textType,
+        date $dateTimeType,
+        amount $doubleType,
+        category $textType,
+        source $textType,
+        target $textType,
+        description $textType
+      )
+    ''');
+  }
+
+  static Future<void> _createAccountsTable(Database db) async {
+    const idType = 'TEXT PRIMARY KEY';
+    const textType = 'TEXT';
+    const accountType = "TEXT CHECK(type IN ('balance', 'saving'))";
+
+    await db.execute('''
+      CREATE TABLE accounts (
+        id $idType,
+        type $accountType,
+        title $textType
+      )
+    ''');
+  }
+
+  static Future<void> _createTransactionCategoriesTable(Database db) async {
+    const idType = 'TEXT PRIMARY KEY';
+    const textType = 'TEXT';
+
+    await db.execute('''
+      CREATE TABLE ${TableNames.transactionCategories} (
+        ${TransactionCategoryFields.id} $idType,
+        ${TransactionCategoryFields.name} $textType,
       )
     ''');
   }
