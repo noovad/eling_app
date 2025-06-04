@@ -27,14 +27,6 @@ class TransactionCategoryRepository {
         .toList();
   }
 
-  Future<int> updateCategory(TransactionCategoryEntity category) async {
-    return _database.update(
-      'transaction_categories',
-      category.toJson(),
-      category.id,
-    );
-  }
-
   Future<int> deleteCategory(String id) async {
     return _database.delete('transaction_categories', id);
   }
