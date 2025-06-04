@@ -19,11 +19,16 @@ class DatabaseMigrations {
     int oldVersion,
     int newVersion,
   ) async {
-    if (oldVersion < newVersion) {
+    if (oldVersion < 1) {
       await _createTasksTable(db);
       await _createRecurringTasksTable(db);
       await _createNotesTable(db);
       await _createCategoriesTable(db);
+    }
+    if (oldVersion < 2) {
+      await _createTransactionsTable(db);
+      await _createAccountsTable(db);
+      await _createTransactionCategoriesTable(db);
     }
   }
 
@@ -148,7 +153,7 @@ class DatabaseMigrations {
     await db.execute('''
       CREATE TABLE ${TableNames.transactionCategories} (
         ${TransactionCategoryFields.id} $idType,
-        ${TransactionCategoryFields.name} $textType,
+        ${TransactionCategoryFields.name} $textType
       )
     ''');
   }
