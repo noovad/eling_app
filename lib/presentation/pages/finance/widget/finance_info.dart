@@ -9,7 +9,6 @@ class FinanceInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView.count(
       crossAxisCount: 3,
-
       crossAxisSpacing: 24,
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),

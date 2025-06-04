@@ -14,7 +14,13 @@ class MonthlyTable extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(width: 300, child: TransactionTypeDropdown()),
+            SizedBox(
+              width: 300,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 4),
+                child: TransactionTypeDropdown(),
+              ),
+            ),
             Expanded(child: AppDateNav()),
           ],
         ),

@@ -13,6 +13,7 @@ class FinanceTable extends StatelessWidget {
     return AppTabs(
       length: 2,
       tabBar: [Tab(text: 'Monthly'), Tab(text: 'Yearly')],
+      tabBarView: [MonthlyTable(), YearlyTable()],
       tabBarChild: Material(
         elevation: 4,
         borderRadius: BorderRadius.circular(8),
@@ -35,7 +36,6 @@ class FinanceTable extends StatelessWidget {
           ),
         ),
       ),
-      tabBarView: [MonthlyTable(), YearlyTable()],
     );
   }
 }

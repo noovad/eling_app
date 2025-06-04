@@ -1,6 +1,7 @@
 import 'package:eling_app/presentation/pages/finance/widget/balance_sheet.dart';
 import 'package:eling_app/presentation/pages/finance/widget/finance_account.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ui/shared/sizes/app_padding.dart';
 import 'package:flutter_ui/widgets/appPopOver/app_pop_over.dart';
 import 'package:flutter_ui/widgets/appSheet/app_sheet.dart';
 import 'package:flutter_ui/widgets/appTabs/app_tabs.dart';
@@ -21,34 +22,39 @@ class BalanceSection extends StatelessWidget {
         type: MaterialType.card,
         color: Theme.of(context).colorScheme.primary,
         child: AppPopOver(
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                title: Text('Balance'),
-                onTap: () {
-                  appSheet(
-                    context: context,
-                    side: SheetSide.left,
-                    builder: (context) {
-                      return BalanceSheet();
-                    },
-                  );
-                },
-              ),
-              ListTile(
-                title: Text('Savings'),
-                onTap: () {
-                  appSheet(
-                    context: context,
-                    side: SheetSide.left,
-                    builder: (context) {
-                      return BalanceSheet();
-                    },
-                  );
-                },
-              ),
-            ],
+          content: Padding(
+            padding: AppPadding.all16,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              spacing: 2,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    appSheet(
+                      context: context,
+                      side: SheetSide.left,
+                      builder: (context) {
+                        return BalanceSheet();
+                      },
+                    );
+                  },
+                  child: const Text('Balance'),
+                ),
+                const SizedBox(height: 8),
+                ElevatedButton(
+                  onPressed: () {
+                    appSheet(
+                      context: context,
+                      side: SheetSide.left,
+                      builder: (context) {
+                        return BalanceSheet();
+                      },
+                    );
+                  },
+                  child: const Text('Savings'),
+                ),
+              ],
+            ),
           ),
           trigger: SizedBox.square(
             dimension: 60,
