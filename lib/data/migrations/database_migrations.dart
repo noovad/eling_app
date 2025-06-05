@@ -144,7 +144,7 @@ class DatabaseMigrations {
       CREATE TABLE accounts (
         ${AccountFields.id} $idType,
         ${AccountFields.type} $accountType,
-        ${AccountFields.title} $textType,
+        ${AccountFields.name} $textType,
         ${AccountFields.balance} $doubleType,
         ${AccountFields.createdAt} $dateTimeType,
         ${AccountFields.updatedAt} $dateTimeType

@@ -1,4 +1,5 @@
 import 'package:eling_app/core/providers/notifier/finance_notifier_provider.dart';
+import 'package:eling_app/core/utils/constants/string_constants.dart';
 import 'package:eling_app/domain/entities/account/account.dart';
 import 'package:eling_app/domain/entities/transaction/transaction.dart';
 import 'package:eling_app/presentation/utils/extensions/input_error_message.dart';
@@ -28,25 +29,20 @@ class TransactionForm extends ConsumerWidget {
     final category = ref.watch(
       financeNotifierProvider.select((s) => s.category),
     );
-    final description = ref.watch(
-      financeNotifierProvider.select((s) => s.description),
-    );
     final transactionCategories = ref.watch(
       financeNotifierProvider.select((s) => s.transactionCategories),
     );
 
-    final categoryItems =
-        transactionCategories.whenOrNull(
-          success:
-              (categories) =>
-                  categories
-                      .map(
-                        (category) =>
-                            DropdownItem(id: category.id, label: category.name),
-                      )
-                      .toList(),
-        ) ??
-        const [];
+    final categoryItems = transactionCategories.whenOrNull(
+      success:
+          (categories) =>
+              categories
+                  .map(
+                    (category) =>
+                        DropdownItem(id: category.id, label: category.name),
+                  )
+                  .toList(),
+    );
 
     final accounts = ref.watch(
       financeNotifierProvider.select((state) => state.accounts),
@@ -76,8 +72,9 @@ class TransactionForm extends ConsumerWidget {
           hint: 'Enter title...',
           errorText: title.displayError?.message,
           isRequired: true,
-          onChanged: notifier.updateTitle,
+          onChanged: notifier.titleChanged,
           initialValue: title.value,
+          maxLines: 1,
         ),
         AppSpaces.h24,
         AppDateField(
@@ -85,12 +82,11 @@ class TransactionForm extends ConsumerWidget {
           hint: 'Select date...',
           initialValue:
               date.value.isNotEmpty ? DateTime.tryParse(date.value) : null,
-          onChanged: (DateTime? date) {
-            if (date != null) {
-              notifier.updateDate(date.toIso8601String());
-            }
+          onChanged: (date) {
+            notifier.dateChanged(date.toIso8601String());
           },
           isRequired: true,
+          errorText: date.displayError?.message,
         ),
         AppSpaces.h24,
         AppTextField(
@@ -103,13 +99,38 @@ class TransactionForm extends ConsumerWidget {
           isRequired: true,
           prefixText: 'Rp ',
           hint: 'Enter amount...',
-          initialValue: amount.value,
           errorText: amount.displayError?.message,
-          onChanged: notifier.updateAmount,
+          onChanged: notifier.amountChanged,
         ),
         AppSpaces.h24,
         Visibility(
-          visible: type != TransactionType.income,
+          visible: type == TransactionType.expense,
+          maintainSize: false,
+          maintainAnimation: false,
+          maintainState: true,
+          child: Column(
+            children: [
+              AppDropdown<String>(
+                items: categoryItems ?? [],
+                label: 'Category',
+                withLabel: true,
+                showUnselect: false,
+                hint: 'Select category...',
+                isRequired: true,
+                errorText: category.displayError?.message,
+                onChanged: (DropdownItem<String>? item) {
+                  if (item != null) {
+                    notifier.categoryChanged(item.label);
+                  }
+                },
+              ),
+              AppSpaces.h24,
+            ],
+          ),
+        ),
+        Visibility(
+          visible:
+              type != TransactionType.income || type == TransactionType.expense,
           maintainSize: false,
           maintainAnimation: false,
           maintainState: true,
@@ -122,7 +143,7 @@ class TransactionForm extends ConsumerWidget {
                           (account) => DropdownItem(
                             id: account.id,
                             label:
-                                "${account.title} (${_formatBalance(account.balance ?? 0)})",
+                                "${account.name} (${StringConstants.formatCurrency(account.balance ?? 0)})",
                           ),
                         )
                         .toList() ??
@@ -135,7 +156,7 @@ class TransactionForm extends ConsumerWidget {
                 errorText: source.displayError?.message,
                 onChanged: (DropdownItem<String>? item) {
                   if (item != null) {
-                    notifier.updateSource(item.id);
+                    notifier.sourceChanged(item.id);
                   }
                 },
               ),
@@ -143,6 +164,7 @@ class TransactionForm extends ConsumerWidget {
             ],
           ),
         ),
+
         Visibility(
           visible: type == TransactionType.savings,
           maintainSize: false,
@@ -157,12 +179,12 @@ class TransactionForm extends ConsumerWidget {
                           (account) => DropdownItem(
                             id: account.id,
                             label:
-                                "${account.title} (${_formatBalance(account.balance ?? 0)})",
+                                "${account.name} (${StringConstants.formatCurrency(account.balance ?? 0)})",
                           ),
                         )
                         .toList() ??
                     [],
-                label: 'Target',
+                label: 'Target Savings Account',
                 withLabel: true,
                 showUnselect: false,
                 hint: 'Select target...',
@@ -170,7 +192,7 @@ class TransactionForm extends ConsumerWidget {
                 errorText: target.displayError?.message,
                 onChanged: (DropdownItem<String>? item) {
                   if (item != null) {
-                    notifier.updateTarget(item.id);
+                    notifier.targetChanged(item.id);
                   }
                 },
               ),
@@ -179,7 +201,9 @@ class TransactionForm extends ConsumerWidget {
           ),
         ),
         Visibility(
-          visible: type == TransactionType.income,
+          visible:
+              type == TransactionType.income ||
+              type == TransactionType.transfer,
           maintainSize: false,
           maintainAnimation: false,
           maintainState: true,
@@ -192,12 +216,12 @@ class TransactionForm extends ConsumerWidget {
                           (account) => DropdownItem(
                             id: account.id,
                             label:
-                                "${account.title} (${_formatBalance(account.balance ?? 0)})",
+                                "${account.name} (${StringConstants.formatCurrency(account.balance ?? 0)})",
                           ),
                         )
                         .toList() ??
                     [],
-                label: 'Target',
+                label: 'Target Balance Account',
                 withLabel: true,
                 showUnselect: false,
                 hint: 'Select target...',
@@ -205,67 +229,7 @@ class TransactionForm extends ConsumerWidget {
                 errorText: target.displayError?.message,
                 onChanged: (DropdownItem<String>? item) {
                   if (item != null) {
-                    notifier.updateTarget(item.id);
-                  }
-                },
-              ),
-              AppSpaces.h24,
-            ],
-          ),
-        ),
-        Visibility(
-          visible: type == TransactionType.transfer,
-          maintainSize: false,
-          maintainAnimation: false,
-          maintainState: true,
-          child: Column(
-            children: [
-              AppDropdown<String>(
-                items:
-                    balanceAccounts
-                        ?.map(
-                          (account) => DropdownItem(
-                            id: account.id,
-                            label:
-                                "${account.title} (${_formatBalance(account.balance ?? 0)})",
-                          ),
-                        )
-                        .toList() ??
-                    [],
-                label: 'Target',
-                withLabel: true,
-                showUnselect: false,
-                hint: 'Select target...',
-                isRequired: true,
-                errorText: target.displayError?.message,
-                onChanged: (DropdownItem<String>? item) {
-                  if (item != null) {
-                    notifier.updateTarget(item.id);
-                  }
-                },
-              ),
-              AppSpaces.h24,
-            ],
-          ),
-        ),
-        Visibility(
-          visible: type == TransactionType.expense,
-          maintainSize: false,
-          maintainAnimation: false,
-          maintainState: true,
-          child: Column(
-            children: [
-              AppDropdown<String>(
-                items: categoryItems,
-                label: 'Category',
-                withLabel: true,
-                showUnselect: false,
-                hint: 'Select category...',
-                isRequired: true,
-                errorText: category.displayError?.message,
-                onChanged: (DropdownItem<String>? item) {
-                  if (item != null) {
-                    notifier.updateCategory(item.id);
+                    notifier.targetChanged(item.id);
                   }
                 },
               ),
@@ -277,20 +241,9 @@ class TransactionForm extends ConsumerWidget {
           label: 'Description',
           maxLines: 3,
           hint: 'Enter description...',
-          initialValue: description,
-          onChanged: notifier.updateDescription,
+          onChanged: notifier.descriptionChanged,
         ),
       ],
     );
-  }
-
-  String _formatBalance(double balance) {
-    final formattedBalance = balance
-        .toStringAsFixed(0)
-        .replaceAllMapped(
-          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-          (Match m) => '${m[1]},',
-        );
-    return 'Rp $formattedBalance';
   }
 }

@@ -29,11 +29,7 @@ class _TransactionSheetState extends ConsumerState<TransactionSheet> {
       child: Column(
         children: [
           AppSpaces.h40,
-          ButtonState(
-            onChanged: (transactionType) {
-              notifier.updateTransactionType(transactionType);
-            },
-          ),
+          ButtonState(onChanged: notifier.transactionTypeChanged),
           TransactionForm(type: type),
           AppSpaces.h40,
           Row(
@@ -45,11 +41,7 @@ class _TransactionSheetState extends ConsumerState<TransactionSheet> {
               AppSpaces.w8,
               ElevatedButton(
                 onPressed:
-                    isFormValid
-                        ? () {
-                          notifier.createTransaction();
-                        }
-                        : null,
+                    isFormValid ? () => notifier.createTransaction() : null,
                 child: const Text('Save'),
               ),
             ],

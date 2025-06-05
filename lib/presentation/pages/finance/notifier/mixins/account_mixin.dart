@@ -6,6 +6,7 @@ import 'package:eling_app/domain/usecases/account/deleteAccount/delete_account_r
 import 'package:eling_app/domain/usecases/account/deleteAccount/delete_account_usecase.dart';
 import 'package:eling_app/domain/usecases/account/getAccounts/get_accounts_request.dart';
 import 'package:eling_app/domain/usecases/account/getAccounts/get_accounts_usecase.dart';
+import 'package:eling_app/presentation/pages/finance/models/finance_account_name.dart';
 import 'package:eling_app/presentation/pages/finance/notifier/finance_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
@@ -30,12 +31,12 @@ mixin AccountMixin on StateNotifier<FinanceState> {
     );
   }
 
-  Future<void> createAccount(String title, AccountType type) async {
-    state = state.copyWith(createAccountResult: const Resource.loading());
+  Future<void> createAccount(AccountType type) async {
+    state = state.copyWith(saveResult: const Resource.loading());
 
     final account = AccountEntity(
       id: const Uuid().v4(),
-      title: title,
+      name: state.accountName.value,
       type: type,
       balance: 0,
       createdAt: DateTime.now(),
@@ -46,16 +47,13 @@ mixin AccountMixin on StateNotifier<FinanceState> {
     );
 
     result.when(
-      success: (createdAccount) {
-        state = state.copyWith(
-          createAccountResult: Resource.success(createdAccount),
-        );
-        getAccounts();
+      success: (_) {
         resetAccountForm();
+        getAccounts();
+        state = state.copyWith(saveResult: Resource.success('account'));
       },
-      failure: (error) {
-        print('Error creating account: $error');
-        state = state.copyWith(createAccountResult: Resource.failure(error));
+      failure: (_) {
+        state = state.copyWith(saveResult: Resource.failure('account'));
       },
     );
   }
@@ -68,33 +66,26 @@ mixin AccountMixin on StateNotifier<FinanceState> {
     result.when(
       success: (_) {
         getAccounts();
+        state = state.copyWith(deleteResult: Resource.success('account'));
       },
-      failure: (_) {},
+      failure: (_) {
+        state = state.copyWith(deleteResult: Resource.failure('account'));
+      },
     );
   }
 
-  void updateNewAccountTitle(String value) {
-    state = state.copyWith(newAccountTitle: value);
-  }
+  void accountNameChanged(String value) {
+    final accountName = FinanceAccountNameInput.dirty(value: value);
+    final isValid = accountName.isValid;
 
-  void updateNewAccountType(AccountType type) {
-    state = state.copyWith(newAccountType: type);
-  }
-
-  void updateNewAccountBalance(double value) {
-    state = state.copyWith(newAccountBalance: value);
-  }
-
-  bool isAccountFormValid() {
-    return state.newAccountTitle.isNotEmpty;
+    state = state.copyWith(
+      accountName: accountName,
+      isAccountFormValid: isValid,
+    );
   }
 
   void resetAccountForm() {
-    state = state.copyWith(
-      newAccountTitle: '',
-      newAccountType: AccountType.balance,
-      newAccountBalance: 0.0,
-      createAccountResult: const Resource.initial(),
-    );
+    final account = FinanceAccountNameInput.pure();
+    state = state.copyWith(accountName: account, isAccountFormValid: false);
   }
 }

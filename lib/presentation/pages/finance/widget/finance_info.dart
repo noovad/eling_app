@@ -1,10 +1,11 @@
 import 'package:eling_app/core/providers/notifier/finance_notifier_provider.dart';
+import 'package:eling_app/core/utils/constants/string_constants.dart';
 import 'package:eling_app/domain/entities/detail_summary/detail_summary.dart';
 import 'package:eling_app/presentation/pages/finance/widget/app_finance_card.dart';
+import 'package:eling_app/presentation/pages/finance/widget/finance_card_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
-import 'package:intl/intl.dart';
 
 class FinanceInfo extends ConsumerWidget {
   const FinanceInfo({super.key});
@@ -15,44 +16,40 @@ class FinanceInfo extends ConsumerWidget {
       financeNotifierProvider.select((state) => state.financeSummary),
     );
 
-    final currencyFormatter = NumberFormat.currency(
-      locale: 'id',
-      symbol: 'Rp ',
-      decimalDigits: 0,
-    );
-
     return Padding(
       padding: AppPadding.all12,
       child: summary.when(
-        initial: () => const Center(child: Text('No data available')),
-        loading: () => const Center(child: CircularProgressIndicator()),
+        initial: () => _buildShimmerLayout(),
+        loading: () => _buildShimmerLayout(),
         success: (data) {
           return GridView.count(
             crossAxisCount: 3,
             crossAxisSpacing: 24,
+            mainAxisSpacing: 16,
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             childAspectRatio: 3,
             children: [
               AppFinanceCard(
                 title: 'Total Balance',
                 leading: true,
                 icon: Icons.account_balance_wallet,
-                subtitle: currencyFormatter.format(data.totalBalance),
+                subtitle: StringConstants.formatShortCurrency(
+                  data.totalBalance,
+                ),
               ),
 
               AppFinanceCard(
                 title: 'Income',
                 leading: true,
                 icon: Icons.trending_up,
-                subtitle: currencyFormatter.format(data.totalIncome),
+                subtitle: StringConstants.formatShortCurrency(data.totalIncome),
                 onTap:
                     () => _showDetailsDialog(
                       context,
                       'Income Details',
                       data.incomeSummaries,
                       data.totalIncome,
-                      currencyFormatter,
                     ),
               ),
 
@@ -60,7 +57,9 @@ class FinanceInfo extends ConsumerWidget {
                 title: 'Savings',
                 leading: true,
                 icon: Icons.move_to_inbox,
-                subtitle: currencyFormatter.format(data.totalSavings),
+                subtitle: StringConstants.formatShortCurrency(
+                  data.totalSavings,
+                ),
               ),
 
               SizedBox.shrink(),
@@ -69,14 +68,15 @@ class FinanceInfo extends ConsumerWidget {
                 title: 'Expense',
                 leading: true,
                 icon: Icons.trending_down,
-                subtitle: currencyFormatter.format(data.totalExpense),
+                subtitle: StringConstants.formatShortCurrency(
+                  data.totalExpense,
+                ),
                 onTap:
                     () => _showDetailsDialog(
                       context,
                       'Expense Details',
                       data.expenseSummaries,
                       data.totalExpense,
-                      currencyFormatter,
                     ),
               ),
 
@@ -101,12 +101,33 @@ class FinanceInfo extends ConsumerWidget {
     );
   }
 
+  Widget _buildShimmerLayout() {
+    return GridView.count(
+      crossAxisCount: 3,
+      crossAxisSpacing: 24,
+      mainAxisSpacing: 16,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      childAspectRatio: 3,
+      children: [
+        FinanceCardShimmer(
+          title: 'Total Balance',
+          icon: Icons.account_balance_wallet,
+        ),
+        FinanceCardShimmer(title: 'Income', icon: Icons.trending_up),
+        FinanceCardShimmer(title: 'Savings', icon: Icons.move_to_inbox),
+        const SizedBox.shrink(),
+        FinanceCardShimmer(title: 'Expense', icon: Icons.trending_down),
+        FinanceCardShimmer(title: 'Savings Rate', icon: Icons.percent),
+      ],
+    );
+  }
+
   void _showDetailsDialog(
     BuildContext context,
     String title,
     List<DetailSummaryEntity> summaries,
     double total,
-    NumberFormat formatter,
   ) {
     showDialog<String>(
       context: context,
@@ -142,7 +163,10 @@ class FinanceInfo extends ConsumerWidget {
                                   (summary) => AppFinanceCard(
                                     leading: false,
                                     title: summary.category,
-                                    subtitle: formatter.format(summary.amount),
+                                    subtitle:
+                                        StringConstants.formatShortCurrency(
+                                          summary.amount,
+                                        ),
                                     trailing: true,
                                     trailingText:
                                         '${summary.percentage.toStringAsFixed(0)}%',

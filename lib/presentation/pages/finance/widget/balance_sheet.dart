@@ -1,22 +1,22 @@
 import 'package:eling_app/core/providers/notifier/finance_notifier_provider.dart';
+import 'package:eling_app/core/utils/constants/string_constants.dart';
 import 'package:eling_app/domain/entities/account/account.dart';
+import 'package:eling_app/presentation/utils/extensions/input_error_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
-import 'package:flutter_ui/shared/sizes/app_sizes.dart';
 import 'package:flutter_ui/shared/sizes/app_spaces.dart';
 import 'package:flutter_ui/widgets/appField/app_text_field.dart';
+import 'package:flutter_ui/widgets/appUtils/app_no_data_found.dart';
 
 class BalanceSheet extends ConsumerStatefulWidget {
   final AccountType accountType;
   final Function(String title, double initialBalance) onCreate;
-  final List<AccountEntity>? accounts;
 
   const BalanceSheet({
     super.key,
     required this.accountType,
     required this.onCreate,
-    this.accounts,
   });
 
   @override
@@ -24,35 +24,50 @@ class BalanceSheet extends ConsumerStatefulWidget {
 }
 
 class _BalanceSheetState extends ConsumerState<BalanceSheet> {
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _balanceController = TextEditingController();
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    final accountName = ref.read(financeNotifierProvider).accountName;
+    _controller = TextEditingController(text: accountName.value);
+  }
 
   @override
   void dispose() {
-    _nameController.dispose();
-    _balanceController.dispose();
+    _controller.dispose();
     super.dispose();
+  }
+
+  void _listenToReset() {
+    final accountName = ref.watch(
+      financeNotifierProvider.select((s) => s.accountName),
+    );
+    if (accountName.isPure && _controller.text.isNotEmpty) {
+      _controller.clear();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    _listenToReset();
     final notifier = ref.read(financeNotifierProvider.notifier);
-    final accountTitle = ref.watch(
-      financeNotifierProvider.select((s) => s.newAccountTitle),
+    final isFormValid = ref.watch(
+      financeNotifierProvider.select((s) => s.isAccountFormValid),
     );
-    final accountBalance = ref.watch(
-      financeNotifierProvider.select((s) => s.newAccountBalance),
+    final name = ref.watch(
+      financeNotifierProvider.select((s) => s.accountName),
     );
-    final isFormValid = accountTitle.isNotEmpty;
-
-    if (_nameController.text != accountTitle) {
-      _nameController.text = accountTitle;
-    }
-
-    if (_balanceController.text != accountBalance.toString() &&
-        accountBalance > 0) {
-      _balanceController.text = accountBalance.toString();
-    }
+    final accounts = ref.watch(
+      financeNotifierProvider.select((state) => state.accounts),
+    );
+    final data = accounts.whenOrNull(
+      success:
+          (accounts) =>
+              accounts
+                  .where((account) => account.type == widget.accountType)
+                  .toList(),
+    );
 
     return Padding(
       padding: AppPadding.h16,
@@ -62,11 +77,15 @@ class _BalanceSheetState extends ConsumerState<BalanceSheet> {
         children: [
           AppSpaces.h40,
           AppTextField(
+            controller: _controller,
             label: "Account Name",
             hint: "Enter account name",
             isRequired: true,
-            controller: _nameController,
-            onChanged: notifier.updateNewAccountTitle,
+            onChanged: (value) {
+              notifier.accountNameChanged(value);
+            },
+            errorText: name.displayError?.message,
+            maxLines: 1,
           ),
           AppSpaces.h16,
           Row(
@@ -83,12 +102,7 @@ class _BalanceSheetState extends ConsumerState<BalanceSheet> {
               ElevatedButton(
                 onPressed:
                     isFormValid
-                        ? () {
-                          notifier.createAccount(
-                            accountTitle,
-                            widget.accountType,
-                          );
-                        }
+                        ? () => notifier.createAccount(widget.accountType)
                         : null,
                 child: const Text('Create'),
               ),
@@ -96,43 +110,24 @@ class _BalanceSheetState extends ConsumerState<BalanceSheet> {
           ),
           AppSpaces.h16,
           Expanded(
-            child: SingleChildScrollView(
-              child:
-                  widget.accounts == null || widget.accounts!.isEmpty
-                      ? const Center(
-                        child: Padding(
-                          padding: EdgeInsets.all(16.0),
-                          child: Text('No accounts found'),
-                        ),
-                      )
-                      : ListView.builder(
-                        itemCount: widget.accounts!.length,
+            child:
+                data == null || data.isEmpty
+                    ? Center(child: AppNoDataFound())
+                    : SingleChildScrollView(
+                      child: ListView.builder(
+                        itemCount: data.length,
                         shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
+                        physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
-                          final account = widget.accounts![index];
-
+                          final account = data[index];
                           final balance = account.balance ?? 0;
-                          final formattedBalance =
-                              'Rp ${balance.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}';
 
                           return Card(
-                            margin: EdgeInsets.only(top: AppSizes.dimen16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              side: BorderSide(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.outline.withValues(alpha: 0.25),
-                                width: 1,
-                              ),
-                            ),
-                            elevation: 4,
-                            shadowColor: Theme.of(context).colorScheme.outline,
+                            margin: EdgeInsets.only(top: 16),
                             child: ListTile(
-                              title: Text(account.title),
+                              title: Text(account.name),
                               subtitle: Text(
-                                formattedBalance,
+                                StringConstants.formatCurrency(balance),
                                 style: Theme.of(
                                   context,
                                 ).textTheme.labelLarge?.copyWith(
@@ -143,11 +138,10 @@ class _BalanceSheetState extends ConsumerState<BalanceSheet> {
                               trailing:
                                   balance == 0
                                       ? IconButton(
-                                        icon: const Icon(Icons.delete_outline),
+                                        icon: Icon(Icons.delete_outline),
                                         onPressed:
-                                            () => _showDeleteConfirmation(
-                                              context,
-                                              account,
+                                            () => notifier.deleteAccount(
+                                              account.id,
                                             ),
                                       )
                                       : null,
@@ -155,35 +149,10 @@ class _BalanceSheetState extends ConsumerState<BalanceSheet> {
                           );
                         },
                       ),
-            ),
+                    ),
           ),
         ],
       ),
-    );
-  }
-
-  void _showDeleteConfirmation(BuildContext context, AccountEntity account) {
-    showDialog(
-      context: context,
-      builder:
-          (context) => AlertDialog(
-            title: const Text('Delete Account'),
-            content: Text('Are you sure you want to delete ${account.title}?'),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('Cancel'),
-              ),
-              TextButton(
-                onPressed: () {
-                  final notifier = ref.read(financeNotifierProvider.notifier);
-                  notifier.deleteAccount(account.id);
-                  Navigator.pop(context);
-                },
-                child: const Text('Delete'),
-              ),
-            ],
-          ),
     );
   }
 }

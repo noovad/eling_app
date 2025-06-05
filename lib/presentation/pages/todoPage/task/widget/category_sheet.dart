@@ -93,6 +93,7 @@ class _CategorySheetState extends ConsumerState<CategorySheet> {
               ),
             ),
             isRequired: true,
+            maxLines: 1,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,

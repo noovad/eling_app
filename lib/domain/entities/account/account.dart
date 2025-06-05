@@ -11,7 +11,7 @@ abstract class AccountEntity with _$AccountEntity {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory AccountEntity({
     required String id,
-    required String title,
+    required String name,
     required AccountType type,
     double? balance,
     DateTime? createdAt,

@@ -1,3 +1,4 @@
+import 'package:eling_app/core/utils/constants/string_constants.dart';
 import 'package:eling_app/core/utils/resource.dart';
 import 'package:eling_app/domain/entities/transaction/transaction.dart';
 import 'package:eling_app/domain/usecases/transaction/createTransaction/create_transaction_request.dart';
@@ -50,7 +51,6 @@ mixin TransactionMixin on StateNotifier<FinanceState> {
 
   Future<void> getFinanceSummary() async {
     state = state.copyWith(financeSummary: const Resource.loading());
-
     final result = await getFinanceSummaryUseCase.execute(
       GetFinanceSummaryRequest(
         month: state.dateFilter.month,
@@ -70,30 +70,27 @@ mixin TransactionMixin on StateNotifier<FinanceState> {
 
   void updateFilter({DateTime? date, TransactionType? type}) {
     if (date != null) {
-      Future.microtask(() {
-        state = state.copyWith(dateFilter: date);
-      });
+      state = state.copyWith(dateFilter: date);
+      getTransactions();
+      getFinanceSummary();
     }
 
     if (type != null && type != state.filterType) {
       state = state.copyWith(filterType: type);
+      getTransactions();
+      getFinanceSummary();
     }
-    getTransactions();
   }
 
   Future<void> createTransaction() async {
-    state = state.copyWith(createTransactionResult: const Resource.loading());
+    state = state.copyWith(saveResult: const Resource.loading());
 
     final transaction = TransactionEntity(
       id: const Uuid().v4(),
       type: state.transactionType,
       title: state.transactionTitle.value,
       date: DateTime.parse(state.date.value),
-      amount:
-          double.tryParse(
-            state.amount.value.replaceAll(RegExp(r'[^\d.]'), ''),
-          ) ??
-          0.0,
+      amount: StringConstants.parseCurrencyToDouble(state.amount.value),
       category: state.category.value.isEmpty ? null : state.category.value,
       source: state.source.value.isEmpty ? null : state.source.value,
       target: state.target.value.isEmpty ? null : state.target.value,
@@ -105,18 +102,14 @@ mixin TransactionMixin on StateNotifier<FinanceState> {
     );
 
     result.when(
-      success: (createdTransaction) {
-        state = state.copyWith(
-          createTransactionResult: Resource.success(createdTransaction),
-        );
+      success: (_) {
         getTransactions();
         getFinanceSummary();
         resetForm();
+        state = state.copyWith(saveResult: Resource.success('transaction'));
       },
-      failure: (error) {
-        state = state.copyWith(
-          createTransactionResult: Resource.failure(error),
-        );
+      failure: (_) {
+        state = state.copyWith(saveResult: Resource.failure('transaction'));
       },
     );
   }
@@ -130,12 +123,15 @@ mixin TransactionMixin on StateNotifier<FinanceState> {
       success: (_) {
         getTransactions();
         getFinanceSummary();
+        state = state.copyWith(deleteResult: Resource.success('transaction'));
       },
-      failure: (_) {},
+      failure: (_) {
+        state = state.copyWith(deleteResult: Resource.failure('transaction'));
+      },
     );
   }
 
-  void updateTitle(String value) {
+  void titleChanged(String value) {
     final title = FinanceTitleInput.dirty(value: value);
     state = state.copyWith(
       transactionTitle: title,
@@ -143,7 +139,7 @@ mixin TransactionMixin on StateNotifier<FinanceState> {
     );
   }
 
-  void updateAmount(String value) {
+  void amountChanged(String value) {
     final amount = FinanceAmountInput.dirty(value: value);
     state = state.copyWith(
       amount: amount,
@@ -151,12 +147,12 @@ mixin TransactionMixin on StateNotifier<FinanceState> {
     );
   }
 
-  void updateDate(String value) {
+  void dateChanged(String value) {
     final date = FinanceDateInput.dirty(value: value);
     state = state.copyWith(date: date, isFormValid: _validateForm(date: date));
   }
 
-  void updateSource(String value) {
+  void sourceChanged(String value) {
     final source = FinanceSourceInput.dirty(value: value);
     state = state.copyWith(
       source: source,
@@ -164,7 +160,7 @@ mixin TransactionMixin on StateNotifier<FinanceState> {
     );
   }
 
-  void updateTarget(String value) {
+  void targetChanged(String value) {
     final target = FinanceTargetInput.dirty(value: value);
     state = state.copyWith(
       target: target,
@@ -172,11 +168,11 @@ mixin TransactionMixin on StateNotifier<FinanceState> {
     );
   }
 
-  void updateDescription(String value) {
+  void descriptionChanged(String value) {
     state = state.copyWith(description: value);
   }
 
-  void updateCategory(String value) {
+  void categoryChanged(String value) {
     final category = FinanceCategoryInput.dirty(value: value);
     state = state.copyWith(
       category: category,
@@ -184,7 +180,7 @@ mixin TransactionMixin on StateNotifier<FinanceState> {
     );
   }
 
-  void updateTransactionType(TransactionType type) {
+  void transactionTypeChanged(TransactionType type) {
     state = state.copyWith(
       transactionType: type,
       isFormValid: _validateForm(transactionType: type),

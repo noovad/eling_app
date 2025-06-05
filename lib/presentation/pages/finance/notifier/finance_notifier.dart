@@ -12,8 +12,10 @@ import 'package:eling_app/domain/usecases/transaction/getTransactions/get_transa
 import 'package:eling_app/domain/usecases/transaction_category/createCategory/create_category_usecase.dart';
 import 'package:eling_app/domain/usecases/transaction_category/deleteCategory/delete_category_usecase.dart';
 import 'package:eling_app/domain/usecases/transaction_category/getCategories/get_categories_usecase.dart';
+import 'package:eling_app/presentation/pages/finance/models/finance_account_name.dart';
 import 'package:eling_app/presentation/pages/finance/models/finance_amount.dart';
 import 'package:eling_app/presentation/pages/finance/models/finance_category.dart';
+import 'package:eling_app/presentation/pages/finance/models/finance_category_name.dart';
 import 'package:eling_app/presentation/pages/finance/models/finance_date.dart';
 import 'package:eling_app/presentation/pages/finance/models/finance_source.dart';
 import 'package:eling_app/presentation/pages/finance/models/finance_target.dart';

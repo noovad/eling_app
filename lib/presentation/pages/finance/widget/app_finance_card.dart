@@ -26,53 +26,58 @@ class AppFinanceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Card(
-        child: ListTile(
-          dense: true,
-          leading:
-              leading
-                  ? Icon(
-                    icon ?? Icons.account_balance_wallet,
-                    size: 30,
+      child: SizedBox(
+        height: 70,
+        child: Card(
+          child: ListTile(
+            dense: true,
+            leading:
+                leading
+                    ? Icon(
+                      icon ?? Icons.account_balance_wallet,
+                      size: 30,
+                      color:
+                          highlight == true
+                              ? Theme.of(context).colorScheme.tertiary
+                              : Theme.of(context).colorScheme.primary,
+                    )
+                    : null,
+            title: Text(title, style: Theme.of(context).textTheme.labelMedium),
+            subtitle: Row(
+              children: [
+                Text(
+                  subtitle,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     color:
                         highlight == true
                             ? Theme.of(context).colorScheme.tertiary
-                            : Theme.of(context).colorScheme.primary,
-                  )
-                  : null,
-          title: Text(title, style: Theme.of(context).textTheme.labelMedium),
-          subtitle: Row(
-            children: [
-              Text(
-                subtitle,
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color:
-                      highlight == true
-                          ? Theme.of(context).colorScheme.tertiary
-                          : Theme.of(context).textTheme.titleLarge?.color,
+                            : Theme.of(context).textTheme.titleLarge?.color,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          onTap: onTap,
-          trailing:
-              trailing == true
-                  ? Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    color: Theme.of(context).colorScheme.primary,
-                    child: Padding(
-                      padding: AppPadding.all8,
-                      child: Text(
-                        trailingText ?? '',
-                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          color: Theme.of(context).colorScheme.onPrimary,
+              ],
+            ),
+            onTap: onTap,
+            trailing:
+                trailing == true
+                    ? Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      color: Theme.of(context).colorScheme.primary,
+                      child: Padding(
+                        padding: AppPadding.all8,
+                        child: Text(
+                          trailingText ?? '',
+                          style: Theme.of(
+                            context,
+                          ).textTheme.titleSmall?.copyWith(
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          ),
                         ),
                       ),
-                    ),
-                  )
-                  : null,
+                    )
+                    : null,
+          ),
         ),
       ),
     );

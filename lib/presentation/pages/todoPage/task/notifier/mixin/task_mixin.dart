@@ -124,9 +124,7 @@ mixin TaskMixin on StateNotifier<TaskState> {
   }
 
   void getCompletedTasks(int month, int year) async {
-    Future.microtask(() {
-      state = state.copyWith(completedTasks: Resource.loading());
-    });
+    state = state.copyWith(completedTasks: Resource.loading());
     final result = await getCompletedTasksUseCase.execute(
       GetCompletedTasksRequest(month: month, year: year),
     );

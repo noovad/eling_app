@@ -15,10 +15,8 @@ class SummaryNotifier extends StateNotifier<SummaryState> {
     : super(SummaryState.initial());
 
   void getDailyActivities(int month, int year) async {
-    Future.microtask(() {
       state = state.copyWith(dailyActivities: Resource.loading());
       state = state.copyWith(date: DateTime(year, month));
-    });
 
     final result = await getDailyActivitiesUseCase.execute(
       GetDailyActivitiesRequest(month: month, year: year),

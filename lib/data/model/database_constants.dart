@@ -111,12 +111,12 @@ class TransactionFields {
 class AccountFields {
   static const String id = 'id';
   static const String type = 'type';
-  static const String title = 'title';
+  static const String name = 'name';
   static const String balance = 'balance';
   static const String createdAt = 'created_at';
   static const String updatedAt = 'updated_at';
 
-  static const List<String> values = [id, type, title];
+  static const List<String> values = [id, type, name, balance, createdAt, updatedAt];
 }
 
 class TransactionCategoryFields {

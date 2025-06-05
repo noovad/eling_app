@@ -16,26 +16,6 @@ class BalanceSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final notifier = ref.read(financeNotifierProvider.notifier);
-    final accounts = ref.watch(
-      financeNotifierProvider.select((state) => state.accounts),
-    );
-
-    // Get balance and savings accounts for the tabs
-    final balanceAccounts = accounts.whenOrNull(
-      success:
-          (accounts) =>
-              accounts
-                  .where((account) => account.type == AccountType.balance)
-                  .toList(),
-    );
-
-    final savingsAccounts = accounts.whenOrNull(
-      success:
-          (accounts) =>
-              accounts
-                  .where((account) => account.type == AccountType.saving)
-                  .toList(),
-    );
 
     return Padding(
       padding: AppPadding.all12,
@@ -43,15 +23,19 @@ class BalanceSection extends ConsumerWidget {
         length: 2,
         tabBar: [Tab(text: 'Balance'), Tab(text: 'Savings')],
         tabBarView: [
-          FinanceAccount(accounts: balanceAccounts ?? []),
-          FinanceAccount(accounts: savingsAccounts ?? []),
+          FinanceAccount(accountType: AccountType.balance),
+          FinanceAccount(accountType: AccountType.saving),
         ],
         tabBarChild: Card(
           color: Theme.of(context).colorScheme.primary,
           child: AppPopOver(
             trigger: SizedBox.square(
               dimension: 60,
-              child: Icon(Icons.more_horiz, color: Colors.white, size: 30),
+              child: Icon(
+                Icons.more_horiz,
+                color: Theme.of(context).colorScheme.onPrimary,
+                size: 30,
+              ),
             ),
             content: Padding(
               padding: AppPadding.all16,
@@ -68,13 +52,8 @@ class BalanceSection extends ConsumerWidget {
                       BalanceSheet(
                         accountType: AccountType.balance,
                         onCreate: (title, initialBalance) {
-                          notifier.createAccount(
-                            title,
-                            AccountType.balance,
-                          );
+                          notifier.createAccount(AccountType.balance);
                         },
-                        // Only pass accounts of the relevant type to avoid filtering twice
-                        accounts: balanceAccounts ?? [],
                       ),
                     ),
                   ),
@@ -86,39 +65,15 @@ class BalanceSection extends ConsumerWidget {
                       BalanceSheet(
                         accountType: AccountType.saving,
                         onCreate: (title, initialBalance) {
-                          notifier.createAccount(
-                            title,
-                            AccountType.saving,
-                          );
+                          notifier.createAccount(AccountType.saving);
                         },
-                        // Only pass accounts of the relevant type to avoid filtering twice
-                        accounts: savingsAccounts ?? [],
                       ),
                     ),
                   ),
                   _buildActionButton(
                     context,
                     'Transaction Category',
-                    () => _showSheet(
-                      context,
-                      TransactionCategorySheet(
-                        onCategoryCreate: (name) {
-                          notifier.createTransactionCategory(name);
-                        },
-                        onCategoryDelete: (id) {
-                          notifier.deleteTransactionCategory(id);
-                        },
-                        categories: ref.watch(
-                          financeNotifierProvider.select(
-                            (state) =>
-                                state.transactionCategories.whenOrNull(
-                                  success: (categories) => categories,
-                                ) ??
-                                [],
-                          ),
-                        ),
-                      ),
-                    ),
+                    () => _showSheet(context, TransactionCategorySheet()),
                   ),
                 ],
               ),
