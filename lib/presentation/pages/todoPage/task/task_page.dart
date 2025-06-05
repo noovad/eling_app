@@ -90,7 +90,7 @@ class TaskPage extends ConsumerWidget {
   ) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        minimumSize: const Size(double.infinity, 48),
+        minimumSize: const Size(double.infinity, 44),
         alignment: Alignment.centerLeft,
       ),
       onPressed: () {

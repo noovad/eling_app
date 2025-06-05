@@ -128,7 +128,7 @@ class _CategorySheetState extends ConsumerState<CategorySheet> {
                       side: BorderSide(
                         color: Theme.of(
                           context,
-                        ).colorScheme.outline.withOpacity(0.25),
+                        ).colorScheme.outline.withValues(alpha: 0.25),
                         width: 1,
                       ),
                     ),

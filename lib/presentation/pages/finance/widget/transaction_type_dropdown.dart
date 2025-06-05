@@ -11,10 +11,11 @@ class TransactionTypeDropdown extends StatelessWidget {
       withLabel: false,
       selectedItem: const DropdownItem(id: 'all', label: 'All'),
       items: const [
-        DropdownItem(id: 'all', label: 'All'),
-        DropdownItem(id: 'income', label: 'Income'),
-        DropdownItem(id: 'expense', label: 'Expense'),
-        DropdownItem(id: 'savings', label: 'Saving'),
+        DropdownItem(id: 'All', label: 'All'),
+        DropdownItem(id: 'Income', label: 'Income'),
+        DropdownItem(id: 'Expense', label: 'Expense'),
+        DropdownItem(id: 'Savings', label: 'Saving'),
+        DropdownItem(id: 'Transfer', label: 'Transfer'),
       ],
       onChanged: (item) {},
     );

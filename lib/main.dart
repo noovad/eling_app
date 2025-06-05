@@ -20,7 +20,6 @@ void main() async {
     const WindowOptions options = WindowOptions(
       minimumSize: minAppSize,
       center: true,
-      backgroundColor: Colors.transparent,
     );
 
     windowManager.waitUntilReadyToShow(options, () async {

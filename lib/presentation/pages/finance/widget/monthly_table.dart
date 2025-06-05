@@ -1,5 +1,7 @@
 import 'package:eling_app/presentation/pages/finance/widget/transaction_type_dropdown.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ui/shared/sizes/app_spaces.dart';
+import 'package:flutter_ui/widgets/appDialog/app_dialog.dart';
 import 'package:flutter_ui/widgets/appNav/app_date_nav.dart';
 
 class MonthlyTable extends StatelessWidget {
@@ -30,7 +32,7 @@ class MonthlyTable extends StatelessWidget {
             showCheckboxColumn: false,
             columns: const [
               DataColumn(
-                columnWidth: FlexColumnWidth(2),
+                columnWidth: FlexColumnWidth(1.5),
                 label: Row(
                   children: [
                     Icon(Icons.calendar_today, size: 16),
@@ -40,7 +42,7 @@ class MonthlyTable extends StatelessWidget {
                 ),
               ),
               DataColumn(
-                columnWidth: FlexColumnWidth(4),
+                columnWidth: FlexColumnWidth(3),
                 label: Row(
                   children: [
                     Icon(Icons.title, size: 16),
@@ -78,25 +80,69 @@ class MonthlyTable extends StatelessWidget {
                   ],
                 ),
               ),
+              DataColumn(
+                columnWidth: FlexColumnWidth(1),
+                label: Center(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.more_vert, size: 16),
+                      SizedBox(width: 4),
+                      Text(
+                        'Action',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
-            rows: const [
+            rows: [
               DataRow(
                 cells: [
                   DataCell(Text('01/01/2023')),
                   DataCell(Text('Sample Task 1')),
                   DataCell(Text('Work')),
                   DataCell(Text('2 hours')),
+                  DataCell(
+                    Center(
+                      child: AppDialog(
+                        trigger: Icon(Icons.delete_outline),
+                        content: SizedBox(
+                          height: 100,
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: Center(
+                                  child: Text(
+                                    'Are you sure you want to delete this data?',
+                                  ),
+                                ),
+                              ),
+                              AppSpaces.h16,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  ElevatedButton(
+                                    onPressed:
+                                        () => Navigator.of(context).pop(),
+                                    child: Text('Cancel'),
+                                  ),
+                                  AppSpaces.w8,
+                                  ElevatedButton(
+                                    onPressed: () {},
+                                    child: Text('Delete'),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
-              DataRow(
-                cells: [
-                  DataCell(Text('02/01/2023')),
-                  DataCell(Text('Sample Task 2')),
-                  DataCell(Text('Personal')),
-                  DataCell(Text('1 hour')),
-                ],
-              ),
-              // Add more rows as needed
             ],
           ),
         ),
