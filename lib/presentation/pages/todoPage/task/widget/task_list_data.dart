@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:eling_app/core/utils/constants/date_constants.dart';
 import 'package:eling_app/core/utils/resource.dart';
 import 'package:eling_app/domain/entities/taskGroupResult/task_group_result.dart';

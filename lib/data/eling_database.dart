@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:eling_app/data/migrations/database_migrations.dart';
 
@@ -14,7 +16,9 @@ class ElingDatabase {
   }
 
   Future<Database> _initDB(String filePath) async {
-    final basePath = await databaseFactory.getDatabasesPath();
+    // final basePath = await databaseFactory.getDatabasesPath();
+    final basePath = Directory.current.path;
+
     final path = '$basePath/$filePath';
     return await openDatabase(
       path,

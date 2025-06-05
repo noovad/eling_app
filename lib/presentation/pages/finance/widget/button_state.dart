@@ -1,21 +1,29 @@
+import 'package:eling_app/domain/entities/transaction/transaction.dart';
 import 'package:flutter/material.dart';
 
 class ButtonState extends StatefulWidget {
-  final Function(String selectedCategory) onChanged;
-  final String initialValue;
+  final Function(TransactionType) onChanged;
+  final TransactionType initialValue;
 
   const ButtonState({
     super.key,
     required this.onChanged,
-    this.initialValue = 'Income',
+    this.initialValue = TransactionType.income,
   });
 
   @override
-  State<ButtonState> createState() => _CategorySelectorState();
+  State<ButtonState> createState() => _ButtonStateState();
 }
 
-class _CategorySelectorState extends State<ButtonState> {
-  late String active;
+class _ButtonStateState extends State<ButtonState> {
+  late TransactionType active;
+
+  final Map<TransactionType, String> _labels = {
+    TransactionType.income: 'Income',
+    TransactionType.expense: 'Expenses',
+    TransactionType.savings: 'Savings',
+    TransactionType.transfer: 'Transfer',
+  };
 
   @override
   void initState() {
@@ -23,7 +31,7 @@ class _CategorySelectorState extends State<ButtonState> {
     active = widget.initialValue;
   }
 
-  void _onSelect(String value) {
+  void _onSelect(TransactionType value) {
     setState(() {
       active = value;
     });
@@ -33,38 +41,37 @@ class _CategorySelectorState extends State<ButtonState> {
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: [
-        _buildButton('Income'),
-        const SizedBox(width: 12),
-        _buildButton('Expenses'),
-        const SizedBox(width: 12),
-        _buildButton('Savings'),
-        const SizedBox(width: 12),
-        _buildButton('Transfer'),
-      ],
+      children: TransactionType.values.map((type) {
+        return Row(
+          children: [
+            _buildButton(type),
+            if (type != TransactionType.values.last)
+              const SizedBox(width: 12),
+          ],
+        );
+      }).toList(),
     );
   }
 
-  Widget _buildButton(String label) {
-    final isActive = active == label;
+  Widget _buildButton(TransactionType type) {
+    final isActive = active == type;
+    final label = _labels[type] ?? type.toString();
 
     return GestureDetector(
-      onTap: () => _onSelect(label),
+      onTap: () => _onSelect(type),
       child: Card(
-        color:
-            isActive
-                ? Theme.of(context).colorScheme.primary
-                : Theme.of(context).colorScheme.surface,
+        color: isActive
+            ? Theme.of(context).colorScheme.primary
+            : Theme.of(context).colorScheme.surface,
         elevation: isActive ? 4 : 1,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           child: Text(
             label,
             style: TextStyle(
-              color:
-                  isActive
-                      ? Theme.of(context).colorScheme.onPrimary
-                      : Theme.of(context).colorScheme.onSurface,
+              color: isActive
+                  ? Theme.of(context).colorScheme.onPrimary
+                  : Theme.of(context).colorScheme.onSurface,
               fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
             ),
           ),

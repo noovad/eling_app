@@ -4,7 +4,9 @@ part 'transaction_category.freezed.dart';
 part 'transaction_category.g.dart';
 
 @freezed
-class TransactionCategoryEntity with _$TransactionCategoryEntity {
+abstract class TransactionCategoryEntity with _$TransactionCategoryEntity {
+  // ignore: invalid_annotation_target
+  @JsonSerializable(fieldRename: FieldRename.snake)
   const factory TransactionCategoryEntity({
     required String id,
     required String name,

@@ -8,5 +8,8 @@ part 'create_category_provider.g.dart';
 
 @riverpod
 CreateCategoryUseCase createCategoryUseCase(Ref ref) {
-  return CreateCategoryUseCaseImpl(logger: ref.watch(loggerProvider), categoryRepository: ref.watch(categoryRepositoryProvider));
+  return CreateCategoryUseCaseImpl(
+    logger: ref.watch(loggerProvider),
+    categoryRepository: ref.watch(categoryRepositoryProvider),
+  );
 }

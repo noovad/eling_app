@@ -112,6 +112,9 @@ class AccountFields {
   static const String id = 'id';
   static const String type = 'type';
   static const String title = 'title';
+  static const String balance = 'balance';
+  static const String createdAt = 'created_at';
+  static const String updatedAt = 'updated_at';
 
   static const List<String> values = [id, type, title];
 }

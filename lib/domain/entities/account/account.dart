@@ -6,7 +6,9 @@ part 'account.g.dart';
 enum AccountType { balance, saving }
 
 @freezed
-class AccountEntity with _$AccountEntity {
+abstract class AccountEntity with _$AccountEntity {
+  // ignore: invalid_annotation_target
+  @JsonSerializable(fieldRename: FieldRename.snake)
   const factory AccountEntity({
     required String id,
     required String title,

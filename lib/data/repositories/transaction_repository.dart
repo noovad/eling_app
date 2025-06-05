@@ -287,4 +287,8 @@ class TransactionRepository {
       percentage: percentage.toDouble(),
     );
   }
+
+  Future<int> deleteTransaction(String id) async {
+    return _database.delete('transactions', id);
+  }
 }

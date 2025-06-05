@@ -1,160 +1,251 @@
+import 'package:eling_app/core/providers/notifier/finance_notifier_provider.dart';
+import 'package:eling_app/domain/entities/transaction/transaction.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/shared/sizes/app_spaces.dart';
 import 'package:flutter_ui/widgets/appNav/app_year_nav.dart';
+import 'package:intl/intl.dart';
 
-class YearlyTable extends StatelessWidget {
+class YearlyTable extends ConsumerWidget {
   const YearlyTable({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final notifier = ref.read(financeNotifierProvider.notifier);
+    final yearlyTransactions = ref.watch(
+      financeNotifierProvider.select((state) => state.yearlyTransactions),
+    );
+
+    final currencyFormatter = NumberFormat.currency(
+      locale: 'id',
+      symbol: 'Rp ',
+      decimalDigits: 0,
+    );
+
     return Column(
       children: [
         AppSpaces.h24,
-        AppYearNav(),
+        AppYearNav(
+          onChange: (date) {
+            notifier.updateFilter(date: date);
+          },
+        ),
         AppSpaces.h24,
         Expanded(
-          child: DataTable(
-            dividerThickness: 0.2,
-            showCheckboxColumn: false,
-            columns: const [
-              DataColumn(
-                columnWidth: FlexColumnWidth(2),
+          child: yearlyTransactions.when(
+            initial:
+                () => const Center(child: Text('Select a year to view data')),
+            loading: () => const Center(child: CircularProgressIndicator()),
+            success: (monthlyData) {
+              final monthlySummaries = _calculateMonthlySummaries(monthlyData);
 
-                label: Row(
-                  children: [
-                    Icon(Icons.calendar_today, size: 16),
-                    SizedBox(width: 4),
-                    Text(
-                      'Month',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ),
-              DataColumn(
-                columnWidth: FlexColumnWidth(2),
+              double totalIncome = 0;
+              double totalExpense = 0;
+              double totalSavings = 0;
 
-                label: Row(
-                  children: [
-                    Icon(Icons.trending_up, size: 16),
-                    SizedBox(width: 4),
-                    Text(
-                      'Income',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ),
-              DataColumn(
-                columnWidth: FlexColumnWidth(2),
+              monthlySummaries.forEach((month, data) {
+                totalIncome += data['income'] ?? 0;
+                totalExpense += data['expense'] ?? 0;
+                totalSavings += data['savings'] ?? 0;
+              });
 
-                label: Row(
-                  children: [
-                    Icon(Icons.trending_down, size: 16),
-                    SizedBox(width: 4),
-                    Text(
-                      'Expenses',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ),
-              DataColumn(
-                columnWidth: FlexColumnWidth(2),
+              return DataTable(
+                dividerThickness: 0.2,
+                showCheckboxColumn: false,
+                columns: const [
+                  DataColumn(
+                    columnWidth: FlexColumnWidth(2),
 
-                label: Row(
-                  children: [
-                    Icon(Icons.move_to_inbox, size: 16),
-                    SizedBox(width: 4),
-                    Text(
-                      'Savings',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-            rows: const [
-              DataRow(
-                cells: [
-                  DataCell(Text('January')),
-                  DataCell(Text('5,000,000')),
-                  DataCell(Text('3,000,000')),
-                  DataCell(Text('2,000,000')),
-                ],
-              ),
-              DataRow(
-                cells: [
-                  DataCell(Text('February')),
-                  DataCell(Text('5,200,000')),
-                  DataCell(Text('2,800,000')),
-                  DataCell(Text('2,400,000')),
-                ],
-              ),
-              DataRow(
-                cells: [
-                  DataCell(Text('March')),
-                  DataCell(Text('5,100,000')),
-                  DataCell(Text('3,100,000')),
-                  DataCell(Text('2,000,000')),
-                ],
-              ),
-              DataRow(
-                cells: [
-                  DataCell(Text('April')),
-                  DataCell(Text('5,300,000')),
-                  DataCell(Text('3,500,000')),
-                  DataCell(Text('1,800,000')),
-                ],
-              ),
-              DataRow(
-                cells: [
-                  DataCell(Text('May')),
-                  DataCell(Text('5,400,000')),
-                  DataCell(Text('3,200,000')),
-                  DataCell(Text('2,200,000')),
-                ],
-              ),
-              DataRow(
-                cells: [
-                  DataCell(Text('June')),
-                  DataCell(Text('5,000,000')),
-                  DataCell(Text('3,300,000')),
-                  DataCell(Text('1,700,000')),
-                ],
-              ),
-              DataRow(
-                cells: [
-                  DataCell(
-                    Text(
-                      'Total',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    label: Row(
+                      children: [
+                        Icon(Icons.calendar_today, size: 16),
+                        SizedBox(width: 4),
+                        Text(
+                          'Month',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
                   ),
-                  DataCell(
-                    Text(
-                      '31,000,000',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                  DataColumn(
+                    columnWidth: FlexColumnWidth(2),
+
+                    label: Row(
+                      children: [
+                        Icon(Icons.trending_up, size: 16),
+                        SizedBox(width: 4),
+                        Text(
+                          'Income',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
                   ),
-                  DataCell(
-                    Text(
-                      '18,900,000',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                  DataColumn(
+                    columnWidth: FlexColumnWidth(2),
+
+                    label: Row(
+                      children: [
+                        Icon(Icons.trending_down, size: 16),
+                        SizedBox(width: 4),
+                        Text(
+                          'Expenses',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
                   ),
-                  DataCell(
-                    Text(
-                      '12,100,000',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                  DataColumn(
+                    columnWidth: FlexColumnWidth(2),
+
+                    label: Row(
+                      children: [
+                        Icon(Icons.move_to_inbox, size: 16),
+                        SizedBox(width: 4),
+                        Text(
+                          'Savings',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
                   ),
                 ],
-              ),
-            ],
+                rows: [
+                  for (int month = 1; month <= 12; month++)
+                    _buildMonthRow(
+                      month,
+                      monthlySummaries[month] ??
+                          {'income': 0.0, 'expense': 0.0, 'savings': 0.0},
+                      currencyFormatter,
+                    ),
+
+                  DataRow(
+                    cells: [
+                      const DataCell(
+                        Text(
+                          'Total',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      DataCell(
+                        Text(
+                          currencyFormatter.format(totalIncome),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green,
+                          ),
+                        ),
+                      ),
+                      DataCell(
+                        Text(
+                          currencyFormatter.format(totalExpense),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red,
+                          ),
+                        ),
+                      ),
+                      DataCell(
+                        Text(
+                          currencyFormatter.format(totalSavings),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.purple,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              );
+            },
+            failure:
+                (error) => Center(child: Text('Error: ${error.toString()}')),
           ),
         ),
       ],
     );
+  }
+
+  DataRow _buildMonthRow(
+    int month,
+    Map<String, double> data,
+    NumberFormat formatter,
+  ) {
+    final monthNames = [
+      '',
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+
+    return DataRow(
+      cells: [
+        DataCell(Text(monthNames[month])),
+        DataCell(
+          Text(
+            formatter.format(data['income'] ?? 0),
+            style: TextStyle(color: Colors.green),
+          ),
+        ),
+        DataCell(
+          Text(
+            formatter.format(data['expense'] ?? 0),
+            style: TextStyle(color: Colors.red),
+          ),
+        ),
+        DataCell(
+          Text(
+            formatter.format(data['savings'] ?? 0),
+            style: TextStyle(color: Colors.purple),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Map<int, Map<String, double>> _calculateMonthlySummaries(
+    Map<int, List<TransactionEntity>> monthlyData,
+  ) {
+    final Map<int, Map<String, double>> monthlySummaries = {};
+
+    monthlyData.forEach((month, transactions) {
+      double income = 0;
+      double expense = 0;
+      double savings = 0;
+
+      for (final transaction in transactions) {
+        switch (transaction.type) {
+          case TransactionType.income:
+            income += transaction.amount;
+            break;
+          case TransactionType.expense:
+            expense += transaction.amount;
+            break;
+          case TransactionType.savings:
+            savings += transaction.amount;
+            break;
+          case TransactionType.transfer:
+            break;
+        }
+      }
+
+      monthlySummaries[month] = {
+        'income': income,
+        'expense': expense,
+        'savings': savings,
+      };
+    });
+
+    return monthlySummaries;
   }
 }

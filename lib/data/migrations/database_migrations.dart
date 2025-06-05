@@ -115,19 +115,19 @@ class DatabaseMigrations {
     const dateTimeType = 'TEXT';
     const doubleType = 'REAL';
     const transactionType =
-        "TEXT CHECK(type IN ('income', 'expense', 'savings', 'transfer'))";
+        "TEXT CHECK(${TransactionFields.type} IN ('income', 'expense', 'savings', 'transfer'))";
 
     await db.execute('''
       CREATE TABLE transactions (
-        id $idType,
-        type $transactionType,
-        title $textType,
-        date $dateTimeType,
-        amount $doubleType,
-        category $textType,
-        source $textType,
-        target $textType,
-        description $textType
+        ${TransactionFields.id} $idType,
+        ${TransactionFields.type} $transactionType,
+        ${TransactionFields.title} $textType,
+        ${TransactionFields.date} $dateTimeType,
+        ${TransactionFields.amount} $doubleType,
+        ${TransactionFields.category} $textType,
+        ${TransactionFields.source} $textType,
+        ${TransactionFields.target} $textType,
+        ${TransactionFields.description} $textType
       )
     ''');
   }
@@ -135,13 +135,19 @@ class DatabaseMigrations {
   static Future<void> _createAccountsTable(Database db) async {
     const idType = 'TEXT PRIMARY KEY';
     const textType = 'TEXT';
-    const accountType = "TEXT CHECK(type IN ('balance', 'saving'))";
+    const doubleType = 'REAL';
+    const dateTimeType = 'TEXT';
+    const accountType =
+        "TEXT CHECK(${AccountFields.type} IN ('balance', 'saving'))";
 
     await db.execute('''
       CREATE TABLE accounts (
-        id $idType,
-        type $accountType,
-        title $textType
+        ${AccountFields.id} $idType,
+        ${AccountFields.type} $accountType,
+        ${AccountFields.title} $textType,
+        ${AccountFields.balance} $doubleType,
+        ${AccountFields.createdAt} $dateTimeType,
+        ${AccountFields.updatedAt} $dateTimeType
       )
     ''');
   }

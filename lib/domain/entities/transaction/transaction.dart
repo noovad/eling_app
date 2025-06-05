@@ -6,7 +6,9 @@ part 'transaction.g.dart';
 enum TransactionType { income, expense, savings, transfer }
 
 @freezed
-class TransactionEntity with _$TransactionEntity {
+abstract class TransactionEntity with _$TransactionEntity {
+  // ignore: invalid_annotation_target
+  @JsonSerializable(fieldRename: FieldRename.snake)
   const factory TransactionEntity({
     required String id,
     required TransactionType type,
