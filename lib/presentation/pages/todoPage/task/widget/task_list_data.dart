@@ -16,7 +16,7 @@ import 'package:flutter_ui/widgets/appCard/app_task_shimmer_card.dart';
 import 'package:flutter_ui/widgets/appSheet/app_sheet.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_ui/widgets/utils/app_no_data_found.dart';
+import 'package:flutter_ui/widgets/appUtils/app_no_data_found.dart';
 
 class TaskListData extends ConsumerWidget {
   final TaskScheduleType taskScheduleType;

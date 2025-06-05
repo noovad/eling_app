@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ui/shared/sizes/app_spaces.dart';
 import 'package:flutter_ui/widgets/appNav/app_year_nav.dart';
 
 class YearlyTable extends StatelessWidget {
@@ -7,9 +8,10 @@ class YearlyTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      spacing: 16,
       children: [
+        AppSpaces.h24,
         AppYearNav(),
+        AppSpaces.h24,
         Expanded(
           child: DataTable(
             dividerThickness: 0.2,

@@ -10,8 +10,8 @@ class MonthlyTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      spacing: 16,
       children: [
+        AppSpaces.h24,
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -26,27 +26,26 @@ class MonthlyTable extends StatelessWidget {
             Expanded(child: AppDateNav()),
           ],
         ),
+        AppSpaces.h24,
         Expanded(
           child: DataTable(
             dividerThickness: 0.2,
             showCheckboxColumn: false,
-            columns: const [
+            columns: [
               DataColumn(
-                columnWidth: FlexColumnWidth(1.5),
                 label: Row(
                   children: [
                     Icon(Icons.calendar_today, size: 16),
-                    SizedBox(width: 4),
+                    AppSpaces.w4,
                     Text('Date', style: TextStyle(fontWeight: FontWeight.bold)),
                   ],
                 ),
               ),
               DataColumn(
-                columnWidth: FlexColumnWidth(3),
                 label: Row(
                   children: [
                     Icon(Icons.title, size: 16),
-                    SizedBox(width: 4),
+                    AppSpaces.w4,
                     Text(
                       'Title',
                       style: TextStyle(fontWeight: FontWeight.bold),
@@ -59,7 +58,7 @@ class MonthlyTable extends StatelessWidget {
                 label: Row(
                   children: [
                     Icon(Icons.topic, size: 16),
-                    SizedBox(width: 4),
+                    AppSpaces.w4,
                     Text(
                       'Category',
                       style: TextStyle(fontWeight: FontWeight.bold),
@@ -68,26 +67,26 @@ class MonthlyTable extends StatelessWidget {
                 ),
               ),
               DataColumn(
-                columnWidth: FlexColumnWidth(2),
                 label: Row(
                   children: [
                     Icon(Icons.attach_money, size: 16),
-                    SizedBox(width: 4),
+                    AppSpaces.w4,
                     Text(
                       'Ammount',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
               ),
               DataColumn(
-                columnWidth: FlexColumnWidth(1),
                 label: Center(
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(Icons.more_vert, size: 16),
-                      SizedBox(width: 4),
+                      AppSpaces.w4,
                       Text(
                         'Action',
                         style: TextStyle(fontWeight: FontWeight.bold),
@@ -100,9 +99,11 @@ class MonthlyTable extends StatelessWidget {
             rows: [
               DataRow(
                 cells: [
-                  DataCell(Text('01/01/2023')),
-                  DataCell(Text('Sample Task 1')),
-                  DataCell(Text('Work')),
+                  DataCell(Text('01 Nov 2023')),
+                  DataCell(
+                    Text('Sample Task 1 dddddddddddddddddddddddddddddddddddd'),
+                  ),
+                  DataCell(Text('Work dddddddddddddddddddddd')),
                   DataCell(Text('2 hours')),
                   DataCell(
                     Center(

@@ -12,9 +12,9 @@ class FinancePage extends StatelessWidget {
       body: LayoutBuilder(
         builder: (context, constraints) {
           double screenWidth = constraints.maxWidth;
-          double taskWidth = screenWidth - 700;
-          if (taskWidth < 700) taskWidth = 700;
-          double totalContentWidth = taskWidth + 700;
+          double tableWidth = screenWidth - 700;
+          if (tableWidth < 700) tableWidth = 700;
+          double totalContentWidth = tableWidth + 700;
 
           return SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -22,7 +22,7 @@ class FinancePage extends StatelessWidget {
               constraints: BoxConstraints(minWidth: totalContentWidth),
               child: Row(
                 children: [
-                  SizedBox(width: taskWidth, child: FinanceTable()),
+                  SizedBox(width: tableWidth, child: FinanceTable()),
                   Container(
                     color: Theme.of(context).colorScheme.surface,
                     width: 700,
