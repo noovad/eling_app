@@ -44,25 +44,24 @@ class NoteNotifier extends StateNotifier<NoteState> {
     this.deleteNoteUseCase,
     this.countPinnedNotesUseCase,
   ) : super(NoteState.initial()) {
-    fetchNotes();
+    getNotes();
     countPinnedNotes();
   }
 
-  void fetchNotes() async {
-    state = state.copyWith(notes: Resource.loading());
+  void getNotes() async {
     final result = await getNotesUseCase.execute(NoRequest());
 
     result.when(
       success: (data) {
         state = state.copyWith(notes: Resource.success(data));
       },
-      failure: (message) {
-        state = state.copyWith(notes: Resource.failure(message));
+      failure: (error) {
+        state = state.copyWith(notes: Resource.failure(error));
       },
     );
   }
 
-  void fetchNoteCategories() async {
+  void getNoteCategories() async {
     final result = await getCategoriesUseCase.execute(
       GetCategoriesRequest(categoryType: CategoryType.note),
     );
@@ -70,13 +69,13 @@ class NoteNotifier extends StateNotifier<NoteState> {
       success: (data) {
         state = state.copyWith(categories: Resource.success(data));
       },
-      failure: (message) {
-        state = state.copyWith(categories: Resource.failure(message));
+      failure: (error) {
+        state = state.copyWith(categories: Resource.failure(error));
       },
     );
   }
 
-  void addNote() async {
+  void createNote() async {
     final note = NoteEntity(
       id: const Uuid().v4(),
       title: state.title.value,
@@ -92,7 +91,7 @@ class NoteNotifier extends StateNotifier<NoteState> {
 
     result.when(
       success: (data) {
-        fetchNotes();
+        getNotes();
         clear();
         state = state.copyWith(saveResult: Resource.success('note'));
       },
@@ -119,7 +118,7 @@ class NoteNotifier extends StateNotifier<NoteState> {
 
     result.when(
       success: (data) {
-        fetchNotes();
+        getNotes();
         state = state.copyWith(saveResult: Resource.success('note'));
       },
       failure: (error) {
@@ -135,7 +134,7 @@ class NoteNotifier extends StateNotifier<NoteState> {
 
     result.when(
       success: (data) {
-        fetchNotes();
+        getNotes();
         countPinnedNotes();
         state = state.copyWith(saveResult: Resource.success('pinned'));
       },
@@ -150,7 +149,7 @@ class NoteNotifier extends StateNotifier<NoteState> {
 
     result.when(
       success: (data) {
-        fetchNotes();
+        getNotes();
         state = state.copyWith(deleteResult: Resource.success('note'));
       },
       failure: (error) {
@@ -166,8 +165,8 @@ class NoteNotifier extends StateNotifier<NoteState> {
       success: (data) {
         state = state.copyWith(countPinnedNotes: Resource.success(data));
       },
-      failure: (message) {
-        state = state.copyWith(countPinnedNotes: Resource.failure(message));
+      failure: (error) {
+        state = state.copyWith(countPinnedNotes: Resource.failure(error));
       },
     );
   }

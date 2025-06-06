@@ -16,14 +16,7 @@ class SummaryPage extends ConsumerWidget {
       child: Column(
         spacing: 12,
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          AppDateNav(
-            onChange: (newDate) {
-              notifier.getDailyActivities(newDate.month, newDate.year);
-            },
-          ),
-          Calender(),
-        ],
+        children: [AppDateNav(onChange: notifier.dateChanged), Calender()],
       ),
     );
   }

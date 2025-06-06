@@ -16,9 +16,7 @@ mixin TransactionCategoryMixin on StateNotifier<FinanceState> {
   GetCategoriesUseCase get getCategoriesUseCase;
   DeleteCategoryUseCase get deleteCategoryUseCase;
 
-  Future<void> getTransactionCategories() async {
-    state = state.copyWith(transactionCategories: const Resource.loading());
-
+  void getTransactionCategories() async {
     final result = await getCategoriesUseCase.execute(NoRequest());
 
     result.when(
@@ -33,9 +31,7 @@ mixin TransactionCategoryMixin on StateNotifier<FinanceState> {
     );
   }
 
-  Future<void> createTransactionCategory(String name) async {
-    state = state.copyWith(saveResult: const Resource.loading());
-
+  void createTransactionCategory(String name) async {
     final category = TransactionCategoryEntity(
       id: const Uuid().v4(),
       name: name,
@@ -49,15 +45,19 @@ mixin TransactionCategoryMixin on StateNotifier<FinanceState> {
       success: (_) {
         getTransactionCategories();
         resetCategoryForm();
-        state = state.copyWith(saveResult: Resource.success('category'));
+        state = state.copyWith(
+          saveResult: Resource.success('transaction_category'),
+        );
       },
       failure: (_) {
-        state = state.copyWith(saveResult: Resource.failure('category'));
+        state = state.copyWith(
+          saveResult: Resource.failure('transaction_category'),
+        );
       },
     );
   }
 
-  Future<void> deleteTransactionCategory(String id) async {
+  void deleteTransactionCategory(String id) async {
     final result = await deleteCategoryUseCase.execute(
       DeleteCategoryRequest(id: id),
     );
@@ -66,14 +66,13 @@ mixin TransactionCategoryMixin on StateNotifier<FinanceState> {
       success: (_) {
         getTransactionCategories();
         state = state.copyWith(
-          deleteResult: Resource.success('category'),
+          deleteResult: Resource.success('transaction_category'),
         );
       },
       failure: (_) {
         state = state.copyWith(
-          deleteResult: Resource.failure('category'),
+          deleteResult: Resource.failure('transaction_category'),
         );
-
       },
     );
   }

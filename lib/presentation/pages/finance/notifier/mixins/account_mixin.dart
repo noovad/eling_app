@@ -16,11 +16,8 @@ mixin AccountMixin on StateNotifier<FinanceState> {
   GetAccountsUseCase get getAccountsUseCase;
   DeleteAccountUseCase get deleteAccountUseCase;
 
-  Future<void> getAccounts() async {
-    state = state.copyWith(accounts: const Resource.loading());
-
+  void getAccounts() async {
     final result = await getAccountsUseCase.execute(const GetAccountsRequest());
-
     result.when(
       success: (accounts) {
         state = state.copyWith(accounts: Resource.success(accounts));
@@ -31,9 +28,7 @@ mixin AccountMixin on StateNotifier<FinanceState> {
     );
   }
 
-  Future<void> createAccount(AccountType type) async {
-    state = state.copyWith(saveResult: const Resource.loading());
-
+  void createAccount(AccountType type) async {
     final account = AccountEntity(
       id: const Uuid().v4(),
       name: state.accountName.value,
@@ -58,7 +53,7 @@ mixin AccountMixin on StateNotifier<FinanceState> {
     );
   }
 
-  Future<void> deleteAccount(String id) async {
+  void deleteAccount(String id) async {
     final result = await deleteAccountUseCase.execute(
       DeleteAccountRequest(id: id),
     );

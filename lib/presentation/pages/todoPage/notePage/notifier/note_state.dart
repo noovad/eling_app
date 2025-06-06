@@ -3,15 +3,15 @@ part of 'note_notifier.dart';
 @freezed
 abstract class NoteState with _$NoteState {
   const factory NoteState({
-    required Resource<List<NoteEntity>> notes,
-    required Resource<List<CategoryEntity>> categories,
-    required Resource<int> countPinnedNotes,
+    @Default(Resource.initial()) Resource<List<NoteEntity>> notes,
+    @Default(Resource.initial()) Resource<List<CategoryEntity>> categories,
+    @Default(Resource.initial()) Resource<int> countPinnedNotes,
 
     // Result
-    required Resource<String> saveResult,
-    required Resource<String> updateResult,
-    required Resource<String> updateStatusResult,
-    required Resource<String> deleteResult,
+    @Default(Resource.initial()) Resource<String> saveResult,
+    @Default(Resource.initial()) Resource<String> updateResult,
+    @Default(Resource.initial()) Resource<String> updateStatusResult,
+    @Default(Resource.initial()) Resource<String> deleteResult,
 
     @Default(TitleInput.pure()) TitleInput title,
     @Default(ContentInput.pure()) ContentInput content,
@@ -19,13 +19,5 @@ abstract class NoteState with _$NoteState {
     String? selectedCategory,
   }) = _NoteState;
 
-  factory NoteState.initial() => NoteState(
-    notes: Resource.initial(),
-    categories: Resource.initial(),
-    countPinnedNotes: Resource.initial(),
-    saveResult: Resource.initial(),
-    updateResult: Resource.initial(),
-    updateStatusResult: Resource.initial(),
-    deleteResult: Resource.initial(),
-  );
+  factory NoteState.initial() => NoteState();
 }

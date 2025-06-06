@@ -36,8 +36,8 @@ abstract class FinanceState with _$FinanceState {
     @Default(false) bool isAccountFormValid,
 
     // Result
-    required Resource<String> saveResult,
-    required Resource<String> deleteResult,
+    @Default(Resource.initial()) Resource<String> saveResult,
+    @Default(Resource.initial()) Resource<String> deleteResult,
 
     // Filter parameters
     required DateTime dateFilter,
@@ -48,7 +48,5 @@ abstract class FinanceState with _$FinanceState {
   factory FinanceState.initial() => FinanceState(
     dateFilter: DateTime.now(),
     yearFilter: DateTime.now().year,
-    saveResult: Resource.initial(),
-    deleteResult: Resource.initial(),
   );
 }

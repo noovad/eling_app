@@ -16,14 +16,16 @@ class ResultHandler {
         SuccessToast.show(context, successAction);
         result.whenOrNull(
           success: (value) {
-            if (value != "category" && Navigator.of(context).canPop()) {
+            if (value != "account" &&
+                value != "transaction_category" &&
+                Navigator.of(context).canPop()) {
               Navigator.of(context).pop();
             }
           },
         );
         resetAction();
       },
-      failure: (errorMessage) => FailureToast.show(context, failureAction),
+      failure: (_) => FailureToast.show(context, failureAction),
     );
   }
 }

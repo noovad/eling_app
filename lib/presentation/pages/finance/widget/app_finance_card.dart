@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
-import 'package:flutter_ui/widgets/appShimmer/app_shimmer.dart';
 
 class AppFinanceCard extends StatelessWidget {
   final bool leading;
@@ -11,7 +10,6 @@ class AppFinanceCard extends StatelessWidget {
   final bool? highlight;
   final bool trailing;
   final String? trailingText;
-  final bool isShimmer;
   final String titleInfo;
 
   const AppFinanceCard({
@@ -24,7 +22,6 @@ class AppFinanceCard extends StatelessWidget {
     this.onTap,
     this.icon,
     this.trailingText,
-    this.isShimmer = false,
     this.titleInfo = '',
   });
 
@@ -67,19 +64,10 @@ class AppFinanceCard extends StatelessWidget {
             subtitle: Row(
               children: [
                 Text('Rp ', style: Theme.of(context).textTheme.titleLarge),
-                isShimmer
-                    ? Padding(
-                      padding: AppPadding.v4,
-                      child: const AppShimmer(
-                        width: 100,
-                        height: 16,
-                        borderRadius: 4,
-                      ),
-                    )
-                    : Text(
-                      subtitle ?? '',
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
+                Text(
+                  subtitle ?? '',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
               ],
             ),
             onTap: onTap,

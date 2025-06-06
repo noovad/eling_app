@@ -43,7 +43,7 @@ class Accounts extends ConsumerWidget {
       crossAxisCount: 3,
       crossAxisSpacing: 24,
       shrinkWrap: true,
-      childAspectRatio: 3,
+      childAspectRatio: 2.5,
       children:
           data
               .map(

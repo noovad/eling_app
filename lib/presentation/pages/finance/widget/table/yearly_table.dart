@@ -172,17 +172,13 @@ class YearlyTable extends ConsumerWidget {
             ),
           ),
         ),
-        yearlyTransactions.when(
-          initial:
-              () => Expanded(
-                child: const Center(child: Text('Select a year to view data')),
-              ),
-          loading:
+        yearlyTransactions.maybeWhen(
+          orElse:
               () => Expanded(
                 child: const Center(child: CircularProgressIndicator()),
               ),
-          failure: (message) {
-            return Expanded(child: Text(message.toString()));
+          failure: (error) {
+            return Expanded(child: Center(child: Text(error)));
           },
           success: (value) {
             return SizedBox.shrink();

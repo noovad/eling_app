@@ -24,14 +24,8 @@ class TablePage extends ConsumerWidget {
       child: Column(
         children: [
           AppSpaces.h24,
-
-          AppDateNav(
-            onChange: (date) {
-              notifier.getCompletedTasks(date.month, date.year);
-            },
-          ),
+          AppDateNav(onChange: notifier.dateFilterChanged),
           AppSpaces.h24,
-
           Flexible(
             child: SingleChildScrollView(
               child: DataTable(
@@ -122,17 +116,9 @@ class TablePage extends ConsumerWidget {
               ),
             ),
           ),
-          completedTasks.when(
-            initial:
-                () => Expanded(
-                  child: const Center(child: CircularProgressIndicator()),
-                ),
-            loading:
-                () => Expanded(
-                  child: const Center(child: CircularProgressIndicator()),
-                ),
-            failure: (message) {
-              return Expanded(child: Text(message));
+          completedTasks.maybeWhen(
+            failure: (error) {
+              return Expanded(child: Center(child: Text(error)));
             },
             success: (value) {
               if (value.isEmpty) {
@@ -140,6 +126,10 @@ class TablePage extends ConsumerWidget {
               }
               return SizedBox.shrink();
             },
+            orElse:
+                () => Expanded(
+                  child: const Center(child: CircularProgressIndicator()),
+                ),
           ),
         ],
       ),

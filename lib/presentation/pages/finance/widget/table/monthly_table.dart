@@ -228,15 +228,15 @@ class MonthlyTable extends ConsumerWidget {
           initial:
               () => Expanded(
                 child: const Center(
-                  child: Text('Select a date to view transactions'),
+                  child: Center(child: CircularProgressIndicator()),
                 ),
               ),
           loading:
               () => Expanded(
                 child: const Center(child: CircularProgressIndicator()),
               ),
-          failure: (message) {
-            return Expanded(child: Text(message.toString()));
+          failure: (error) {
+            return Expanded(child: Text(error));
           },
           success: (value) {
             if (value.isEmpty) {

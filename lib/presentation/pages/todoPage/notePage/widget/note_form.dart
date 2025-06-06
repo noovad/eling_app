@@ -33,7 +33,7 @@ class NoteForm extends ConsumerWidget {
       children: [
         AppTextField(
           initialValue: state.title.value,
-          onChanged: (value) => notifier.titleChanged(value),
+          onChanged: notifier.titleChanged,
           label: 'Title',
           hint: 'Enter note title',
           errorText: state.title.displayError?.message,
@@ -57,7 +57,7 @@ class NoteForm extends ConsumerWidget {
 
         AppTextField(
           initialValue: state.content.value,
-          onChanged: (value) => notifier.contentChanged(value),
+          onChanged: notifier.contentChanged,
           minLines: 5,
           maxLines: 30,
           hint: 'Write your note here...',

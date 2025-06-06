@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
 import 'package:flutter_ui/shared/sizes/app_spaces.dart';
 import 'package:flutter_ui/widgets/appCard/app_task_card.dart';
-import 'package:flutter_ui/widgets/appCard/app_task_shimmer_card.dart';
 import 'package:flutter_ui/widgets/appSheet/app_sheet.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -86,11 +85,9 @@ class TaskListData extends ConsumerWidget {
             height: MediaQuery.of(context).size.height - 172,
             alignment: Alignment.topCenter,
             width: MediaQuery.of(context).size.width,
-            child: tasks.when(
-              initial: () => _buildShimmerList(),
-              loading: () => _buildShimmerList(),
-              failure: (message) {
-                return Text(message);
+            child: tasks.whenOrNull(
+              failure: (error) {
+                return Center(child: Text(error));
               },
               success: (data) {
                 if (data.tasksByType[taskType]!.isEmpty) {
@@ -125,14 +122,17 @@ class TaskListData extends ConsumerWidget {
                             ),
                         onDelete: () {
                           if (taskScheduleType == TaskScheduleType.recurring) {
-                            notifier.onDeleteRT(task.id);
+                            notifier.deleteRecurringTask(task.id);
                           } else {
                             notifier.deleteTask(task.id);
                           }
                         },
                         leading: taskScheduleType != TaskScheduleType.recurring,
                         ontap: () {
-                          notifier.setUpdateForm(task, taskScheduleType);
+                          notifier.setUpdateForm(
+                            task,
+                            taskScheduleType,
+                          );
                           appSheet(
                             context: context,
                             side: SheetSide.right,
@@ -154,21 +154,6 @@ class TaskListData extends ConsumerWidget {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildShimmerList() {
-    return ListView.builder(
-      itemCount: 4,
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 8),
-          child: AppTaskShimmerCard(
-            withLeading: taskScheduleType != TaskScheduleType.recurring,
-          ),
-        );
-      },
     );
   }
 

@@ -6,7 +6,7 @@ mixin RecurringTaksMixin on StateNotifier<TaskState> {
   UpdateRecurringTaskUseCase get updateRecurringTaskUseCase;
   DeleteRecurringTaskUseCase get deleteRecurringTaskUseCase;
 
-  void onSaveRT(TaskType type) async {
+  void createRecurringTask(TaskType type) async {
     final data = RecurringTaskEntity(
       id: const Uuid().v4(),
       title: state.title.value,
@@ -22,7 +22,7 @@ mixin RecurringTaksMixin on StateNotifier<TaskState> {
     );
     result.when(
       success: (data) {
-        onFetchRT();
+        getRecurringTasks();
         state = state.copyWith(saveResult: Resource.success('recurring_task'));
       },
       failure: (error) {
@@ -31,14 +31,16 @@ mixin RecurringTaksMixin on StateNotifier<TaskState> {
     );
   }
 
-  void onDeleteRT(String taskId) async {
+  void deleteRecurringTask(String taskId) async {
     final result = await deleteRecurringTaskUseCase.execute(
       DeleteRecurringTaskRequest(id: taskId),
     );
     result.when(
       success: (data) {
-        onFetchRT();
-        state = state.copyWith(deleteResult: Resource.success('recurring_task'));
+        getRecurringTasks();
+        state = state.copyWith(
+          deleteResult: Resource.success('recurring_task'),
+        );
       },
       failure: (error) {
         state = state.copyWith(deleteResult: Resource.failure(error));
@@ -46,7 +48,7 @@ mixin RecurringTaksMixin on StateNotifier<TaskState> {
     );
   }
 
-  void onUpdateRT(TaskEntity task) async {
+  void updateRecurringTask(TaskEntity task) async {
     final data = RecurringTaskEntity(
       id: task.id,
       type: task.type,
@@ -64,8 +66,10 @@ mixin RecurringTaksMixin on StateNotifier<TaskState> {
 
     result.when(
       success: (data) {
-        onFetchRT();
-        state = state.copyWith(updateResult: Resource.success('recurring_task'));
+        getRecurringTasks();
+        state = state.copyWith(
+          updateResult: Resource.success('recurring_task'),
+        );
       },
       failure: (error) {
         state = state.copyWith(updateResult: Resource.failure(error));
@@ -73,7 +77,7 @@ mixin RecurringTaksMixin on StateNotifier<TaskState> {
     );
   }
 
-  void onFetchRT() async {
+  void getRecurringTasks() async {
     final result = await getRecurringTasksUseCase.execute(NoRequest());
     result.when(
       success: (data) {

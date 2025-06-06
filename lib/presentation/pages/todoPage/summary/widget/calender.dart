@@ -26,7 +26,7 @@ class Calender extends ConsumerWidget {
     ref.listen<TaskState>(taskNotifierProvider, (prev, next) {
       if (prev?.updateStatusResult != next.updateStatusResult) {
         next.updateStatusResult.whenOrNull(
-          success: (_) => notifier.getDailyActivities(date.month, date.year),
+          success: (_) => notifier.dateChanged(date),
         );
       }
     });
@@ -54,7 +54,7 @@ class Calender extends ConsumerWidget {
           initial: () => const Center(child: AppDailySummaryShimmerCard()),
           loading: () => const Center(child: AppDailySummaryShimmerCard()),
           failure: (message) {
-            return Text(message);
+            return Center(child: Text(message));
           },
           success: (dailyActivities) {
             final currentDayActivities =

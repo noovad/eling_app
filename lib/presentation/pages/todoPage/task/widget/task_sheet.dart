@@ -58,12 +58,14 @@ class TaskSheet extends ConsumerWidget {
       if (isCreate) {
         isButtonValid = () {
           isRecurring
-              ? notifier.onSaveRT(taskType!)
+              ? notifier.createRecurringTask(taskType!)
               : notifier.saveTask(taskType!);
         };
       } else {
         isButtonValid = () {
-          isRecurring ? notifier.onUpdateRT(task!) : notifier.updateTask(task!);
+          isRecurring
+              ? notifier.updateRecurringTask(task!)
+              : notifier.updateTask(task!);
         };
       }
     } else {

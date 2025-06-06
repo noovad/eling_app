@@ -17,9 +17,7 @@ class FinanceInfo extends ConsumerWidget {
 
     return Padding(
       padding: AppPadding.all12,
-      child: summary.when(
-        initial: () => _buildShimmerLayout(),
-        loading: () => _buildShimmerLayout(),
+      child: summary.whenOrNull(
         success: (data) {
           return GridView.count(
             crossAxisCount: 2,
@@ -86,56 +84,8 @@ class FinanceInfo extends ConsumerWidget {
             ],
           );
         },
-        failure:
-            (error) => Center(
-              child: Text('Error loading financial data: ${error.toString()}'),
-            ),
+        failure: (error) => Center(child: Text(error)),
       ),
-    );
-  }
-
-  Widget _buildShimmerLayout() {
-    return GridView.count(
-      crossAxisCount: 2,
-      crossAxisSpacing: 24,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      childAspectRatio: 4,
-      children: [
-        const SizedBox.shrink(),
-        AppFinanceCard(
-          highlight: true,
-          isShimmer: true,
-          title: 'Total Balance',
-          icon: Icons.account_balance_wallet,
-          titleInfo: 'All',
-        ),
-        AppFinanceCard(
-          isShimmer: true,
-          title: 'Income',
-          icon: Icons.trending_up,
-          titleInfo: 'Month',
-        ),
-        AppFinanceCard(
-          isShimmer: true,
-          title: 'Savings',
-          icon: Icons.move_to_inbox,
-          titleInfo: 'Month',
-        ),
-        AppFinanceCard(
-          isShimmer: true,
-          title: 'Expense',
-          icon: Icons.trending_down,
-          titleInfo: 'Month',
-        ),
-        AppFinanceCard(
-          highlight: true,
-          isShimmer: true,
-          title: 'Net Balance',
-          icon: Icons.output,
-          titleInfo: 'Month',
-        ),
-      ],
     );
   }
 

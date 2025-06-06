@@ -29,9 +29,7 @@ mixin TransactionMixin on StateNotifier<FinanceState> {
   CreateTransactionUseCase get createTransactionUseCase;
   DeleteTransactionUseCase get deleteTransactionUseCase;
 
-  Future<void> getTransactions() async {
-    state = state.copyWith(monthlyTransactions: const Resource.loading());
-
+  void getTransactions() async {
     final result = await getTransactionsUseCase.execute(
       GetTransactionsRequest(
         month: state.dateFilter.month,
@@ -52,9 +50,7 @@ mixin TransactionMixin on StateNotifier<FinanceState> {
     );
   }
 
-  Future<void> getMonthlySummaryForYear() async {
-    state = state.copyWith(yearlyTransactions: const Resource.loading());
-
+  void getMonthlySummaryForYear() async {
     final result = await getMonthlySummaryForYearUseCase.execute(
       GetMonthlySummaryForYearRequest(year: state.yearFilter),
     );
@@ -69,8 +65,7 @@ mixin TransactionMixin on StateNotifier<FinanceState> {
     );
   }
 
-  Future<void> getFinanceSummary() async {
-    state = state.copyWith(financeSummary: const Resource.loading());
+  void getFinanceSummary() async {
     final result = await getFinanceSummaryUseCase.execute(
       GetFinanceSummaryRequest(
         month: state.dateFilter.month,
@@ -111,9 +106,7 @@ mixin TransactionMixin on StateNotifier<FinanceState> {
     getMonthlySummaryForYear();
   }
 
-  Future<void> createTransaction() async {
-    state = state.copyWith(saveResult: const Resource.loading());
-
+  void createTransaction() async {
     final transaction = TransactionEntity(
       id: const Uuid().v4(),
       type: state.transactionType,
@@ -143,7 +136,7 @@ mixin TransactionMixin on StateNotifier<FinanceState> {
     );
   }
 
-  Future<void> deleteTransaction(String id) async {
+  void deleteTransaction(String id) async {
     final result = await deleteTransactionUseCase.execute(
       DeleteTransactionRequest(id: id),
     );

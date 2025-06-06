@@ -76,9 +76,7 @@ class _BalanceSheetState extends ConsumerState<AccountSheet> {
             label: "Account Name",
             hint: "Enter account name",
             isRequired: true,
-            onChanged: (value) {
-              notifier.accountNameChanged(value);
-            },
+            onChanged: notifier.accountNameChanged,
             errorText: name.displayError?.message,
             maxLines: 1,
           ),

@@ -94,9 +94,10 @@ class TaskNotifier extends StateNotifier<TaskState>
   ) : super(TaskState.initial()) {
     getTasks(TaskScheduleType.today);
     getTasks(TaskScheduleType.upcoming);
+    getCompletedTasks();
     getCategories(CategoryType.daily);
     getCategories(CategoryType.productivity);
     getCategories(CategoryType.note);
-    onFetchRT();
+    getRecurringTasks();
   }
 }

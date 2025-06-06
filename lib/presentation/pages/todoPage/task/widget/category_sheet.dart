@@ -86,7 +86,7 @@ class _CategorySheetState extends ConsumerState<CategorySheet> {
             label: "Title",
             hint: "Enter title",
             controller: _controller,
-            onChanged: (value) => notifier.categoyrTitleChanged(value),
+            onChanged: notifier.categoyrTitleChanged,
             errorText: ref.watch(
               taskNotifierProvider.select(
                 (s) => s.categoryTitle.displayError?.message,
