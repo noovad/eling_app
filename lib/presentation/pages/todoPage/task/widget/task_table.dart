@@ -31,33 +31,57 @@ class TablePage extends ConsumerWidget {
               child: DataTable(
                 dividerThickness: 0.2,
                 showCheckboxColumn: false,
-                columns: const [
+                columns: [
                   DataColumn(
                     columnWidth: FlexColumnWidth(2),
-                    label: Text(
-                      'Date',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    label: Row(
+                      children: [
+                        Icon(Icons.calendar_today, size: 16),
+                        AppSpaces.w4,
+                        Text(
+                          'Date',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
                   ),
                   DataColumn(
                     columnWidth: FlexColumnWidth(4),
-                    label: Text(
-                      'Title',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    label: Row(
+                      children: [
+                        Icon(Icons.title, size: 16),
+                        AppSpaces.w4,
+                        Text(
+                          'Title',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
                   ),
                   DataColumn(
                     columnWidth: FlexColumnWidth(2),
-                    label: Text(
-                      'Category',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    label: Row(
+                      children: [
+                        Icon(Icons.topic, size: 16),
+                        AppSpaces.w4,
+                        Text(
+                          'Category',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
                   ),
                   DataColumn(
                     columnWidth: FlexColumnWidth(2),
-                    label: Text(
-                      'Time',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    label: Row(
+                      children: [
+                        Icon(Icons.access_time, size: 16),
+                        AppSpaces.w4,
+                        Text(
+                          'Time',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
                   ),
                 ],
