@@ -208,6 +208,30 @@ class TransactionRepository {
       }
     }
 
+    // Calculate percentages for income summaries
+    final updatedIncomeSummaries =
+        incomeSummaries.values
+            .map(
+              (summary) => summary.copyWith(
+                percentage:
+                    totalIncome > 0 ? (summary.amount / totalIncome) * 100 : 0,
+              ),
+            )
+            .toList();
+
+    // Calculate percentages for expense summaries
+    final updatedExpenseSummaries =
+        expenseSummaries.values
+            .map(
+              (summary) => summary.copyWith(
+                percentage:
+                    totalExpense > 0
+                        ? (summary.amount / totalExpense) * 100
+                        : 0,
+              ),
+            )
+            .toList();
+
     final totalBalance = await getTotalBalance();
 
     return FinanceSummaryEntity(
@@ -215,8 +239,8 @@ class TransactionRepository {
       totalIncome: totalIncome,
       totalExpense: totalExpense,
       totalSavings: totalSavings,
-      incomeSummaries: incomeSummaries.values.toList(),
-      expenseSummaries: expenseSummaries.values.toList(),
+      incomeSummaries: updatedIncomeSummaries,
+      expenseSummaries: updatedExpenseSummaries,
       month: month,
       year: year,
     );
@@ -226,7 +250,7 @@ class TransactionRepository {
     Map<String, DetailSummaryEntity> summaries,
     TransactionEntity transaction,
   ) {
-    final category = transaction.category ?? 'Uncategorized';
+    final category = transaction.title;
 
     if (!summaries.containsKey(category)) {
       summaries[category] = DetailSummaryEntity(
@@ -359,11 +383,7 @@ class TransactionRepository {
           break;
       }
 
-      await txn.delete(
-        'transactions',
-        where: 'id = ?',
-        whereArgs: [id],
-      );
+      await txn.delete('transactions', where: 'id = ?', whereArgs: [id]);
     });
 
     return 1;

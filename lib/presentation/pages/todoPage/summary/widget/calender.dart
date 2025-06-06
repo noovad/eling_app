@@ -24,9 +24,11 @@ class Calender extends ConsumerWidget {
     final startDay = DateTime(date.year, date.month, 1).weekday % 7;
 
     ref.listen<TaskState>(taskNotifierProvider, (prev, next) {
-      next.updateStatusResult.whenOrNull(
-        success: (_) => notifier.getDailyActivities(date.month, date.year),
-      );
+      if (prev?.updateStatusResult != next.updateStatusResult) {
+        next.updateStatusResult.whenOrNull(
+          success: (_) => notifier.getDailyActivities(date.month, date.year),
+        );
+      }
     });
 
     return GridView.builder(

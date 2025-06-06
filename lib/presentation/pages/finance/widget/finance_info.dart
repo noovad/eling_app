@@ -34,16 +34,14 @@ class FinanceInfo extends ConsumerWidget {
                 leading: true,
                 highlight: true,
                 icon: Icons.account_balance_wallet,
-                subtitle: StringConstants.formatShortCurrency(
-                  data.totalBalance,
-                ),
+                subtitle: StringConstants.formatCurrency(data.totalBalance),
                 titleInfo: 'All',
               ),
               AppFinanceCard(
                 title: 'Income',
                 leading: true,
                 icon: Icons.trending_up,
-                subtitle: StringConstants.formatShortCurrency(data.totalIncome),
+                subtitle: StringConstants.formatCurrency(data.totalIncome),
                 onTap:
                     () => _showDetailsDialog(
                       context,
@@ -57,18 +55,14 @@ class FinanceInfo extends ConsumerWidget {
                 title: 'Savings',
                 leading: true,
                 icon: Icons.move_to_inbox,
-                subtitle: StringConstants.formatShortCurrency(
-                  data.totalSavings,
-                ),
+                subtitle: StringConstants.formatCurrency(data.totalSavings),
                 titleInfo: 'Month',
               ),
               AppFinanceCard(
                 title: 'Expense',
                 leading: true,
                 icon: Icons.trending_down,
-                subtitle: StringConstants.formatShortCurrency(
-                  data.totalExpense,
-                ),
+                subtitle: StringConstants.formatCurrency(data.totalExpense),
                 titleInfo: 'Month',
 
                 onTap:
@@ -83,7 +77,7 @@ class FinanceInfo extends ConsumerWidget {
                 title: 'Net Balance',
                 leading: true,
                 icon: Icons.output,
-                subtitle: StringConstants.formatShortCurrency(
+                subtitle: StringConstants.formatCurrency(
                   data.totalIncome - data.totalExpense,
                 ),
                 titleInfo: 'Month',

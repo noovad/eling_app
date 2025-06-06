@@ -1,16 +1,19 @@
-import 'package:eling_app/presentation/pages/finance/widget/monthly_table.dart';
-import 'package:eling_app/presentation/pages/finance/widget/transaction_sheet.dart';
-import 'package:eling_app/presentation/pages/finance/widget/yearly_table.dart';
+import 'package:eling_app/core/providers/notifier/finance_notifier_provider.dart';
+import 'package:eling_app/presentation/pages/finance/widget/table/monthly_table.dart';
+import 'package:eling_app/presentation/pages/finance/widget/transactionForm/transaction_sheet.dart';
+import 'package:eling_app/presentation/pages/finance/widget/table/yearly_table.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
 import 'package:flutter_ui/widgets/appSheet/app_sheet.dart';
 import 'package:flutter_ui/widgets/appTabs/app_tabs.dart';
 
-class FinanceTable extends StatelessWidget {
-  const FinanceTable({super.key});
+class TransactionTabs extends ConsumerWidget {
+  const TransactionTabs({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final notifier = ref.read(financeNotifierProvider.notifier);
     return Padding(
       padding: AppPadding.all12,
       child: AppTabs(
@@ -24,6 +27,7 @@ class FinanceTable extends StatelessWidget {
           color: Theme.of(context).colorScheme.primary,
           child: InkWell(
             onTap: () {
+              notifier.resetTransactionForm();
               appSheet(
                 context: context,
                 side: SheetSide.right,
@@ -31,7 +35,6 @@ class FinanceTable extends StatelessWidget {
                   return TransactionSheet();
                 },
               );
-              // Add your action here, e.g., open a dialog to add a new entry
             },
             child: SizedBox.square(
               dimension: 60,

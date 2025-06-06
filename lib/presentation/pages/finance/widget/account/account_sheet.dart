@@ -9,21 +9,16 @@ import 'package:flutter_ui/shared/sizes/app_spaces.dart';
 import 'package:flutter_ui/widgets/appField/app_text_field.dart';
 import 'package:flutter_ui/widgets/appUtils/app_no_data_found.dart';
 
-class BalanceSheet extends ConsumerStatefulWidget {
+class AccountSheet extends ConsumerStatefulWidget {
   final AccountType accountType;
-  final Function(String title, double initialBalance) onCreate;
 
-  const BalanceSheet({
-    super.key,
-    required this.accountType,
-    required this.onCreate,
-  });
+  const AccountSheet({super.key, required this.accountType});
 
   @override
-  ConsumerState<BalanceSheet> createState() => _BalanceSheetState();
+  ConsumerState<AccountSheet> createState() => _BalanceSheetState();
 }
 
-class _BalanceSheetState extends ConsumerState<BalanceSheet> {
+class _BalanceSheetState extends ConsumerState<AccountSheet> {
   late final TextEditingController _controller;
 
   @override

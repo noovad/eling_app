@@ -37,32 +37,21 @@ class TransactionForm extends ConsumerWidget {
       success:
           (categories) =>
               categories
-                  .map(
-                    (category) =>
-                        DropdownItem(id: category.id, label: category.name),
-                  )
+                  .map((c) => DropdownItem(id: c.id, label: c.name))
                   .toList(),
     );
 
     final accounts = ref.watch(
-      financeNotifierProvider.select((state) => state.accounts),
+      financeNotifierProvider.select((s) => s.accounts),
     );
 
-    final balanceAccounts = accounts.whenOrNull(
-      success:
-          (accounts) =>
-              accounts
-                  .where((account) => account.type == AccountType.balance)
-                  .toList(),
-    );
+    List<AccountEntity>? filterAccounts(AccountType type) =>
+        accounts.whenOrNull(
+          success: (list) => list.where((a) => a.type == type).toList(),
+        );
 
-    final savingsAccounts = accounts.whenOrNull(
-      success:
-          (accounts) =>
-              accounts
-                  .where((account) => account.type == AccountType.saving)
-                  .toList(),
-    );
+    final balanceAccounts = filterAccounts(AccountType.balance);
+    final savingsAccounts = filterAccounts(AccountType.saving);
 
     return Column(
       children: [

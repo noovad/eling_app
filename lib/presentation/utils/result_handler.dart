@@ -14,7 +14,6 @@ class ResultHandler {
     result.whenOrNull(
       success: (_) {
         SuccessToast.show(context, successAction);
-        resetAction();
         result.whenOrNull(
           success: (value) {
             if (value != "category" && Navigator.of(context).canPop()) {
@@ -22,6 +21,7 @@ class ResultHandler {
             }
           },
         );
+        resetAction();
       },
       failure: (errorMessage) => FailureToast.show(context, failureAction),
     );

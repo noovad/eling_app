@@ -1,30 +1,26 @@
-import 'package:eling_app/core/providers/notifier/finance_notifier_provider.dart';
 import 'package:eling_app/domain/entities/account/account.dart';
-import 'package:eling_app/presentation/pages/finance/widget/balance_sheet.dart';
-import 'package:eling_app/presentation/pages/finance/widget/finance_account.dart';
-import 'package:eling_app/presentation/pages/finance/widget/transaction_category_sheet.dart';
+import 'package:eling_app/presentation/pages/finance/widget/account/account_sheet.dart';
+import 'package:eling_app/presentation/pages/finance/widget/account/accounts.dart';
+import 'package:eling_app/presentation/pages/finance/widget/transactionForm/transaction_category_sheet.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
 import 'package:flutter_ui/widgets/appPopOver/app_pop_over.dart';
 import 'package:flutter_ui/widgets/appSheet/app_sheet.dart';
 import 'package:flutter_ui/widgets/appTabs/app_tabs.dart';
 
-class BalanceSection extends ConsumerWidget {
-  const BalanceSection({super.key});
+class AccountSection extends StatelessWidget {
+  const AccountSection({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final notifier = ref.read(financeNotifierProvider.notifier);
-
+  Widget build(BuildContext context) {
     return Padding(
       padding: AppPadding.all12,
       child: AppTabs(
         length: 2,
         tabBar: [Tab(text: 'Balance'), Tab(text: 'Savings')],
         tabBarView: [
-          FinanceAccount(accountType: AccountType.balance),
-          FinanceAccount(accountType: AccountType.saving),
+          Accounts(accountType: AccountType.balance),
+          Accounts(accountType: AccountType.saving),
         ],
         tabBarChild: Card(
           color: Theme.of(context).colorScheme.primary,
@@ -49,12 +45,7 @@ class BalanceSection extends ConsumerWidget {
                     '+ Balance Account',
                     () => _showSheet(
                       context,
-                      BalanceSheet(
-                        accountType: AccountType.balance,
-                        onCreate: (title, initialBalance) {
-                          notifier.createAccount(AccountType.balance);
-                        },
-                      ),
+                      AccountSheet(accountType: AccountType.balance),
                     ),
                   ),
                   _buildActionButton(
@@ -62,12 +53,7 @@ class BalanceSection extends ConsumerWidget {
                     '+ Savings Account',
                     () => _showSheet(
                       context,
-                      BalanceSheet(
-                        accountType: AccountType.saving,
-                        onCreate: (title, initialBalance) {
-                          notifier.createAccount(AccountType.saving);
-                        },
-                      ),
+                      AccountSheet(accountType: AccountType.saving),
                     ),
                   ),
                   _buildActionButton(

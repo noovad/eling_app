@@ -6,16 +6,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/shared/sizes/app_spaces.dart';
 import 'package:flutter_ui/widgets/appNav/app_year_nav.dart';
 
-class YearlyTable extends ConsumerStatefulWidget {
+class YearlyTable extends ConsumerWidget {
   const YearlyTable({super.key});
 
   @override
-  ConsumerState<YearlyTable> createState() => _YearlyTableState();
-}
-
-class _YearlyTableState extends ConsumerState<YearlyTable> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final notifier = ref.read(financeNotifierProvider.notifier);
     final yearlyTransactions = ref.watch(
       financeNotifierProvider.select((state) => state.yearlyTransactions),

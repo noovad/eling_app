@@ -28,21 +28,6 @@ class StringConstants {
     return formattedAmount;
   }
 
-  static String formatShortCurrency(double amount) {
-    if (amount >= 1000) {
-      String formatted = amount
-          .toStringAsFixed(0)
-          .replaceAllMapped(
-            RegExp(r'(\d)(?=(\d{3})+(?!\d))'),
-            (Match m) => '${m[1]}.',
-          );
-      formatted = formatted.replaceFirst(RegExp(r'000$'), 'x');
-      return formatted;
-    } else {
-      return formatCurrency(amount);
-    }
-  }
-
   static String truncate(String text, int maxLength) {
     if (text.length <= maxLength) return text;
     return '${text.substring(0, maxLength)}...';

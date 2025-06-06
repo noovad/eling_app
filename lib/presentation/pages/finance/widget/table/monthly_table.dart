@@ -1,7 +1,7 @@
 import 'package:eling_app/core/providers/notifier/finance_notifier_provider.dart';
 import 'package:eling_app/core/utils/constants/string_constants.dart';
 import 'package:eling_app/domain/entities/transaction/transaction.dart';
-import 'package:eling_app/presentation/pages/finance/widget/transaction_type_dropdown.dart';
+import 'package:eling_app/presentation/pages/finance/widget/table/transaction_type_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/shared/sizes/app_spaces.dart';
@@ -10,16 +10,11 @@ import 'package:flutter_ui/widgets/appNav/app_date_nav.dart';
 import 'package:flutter_ui/widgets/appUtils/app_no_data_found.dart';
 import 'package:intl/intl.dart';
 
-class MonthlyTable extends ConsumerStatefulWidget {
+class MonthlyTable extends ConsumerWidget {
   const MonthlyTable({super.key});
 
   @override
-  ConsumerState<MonthlyTable> createState() => _MonthlyTableState();
-}
-
-class _MonthlyTableState extends ConsumerState<MonthlyTable> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final notifier = ref.read(financeNotifierProvider.notifier);
     final transactions = ref.watch(
       financeNotifierProvider.select((state) => state.monthlyTransactions),

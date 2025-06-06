@@ -37,7 +37,6 @@ abstract class FinanceState with _$FinanceState {
 
     // Result
     required Resource<String> saveResult,
-    required Resource<String> updateResult,
     required Resource<String> deleteResult,
 
     // Filter parameters
@@ -50,7 +49,6 @@ abstract class FinanceState with _$FinanceState {
     dateFilter: DateTime.now(),
     yearFilter: DateTime.now().year,
     saveResult: Resource.initial(),
-    updateResult: Resource.initial(),
     deleteResult: Resource.initial(),
   );
 }

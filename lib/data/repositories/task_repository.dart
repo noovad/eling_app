@@ -71,7 +71,7 @@ class TaskRepository {
         strftime('%Y', ${TaskFields.date}) = ?
       ''',
       whereArgs: [1, month.toString().padLeft(2, '0'), year.toString()],
-      orderBy: '${TaskFields.date} ASC',
+      orderBy: '${TaskFields.date} DESC',
     );
 
     return result.map((json) => TaskEntity.fromJson(json)).toList();

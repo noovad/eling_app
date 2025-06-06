@@ -69,11 +69,6 @@ mixin TransactionMixin on StateNotifier<FinanceState> {
     );
   }
 
-  void updateYearFilter(int year) {
-    state = state.copyWith(yearFilter: year);
-    getMonthlySummaryForYear();
-  }
-
   Future<void> getFinanceSummary() async {
     state = state.copyWith(financeSummary: const Resource.loading());
     final result = await getFinanceSummaryUseCase.execute(
@@ -106,10 +101,14 @@ mixin TransactionMixin on StateNotifier<FinanceState> {
       state = state.copyWith(filterType: type);
       getTransactions();
     } else if (type == null && prevType != null && date == null) {
-      // Only reset filterType if type is explicitly set to null and date is not being changed
       state = state.copyWith(filterType: null);
       getTransactions();
     }
+  }
+
+  void updateYearFilter(int year) {
+    state = state.copyWith(yearFilter: year);
+    getMonthlySummaryForYear();
   }
 
   Future<void> createTransaction() async {
@@ -121,10 +120,10 @@ mixin TransactionMixin on StateNotifier<FinanceState> {
       title: state.transactionTitle.value,
       date: DateTime.parse(state.date.value),
       amount: StringConstants.parseCurrencyToDouble(state.amount.value),
-      category: state.category.value.isEmpty ? null : state.category.value,
-      source: state.source.value.isEmpty ? null : state.source.value,
-      target: state.target.value.isEmpty ? null : state.target.value,
-      description: state.description.isEmpty ? null : state.description,
+      category: state.category.value,
+      source: state.source.value,
+      target: state.target.value,
+      description: state.description,
     );
 
     final result = await createTransactionUseCase.execute(
@@ -134,8 +133,8 @@ mixin TransactionMixin on StateNotifier<FinanceState> {
     result.when(
       success: (_) {
         getTransactions();
+        getMonthlySummaryForYear();
         getFinanceSummary();
-        resetForm();
         state = state.copyWith(saveResult: Resource.success('transaction'));
       },
       failure: (_) {
@@ -152,6 +151,7 @@ mixin TransactionMixin on StateNotifier<FinanceState> {
     result.when(
       success: (_) {
         getTransactions();
+        getMonthlySummaryForYear();
         getFinanceSummary();
         state = state.copyWith(deleteResult: Resource.success('transaction'));
       },
@@ -252,7 +252,7 @@ mixin TransactionMixin on StateNotifier<FinanceState> {
     return isValid;
   }
 
-  void resetForm() {
+  void resetTransactionForm() {
     state = state.copyWith(
       transactionTitle: const FinanceTitleInput.pure(),
       amount: const FinanceAmountInput.pure(),
@@ -264,5 +264,13 @@ mixin TransactionMixin on StateNotifier<FinanceState> {
       isFormValid: false,
       transactionType: TransactionType.income,
     );
+  }
+
+  void resetIsSaving() {
+    state = state.copyWith(saveResult: Resource.initial());
+  }
+
+  void resetIsDeleting() {
+    state = state.copyWith(deleteResult: Resource.initial());
   }
 }
