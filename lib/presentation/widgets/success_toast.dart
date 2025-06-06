@@ -1,21 +1,20 @@
+import 'package:eling_app/presentation/utils/result_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui/widgets/appToast/app_simple_toast.dart';
 
-enum SuccessAction { save, update, delete }
-
 class SuccessToast {
-  static void show(BuildContext context, SuccessAction action) {
+  static void show(BuildContext context, ForAction action) {
     String message;
     Color backgroundColor = Colors.black;
 
     switch (action) {
-      case SuccessAction.save:
+      case ForAction.save:
         message = 'Data saved successfully!';
         break;
-      case SuccessAction.update:
+      case ForAction.update:
         message = 'Data updated successfully!';
         break;
-      case SuccessAction.delete:
+      case ForAction.delete:
         message = 'Data deleted successfully!';
         break;
     }

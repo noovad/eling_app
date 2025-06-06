@@ -2,10 +2,11 @@ import 'package:eling_app/core/providers/notifier/finance_notifier_provider.dart
 import 'package:eling_app/core/utils/constants/string_constants.dart';
 import 'package:eling_app/domain/entities/transaction/transaction.dart';
 import 'package:eling_app/presentation/pages/finance/widget/table/transaction_type_dropdown.dart';
+import 'package:eling_app/presentation/widgets/delete_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/shared/sizes/app_spaces.dart';
-import 'package:flutter_ui/widgets/appDialog/app_dialog.dart';
+import 'package:flutter_ui/widgets/appButton/app_button.dart';
 import 'package:flutter_ui/widgets/appNav/app_date_nav.dart';
 import 'package:flutter_ui/widgets/appUtils/app_no_data_found.dart';
 import 'package:intl/intl.dart';
@@ -173,47 +174,15 @@ class MonthlyTable extends ConsumerWidget {
                               ),
                               DataCell(
                                 Center(
-                                  child: AppDialog(
-                                    trigger: const Icon(Icons.delete_outline),
-                                    content: SizedBox(
-                                      height: 100,
-                                      child: Column(
-                                        children: [
-                                          const Expanded(
-                                            child: Center(
-                                              child: Text(
-                                                'Are you sure you want to delete this transaction?',
-                                              ),
-                                            ),
-                                          ),
-                                          AppSpaces.h16,
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              ElevatedButton(
-                                                onPressed:
-                                                    () =>
-                                                        Navigator.of(
-                                                          context,
-                                                        ).pop(),
-                                                child: const Text('Cancel'),
-                                              ),
-                                              AppSpaces.w8,
-                                              ElevatedButton(
-                                                onPressed: () {
-                                                  notifier.deleteTransaction(
-                                                    transaction.id,
-                                                  );
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: const Text('Delete'),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                  child: AppButton.iconOnly(
+                                    onPressed: () {
+                                      deleteDialog(context, () {
+                                        notifier.deleteTransaction(
+                                          transaction.id,
+                                        );
+                                      });
+                                    },
+                                    icon: Icons.delete_outline,
                                   ),
                                 ),
                               ),

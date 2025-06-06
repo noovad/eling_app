@@ -38,6 +38,7 @@ class NoteForm extends ConsumerWidget {
           hint: 'Enter note title',
           errorText: state.title.displayError?.message,
           isRequired: true,
+          maxLines: 1,
         ),
 
         AppDropdown<String>(

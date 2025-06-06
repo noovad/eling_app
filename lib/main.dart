@@ -16,15 +16,14 @@ void main() async {
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     await windowManager.ensureInitialized();
 
-    const Size minAppSize = Size(1280, 720);
     const WindowOptions options = WindowOptions(
-      minimumSize: minAppSize,
+      
       center: true,
     );
 
     windowManager.waitUntilReadyToShow(options, () async {
       await windowManager.maximize();
-      await windowManager.setMinimumSize(minAppSize);
+      
       await windowManager.show();
       await windowManager.focus();
     });

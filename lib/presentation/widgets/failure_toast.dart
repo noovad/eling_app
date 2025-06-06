@@ -1,21 +1,20 @@
+import 'package:eling_app/presentation/utils/result_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui/widgets/appToast/app_simple_toast.dart';
 
-enum FailureAction { save, update, delete }
-
 class FailureToast {
-  static void show(BuildContext context, FailureAction action) {
+  static void show(BuildContext context, ForAction action) {
     String message;
     Color backgroundColor = Theme.of(context).colorScheme.error;
 
     switch (action) {
-      case FailureAction.save:
+      case ForAction.save:
         message = 'Failed to save data!';
         break;
-      case FailureAction.update:
+      case ForAction.update:
         message = 'Failed to update data!';
         break;
-      case FailureAction.delete:
+      case ForAction.delete:
         message = 'Failed to delete data!';
         break;
     }

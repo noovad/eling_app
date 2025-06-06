@@ -1,4 +1,6 @@
 import 'package:eling_app/core/providers/notifier/note_notifier_provider.dart';
+import 'package:eling_app/presentation/utils/result_handler.dart';
+import 'package:eling_app/presentation/widgets/delete_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
@@ -11,9 +13,8 @@ class NotePage extends ConsumerWidget {
   const NotePage({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final notesState = ref.watch(noteNotifierProvider.select((s) => s.notes));
+    final notes = ref.watch(noteNotifierProvider.select((s) => s.notes));
     final notifier = ref.read(noteNotifierProvider.notifier);
-
     final countPinnedNotes = ref.watch(
       noteNotifierProvider.select((s) => s.countPinnedNotes),
     );
@@ -24,6 +25,36 @@ class NotePage extends ConsumerWidget {
     );
     final showIsPinned = pinnedNotesCount < maxPinned;
 
+    ref.listen(
+      noteNotifierProvider.select((state) => state.saveResult),
+      (previous, current) => ResultHandler.handleResult(
+        context: context,
+        result: current,
+        action: ForAction.save,
+        resetAction: notifier.resetIsSaving,
+      ),
+    );
+
+    ref.listen(
+      noteNotifierProvider.select((state) => state.updateResult),
+      (previous, current) => ResultHandler.handleResult(
+        context: context,
+        result: current,
+        action: ForAction.update,
+        resetAction: notifier.resetIsUpdate,
+      ),
+    );
+
+    ref.listen(
+      noteNotifierProvider.select((state) => state.deleteResult),
+      (previous, current) => ResultHandler.handleResult(
+        context: context,
+        result: current,
+        action: ForAction.delete,
+        resetAction: notifier.resetIsDelete,
+      ),
+    );
+
     return Padding(
       padding: AppPadding.all16,
       child: Column(
@@ -33,7 +64,7 @@ class NotePage extends ConsumerWidget {
             child: Card(
               child: InkWell(
                 onTap: () {
-                  notifier.getNoteCategories();
+                  notifier.clear();
                   appSheet(
                     side: SheetSide.left,
                     context: context,
@@ -58,9 +89,9 @@ class NotePage extends ConsumerWidget {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          AppSpaces.h16,
           Expanded(
-            child: notesState.maybeWhen(
+            child: notes.maybeWhen(
               success: (notes) {
                 return GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -78,7 +109,11 @@ class NotePage extends ConsumerWidget {
                       noteId: note.id,
                       showIsPinned: showIsPinned,
                       isPinned: note.isPinned ?? false,
-                      onDelete: (value) => notifier.deleteNote(note.id),
+                      onDelete: (value) {
+                        deleteDialog(context, () {
+                          notifier.deleteNote(note.id);
+                        });
+                      },
                       onUpdate: (value) {
                         notifier.updatePinned(note.id, note.isPinned ?? false);
                       },

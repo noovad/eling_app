@@ -3,7 +3,6 @@ import 'package:eling_app/presentation/pages/finance/widget/account/account_sect
 import 'package:eling_app/presentation/pages/finance/widget/finance_info.dart';
 import 'package:eling_app/presentation/pages/finance/widget/table/transaction_tabs.dart';
 import 'package:eling_app/presentation/utils/result_handler.dart';
-import 'package:eling_app/presentation/widgets/success_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,7 +18,7 @@ class FinancePage extends ConsumerWidget {
       (previous, current) => ResultHandler.handleResult(
         context: context,
         result: current,
-        successAction: SuccessAction.save,
+        action: ForAction.save,
         resetAction: notifier.resetIsSaving,
       ),
     );
@@ -29,7 +28,7 @@ class FinancePage extends ConsumerWidget {
       (previous, current) => ResultHandler.handleResult(
         context: context,
         result: current,
-        successAction: SuccessAction.delete,
+        action: ForAction.delete,
         resetAction: notifier.resetIsDeleting,
       ),
     );
@@ -49,8 +48,7 @@ class FinancePage extends ConsumerWidget {
               child: Row(
                 children: [
                   SizedBox(width: tableWidth, child: TransactionTabs()),
-                  Container(
-                    color: Theme.of(context).colorScheme.surface,
+                  SizedBox(
                     width: 700,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

@@ -10,7 +10,7 @@ import 'package:flutter_ui/widgets/appField/app_date_field.dart';
 import 'package:flutter_ui/widgets/appField/app_text_field.dart';
 import 'package:flutter_ui/widgets/appField/app_time_field.dart';
 
-class TaskForm extends ConsumerStatefulWidget {
+class TaskForm extends ConsumerWidget {
   final TaskScheduleType? taskScheduleType;
   final TaskType? taskType;
   final bool enabled;
@@ -23,12 +23,7 @@ class TaskForm extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<TaskForm> createState() => _TaskFormState();
-}
-
-class _TaskFormState extends ConsumerState<TaskForm> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final selectedCategory = ref.watch(
       taskNotifierProvider.select((state) => state.selectedCategory),
     );
@@ -41,7 +36,7 @@ class _TaskFormState extends ConsumerState<TaskForm> {
     final notifier = ref.read(taskNotifierProvider.notifier);
 
     final dataCategories =
-        widget.taskType == TaskType.daily
+        taskType == TaskType.daily
             ? ref.watch(
               taskNotifierProvider.select((state) => state.dailyCategories),
             )
@@ -69,13 +64,14 @@ class _TaskFormState extends ConsumerState<TaskForm> {
           onChanged: notifier.titleChanged,
           errorText: title.displayError?.message,
           initialValue: title.value,
-          enabled: widget.enabled,
+          enabled: enabled,
           isRequired: true,
+          maxLines: 1,
         ),
         AppSpaces.h24,
         AppDropdown(
           items: [
-            if (widget.taskType == TaskType.daily) ...[
+            if (taskType == TaskType.daily) ...[
               DropdownItem<String>(id: 'Sholat Fardhu', label: 'Sholat Fardhu'),
               DropdownItem<String>(id: 'Gym', label: 'Gym'),
               DropdownItem<String>(id: 'Cardio', label: 'Cardio'),
@@ -84,13 +80,13 @@ class _TaskFormState extends ConsumerState<TaskForm> {
                 label: 'Calorie Controlled',
               ),
             ],
-            if (widget.taskType == TaskType.productivity)
+            if (taskType == TaskType.productivity)
               DropdownItem<String>(id: 'Coding', label: 'Coding'),
             ...?categories,
           ],
           label: "Category",
           hint: "Select category",
-          enabled: widget.enabled,
+          enabled: enabled,
           selectedItem:
               selectedCategory != null
                   ? DropdownItem<String>(
@@ -105,18 +101,18 @@ class _TaskFormState extends ConsumerState<TaskForm> {
         AppTimeField(
           onChanged: notifier.timeChanged,
           initialValue: time,
-          enabled: widget.enabled,
+          enabled: enabled,
         ),
         AppSpaces.h24,
         Visibility(
-          visible: widget.taskScheduleType != TaskScheduleType.recurring,
+          visible: taskScheduleType != TaskScheduleType.recurring,
           child: Column(
             children: [
               AppDateField(
                 onChanged: (value) => notifier.dateChanged(value.toString()),
                 initialValue: date.isValid ? DateTime.parse(date.value) : null,
                 errorText: date.displayError?.message,
-                enabled: widget.enabled,
+                enabled: enabled,
                 isRequired: true,
               ),
               AppSpaces.h24,
@@ -130,7 +126,7 @@ class _TaskFormState extends ConsumerState<TaskForm> {
           minLines: 3,
           onChanged: notifier.noteChanged,
           initialValue: note,
-          enabled: widget.enabled,
+          enabled: enabled,
         ),
       ],
     );

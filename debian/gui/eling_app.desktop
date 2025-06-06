@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0.0
+Name=eling app
+GenericName=eling app
+Comment=Eling-App - A modern productivity tracker and financial record-keeping app, written in Flutter.
+Terminal=false
+Type=Application
+Categories=Utility;
+Keywords=Flutter;
+Icon=eling_app

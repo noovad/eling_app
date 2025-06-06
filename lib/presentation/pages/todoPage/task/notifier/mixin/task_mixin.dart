@@ -178,7 +178,7 @@ mixin TaskMixin on StateNotifier<TaskState> {
       title: TitleInput.dirty(value: task.title),
       date: DateInput.dirty(value: dateValue),
       isValid: true,
-      // selectedCategory: task.category,
+      selectedCategory: task.category,
       note: task.note,
       time: task.time,
     );
@@ -205,5 +205,9 @@ mixin TaskMixin on StateNotifier<TaskState> {
 
   void resetIsUpdate() {
     state = state.copyWith(updateResult: Resource.initial());
+  }
+
+  void resetIsDelete() {
+    state = state.copyWith(deleteResult: Resource.initial());
   }
 }

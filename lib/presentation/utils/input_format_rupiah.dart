@@ -13,10 +13,8 @@ class CurrencyInputFormatter extends TextInputFormatter {
       return newValue.copyWith(text: '');
     }
 
-    // Remove all non-digit characters
     String newText = newValue.text.replaceAll(RegExp(r'[^0-9]'), '');
 
-    // Format as currency
     String formatted = _formatter.format(int.parse(newText));
 
     return TextEditingValue(
