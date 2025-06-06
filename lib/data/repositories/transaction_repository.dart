@@ -143,7 +143,7 @@ class TransactionRepository {
         .toList();
   }
 
-  Future<Map<int, List<TransactionEntity>>> getTransactionsByMonthInYear(
+  Future<Map<int, List<TransactionEntity>>> getMonthlySummaryForYear(
     int year,
   ) async {
     final db = await _database.database;
@@ -289,6 +289,83 @@ class TransactionRepository {
   }
 
   Future<int> deleteTransaction(String id) async {
-    return _database.delete('transactions', id);
+    final db = await _database.database;
+
+    // Ambil transaksi yang akan dihapus
+    final transactionData = await db.query(
+      'transactions',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+
+    if (transactionData.isEmpty) {
+      return 0;
+    }
+
+    final transaction = TransactionEntity.fromJson(transactionData.first);
+
+    // Update saldo akun terkait sebelum menghapus transaksi
+    await db.transaction((txn) async {
+      switch (transaction.type) {
+        case TransactionType.income:
+          if (transaction.target != null) {
+            await _updateAccountBalance(
+              txn,
+              transaction.target!,
+              -transaction.amount,
+            );
+          }
+          break;
+        case TransactionType.expense:
+          if (transaction.source != null) {
+            await _updateAccountBalance(
+              txn,
+              transaction.source!,
+              transaction.amount,
+            );
+          }
+          break;
+        case TransactionType.savings:
+          if (transaction.source != null) {
+            await _updateAccountBalance(
+              txn,
+              transaction.source!,
+              transaction.amount,
+            );
+          }
+          if (transaction.target != null) {
+            await _updateAccountBalance(
+              txn,
+              transaction.target!,
+              -transaction.amount,
+            );
+          }
+          break;
+        case TransactionType.transfer:
+          if (transaction.source != null) {
+            await _updateAccountBalance(
+              txn,
+              transaction.source!,
+              transaction.amount,
+            );
+          }
+          if (transaction.target != null) {
+            await _updateAccountBalance(
+              txn,
+              transaction.target!,
+              -transaction.amount,
+            );
+          }
+          break;
+      }
+
+      await txn.delete(
+        'transactions',
+        where: 'id = ?',
+        whereArgs: [id],
+      );
+    });
+
+    return 1;
   }
 }

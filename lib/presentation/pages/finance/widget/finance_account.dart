@@ -1,4 +1,5 @@
 import 'package:eling_app/core/providers/notifier/finance_notifier_provider.dart';
+import 'package:eling_app/core/utils/constants/string_constants.dart';
 import 'package:eling_app/domain/entities/account/account.dart';
 import 'package:eling_app/presentation/pages/finance/widget/app_finance_card.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,9 @@ class FinanceAccount extends ConsumerWidget {
                 (account) => AppFinanceCard(
                   leading: false,
                   title: account.name,
-                  subtitle: 'Rp ${account.balance?.toStringAsFixed(0) ?? '0'}',
+                  subtitle: StringConstants.formatCurrency(
+                    account.balance ?? 0,
+                  ),
                 ),
               )
               .toList(),

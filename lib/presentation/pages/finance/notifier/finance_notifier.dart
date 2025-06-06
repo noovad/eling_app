@@ -9,6 +9,7 @@ import 'package:eling_app/domain/usecases/transaction/createTransaction/create_t
 import 'package:eling_app/domain/usecases/transaction/deleteTransaction/delete_transaction_usecase.dart';
 import 'package:eling_app/domain/usecases/transaction/getFinanceSummary/get_finance_summary_usecase.dart';
 import 'package:eling_app/domain/usecases/transaction/getTransactions/get_transactions_usecase.dart';
+import 'package:eling_app/domain/usecases/transaction/getTransactionsByYear/get_monthly_summary_for_year_usecase.dart';
 import 'package:eling_app/domain/usecases/transaction_category/createCategory/create_category_usecase.dart';
 import 'package:eling_app/domain/usecases/transaction_category/deleteCategory/delete_category_usecase.dart';
 import 'package:eling_app/domain/usecases/transaction_category/getCategories/get_categories_usecase.dart';
@@ -35,6 +36,8 @@ class FinanceNotifier extends StateNotifier<FinanceState>
   @override
   final GetTransactionsUseCase getTransactionsUseCase;
   @override
+  final GetMonthlySummaryForYearUseCase getMonthlySummaryForYearUseCase;
+  @override
   final GetFinanceSummaryUseCase getFinanceSummaryUseCase;
   @override
   final CreateTransactionUseCase createTransactionUseCase;
@@ -57,6 +60,7 @@ class FinanceNotifier extends StateNotifier<FinanceState>
 
   FinanceNotifier({
     required this.getTransactionsUseCase,
+    required this.getMonthlySummaryForYearUseCase,
     required this.getFinanceSummaryUseCase,
     required this.createTransactionUseCase,
     required this.deleteTransactionUseCase,
@@ -68,6 +72,7 @@ class FinanceNotifier extends StateNotifier<FinanceState>
     required this.deleteAccountUseCase,
   }) : super(FinanceState.initial()) {
     getTransactions();
+    getMonthlySummaryForYear();
     getFinanceSummary();
     getTransactionCategories();
     getAccounts();

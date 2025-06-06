@@ -2,7 +2,6 @@ import 'package:eling_app/core/providers/notifier/finance_notifier_provider.dart
 import 'package:eling_app/core/utils/constants/string_constants.dart';
 import 'package:eling_app/domain/entities/detail_summary/detail_summary.dart';
 import 'package:eling_app/presentation/pages/finance/widget/app_finance_card.dart';
-import 'package:eling_app/presentation/pages/finance/widget/finance_card_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
@@ -23,22 +22,23 @@ class FinanceInfo extends ConsumerWidget {
         loading: () => _buildShimmerLayout(),
         success: (data) {
           return GridView.count(
-            crossAxisCount: 3,
+            crossAxisCount: 2,
             crossAxisSpacing: 24,
-            mainAxisSpacing: 16,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            childAspectRatio: 3,
+            childAspectRatio: 4,
             children: [
+              SizedBox.shrink(),
               AppFinanceCard(
                 title: 'Total Balance',
                 leading: true,
+                highlight: true,
                 icon: Icons.account_balance_wallet,
                 subtitle: StringConstants.formatShortCurrency(
                   data.totalBalance,
                 ),
+                titleInfo: 'All',
               ),
-
               AppFinanceCard(
                 title: 'Income',
                 leading: true,
@@ -51,8 +51,8 @@ class FinanceInfo extends ConsumerWidget {
                       data.incomeSummaries,
                       data.totalIncome,
                     ),
+                titleInfo: 'Month',
               ),
-
               AppFinanceCard(
                 title: 'Savings',
                 leading: true,
@@ -60,10 +60,8 @@ class FinanceInfo extends ConsumerWidget {
                 subtitle: StringConstants.formatShortCurrency(
                   data.totalSavings,
                 ),
+                titleInfo: 'Month',
               ),
-
-              SizedBox.shrink(),
-
               AppFinanceCard(
                 title: 'Expense',
                 leading: true,
@@ -71,6 +69,8 @@ class FinanceInfo extends ConsumerWidget {
                 subtitle: StringConstants.formatShortCurrency(
                   data.totalExpense,
                 ),
+                titleInfo: 'Month',
+
                 onTap:
                     () => _showDetailsDialog(
                       context,
@@ -79,16 +79,15 @@ class FinanceInfo extends ConsumerWidget {
                       data.totalExpense,
                     ),
               ),
-
               AppFinanceCard(
-                title: 'Savings Rate',
+                title: 'Net Balance',
                 leading: true,
-                highlight: data.totalIncome <= data.totalExpense,
-                icon: Icons.percent,
-                subtitle:
-                    data.totalIncome > 0
-                        ? '${((data.totalIncome - data.totalExpense) / data.totalIncome * 100).toStringAsFixed(0)}%'
-                        : 'N/A',
+                icon: Icons.output,
+                subtitle: StringConstants.formatShortCurrency(
+                  data.totalIncome - data.totalExpense,
+                ),
+                titleInfo: 'Month',
+                highlight: true,
               ),
             ],
           );
@@ -103,22 +102,45 @@ class FinanceInfo extends ConsumerWidget {
 
   Widget _buildShimmerLayout() {
     return GridView.count(
-      crossAxisCount: 3,
+      crossAxisCount: 2,
       crossAxisSpacing: 24,
-      mainAxisSpacing: 16,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      childAspectRatio: 3,
+      childAspectRatio: 4,
       children: [
-        FinanceCardShimmer(
+        const SizedBox.shrink(),
+        AppFinanceCard(
+          highlight: true,
+          isShimmer: true,
           title: 'Total Balance',
           icon: Icons.account_balance_wallet,
+          titleInfo: 'All',
         ),
-        FinanceCardShimmer(title: 'Income', icon: Icons.trending_up),
-        FinanceCardShimmer(title: 'Savings', icon: Icons.move_to_inbox),
-        const SizedBox.shrink(),
-        FinanceCardShimmer(title: 'Expense', icon: Icons.trending_down),
-        FinanceCardShimmer(title: 'Savings Rate', icon: Icons.percent),
+        AppFinanceCard(
+          isShimmer: true,
+          title: 'Income',
+          icon: Icons.trending_up,
+          titleInfo: 'Month',
+        ),
+        AppFinanceCard(
+          isShimmer: true,
+          title: 'Savings',
+          icon: Icons.move_to_inbox,
+          titleInfo: 'Month',
+        ),
+        AppFinanceCard(
+          isShimmer: true,
+          title: 'Expense',
+          icon: Icons.trending_down,
+          titleInfo: 'Month',
+        ),
+        AppFinanceCard(
+          highlight: true,
+          isShimmer: true,
+          title: 'Net Balance',
+          icon: Icons.output,
+          titleInfo: 'Month',
+        ),
       ],
     );
   }
@@ -152,21 +174,19 @@ class FinanceInfo extends ConsumerWidget {
                     child: SingleChildScrollView(
                       child: GridView.count(
                         padding: AppPadding.all16,
-                        crossAxisCount: 3,
+                        crossAxisCount: 2,
                         crossAxisSpacing: 24,
-                        mainAxisSpacing: 16,
                         shrinkWrap: true,
-                        childAspectRatio: 3,
+                        childAspectRatio: 4,
                         children:
                             summaries
                                 .map(
                                   (summary) => AppFinanceCard(
                                     leading: false,
                                     title: summary.category,
-                                    subtitle:
-                                        StringConstants.formatShortCurrency(
-                                          summary.amount,
-                                        ),
+                                    subtitle: StringConstants.formatCurrency(
+                                      summary.amount,
+                                    ),
                                     trailing: true,
                                     trailingText:
                                         '${summary.percentage.toStringAsFixed(0)}%',

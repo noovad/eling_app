@@ -38,19 +38,19 @@ abstract class FinanceState with _$FinanceState {
     // Result
     required Resource<String> saveResult,
     required Resource<String> updateResult,
-    required Resource<String> updateStatusResult,
     required Resource<String> deleteResult,
 
     // Filter parameters
     required DateTime dateFilter,
+    required int yearFilter,
     TransactionType? filterType,
   }) = _FinanceState;
 
   factory FinanceState.initial() => FinanceState(
     dateFilter: DateTime.now(),
+    yearFilter: DateTime.now().year,
     saveResult: Resource.initial(),
     updateResult: Resource.initial(),
-    updateStatusResult: Resource.initial(),
     deleteResult: Resource.initial(),
   );
 }

@@ -9,6 +9,8 @@ import 'package:eling_app/domain/usecases/transaction/getFinanceSummary/get_fina
 import 'package:eling_app/domain/usecases/transaction/getFinanceSummary/get_finance_summary_usecase.dart';
 import 'package:eling_app/domain/usecases/transaction/getTransactions/get_transactions_request.dart';
 import 'package:eling_app/domain/usecases/transaction/getTransactions/get_transactions_usecase.dart';
+import 'package:eling_app/domain/usecases/transaction/getTransactionsByYear/get_monthly_summary_for_year_request.dart';
+import 'package:eling_app/domain/usecases/transaction/getTransactionsByYear/get_monthly_summary_for_year_usecase.dart';
 import 'package:eling_app/presentation/pages/finance/models/finance_amount.dart';
 import 'package:eling_app/presentation/pages/finance/models/finance_category.dart';
 import 'package:eling_app/presentation/pages/finance/models/finance_date.dart';
@@ -22,6 +24,7 @@ import 'package:uuid/uuid.dart';
 
 mixin TransactionMixin on StateNotifier<FinanceState> {
   GetTransactionsUseCase get getTransactionsUseCase;
+  GetMonthlySummaryForYearUseCase get getMonthlySummaryForYearUseCase;
   GetFinanceSummaryUseCase get getFinanceSummaryUseCase;
   CreateTransactionUseCase get createTransactionUseCase;
   DeleteTransactionUseCase get deleteTransactionUseCase;
@@ -49,6 +52,28 @@ mixin TransactionMixin on StateNotifier<FinanceState> {
     );
   }
 
+  Future<void> getMonthlySummaryForYear() async {
+    state = state.copyWith(yearlyTransactions: const Resource.loading());
+
+    final result = await getMonthlySummaryForYearUseCase.execute(
+      GetMonthlySummaryForYearRequest(year: state.yearFilter),
+    );
+
+    result.when(
+      success: (summary) {
+        state = state.copyWith(yearlyTransactions: Resource.success(summary));
+      },
+      failure: (error) {
+        state = state.copyWith(yearlyTransactions: Resource.failure(error));
+      },
+    );
+  }
+
+  void updateYearFilter(int year) {
+    state = state.copyWith(yearFilter: year);
+    getMonthlySummaryForYear();
+  }
+
   Future<void> getFinanceSummary() async {
     state = state.copyWith(financeSummary: const Resource.loading());
     final result = await getFinanceSummaryUseCase.execute(
@@ -69,16 +94,21 @@ mixin TransactionMixin on StateNotifier<FinanceState> {
   }
 
   void updateFilter({DateTime? date, TransactionType? type}) {
+    final prevType = state.filterType;
+
     if (date != null) {
       state = state.copyWith(dateFilter: date);
       getTransactions();
       getFinanceSummary();
     }
 
-    if (type != null && type != state.filterType) {
+    if (type != null && type != prevType) {
       state = state.copyWith(filterType: type);
       getTransactions();
-      getFinanceSummary();
+    } else if (type == null && prevType != null && date == null) {
+      // Only reset filterType if type is explicitly set to null and date is not being changed
+      state = state.copyWith(filterType: null);
+      getTransactions();
     }
   }
 
@@ -232,6 +262,7 @@ mixin TransactionMixin on StateNotifier<FinanceState> {
       target: const FinanceTargetInput.pure(),
       description: '',
       isFormValid: false,
+      transactionType: TransactionType.income,
     );
   }
 }
