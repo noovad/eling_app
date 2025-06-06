@@ -61,11 +61,12 @@ class TaskForm extends ConsumerWidget {
         AppTextField(
           label: "Title",
           hint: "Enter title",
-          onChanged: (value) => notifier.titleChanged(value),
+          onChanged: notifier.titleChanged,
           errorText: title.displayError?.message,
           initialValue: title.value,
           enabled: enabled,
           isRequired: true,
+          maxLines: 1,
         ),
         AppSpaces.h24,
         AppDropdown(
@@ -98,7 +99,7 @@ class TaskForm extends ConsumerWidget {
         ),
         AppSpaces.h24,
         AppTimeField(
-          onChanged: (value) => notifier.timeChanged(value),
+          onChanged: notifier.timeChanged,
           initialValue: time,
           enabled: enabled,
         ),
@@ -123,7 +124,7 @@ class TaskForm extends ConsumerWidget {
           hint: "Enter note",
           maxLines: 5,
           minLines: 3,
-          onChanged: (value) => notifier.noteChanged(value),
+          onChanged: notifier.noteChanged,
           initialValue: note,
           enabled: enabled,
         ),

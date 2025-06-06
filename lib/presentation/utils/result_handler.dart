@@ -3,27 +3,33 @@ import 'package:eling_app/presentation/widgets/failure_toast.dart';
 import 'package:eling_app/presentation/widgets/success_toast.dart';
 import 'package:flutter/material.dart';
 
+enum ForAction { save, update, delete }
+
 class ResultHandler {
   static void handleResult({
     required BuildContext context,
     required Resource<String> result,
-    required SuccessAction successAction,
+    required ForAction action,
     required VoidCallback resetAction,
-    FailureAction failureAction = FailureAction.save,
   }) {
     result.whenOrNull(
       success: (_) {
-        SuccessToast.show(context, successAction);
-        resetAction();
+        SuccessToast.show(context, action);
         result.whenOrNull(
           success: (value) {
-            if (value != "category" && Navigator.of(context).canPop()) {
+            bool condition =
+                value != "account" &&
+                value != "transaction_category" &&
+                Navigator.of(context).canPop();
+
+            if (condition) {
               Navigator.of(context).pop();
             }
           },
         );
+        resetAction();
       },
-      failure: (errorMessage) => FailureToast.show(context, failureAction),
+      failure: (_) => FailureToast.show(context, action),
     );
   }
 }

@@ -123,12 +123,12 @@ mixin TaskMixin on StateNotifier<TaskState> {
     );
   }
 
-  void getCompletedTasks(int month, int year) async {
-    Future.microtask(() {
-      state = state.copyWith(completedTasks: Resource.loading());
-    });
+  void getCompletedTasks() async {
     final result = await getCompletedTasksUseCase.execute(
-      GetCompletedTasksRequest(month: month, year: year),
+      GetCompletedTasksRequest(
+        month: state.dateFilter.month,
+        year: state.dateFilter.year,
+      ),
     );
     result.when(
       success: (data) {
@@ -138,6 +138,11 @@ mixin TaskMixin on StateNotifier<TaskState> {
         state = state.copyWith(completedTasks: Resource.failure(error));
       },
     );
+  }
+
+  void dateFilterChanged(DateTime date) {
+    state = state.copyWith(dateFilter: date);
+    getCompletedTasks();
   }
 
   void titleChanged(String value) {
@@ -200,5 +205,9 @@ mixin TaskMixin on StateNotifier<TaskState> {
 
   void resetIsUpdate() {
     state = state.copyWith(updateResult: Resource.initial());
+  }
+
+  void resetIsDelete() {
+    state = state.copyWith(deleteResult: Resource.initial());
   }
 }

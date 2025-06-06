@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:eling_app/core/enum/category_type.dart';
 import 'package:eling_app/core/providers/notifier/task_notifier_provider.dart';
 import 'package:eling_app/core/utils/resource.dart';
@@ -88,13 +86,14 @@ class _CategorySheetState extends ConsumerState<CategorySheet> {
             label: "Title",
             hint: "Enter title",
             controller: _controller,
-            onChanged: (value) => notifier.categoyrTitleChanged(value),
+            onChanged: notifier.categoyrTitleChanged,
             errorText: ref.watch(
               taskNotifierProvider.select(
                 (s) => s.categoryTitle.displayError?.message,
               ),
             ),
             isRequired: true,
+            maxLines: 1,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -128,7 +127,7 @@ class _CategorySheetState extends ConsumerState<CategorySheet> {
                       side: BorderSide(
                         color: Theme.of(
                           context,
-                        ).colorScheme.outline.withOpacity(0.25),
+                        ).colorScheme.outline.withValues(alpha: 0.25),
                         width: 1,
                       ),
                     ),

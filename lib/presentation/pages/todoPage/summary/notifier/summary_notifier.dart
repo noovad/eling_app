@@ -12,16 +12,13 @@ class SummaryNotifier extends StateNotifier<SummaryState> {
   final GetDailyActivitiesUseCase getDailyActivitiesUseCase;
 
   SummaryNotifier(this.getDailyActivitiesUseCase)
-    : super(SummaryState.initial());
+    : super(SummaryState.initial()) {
+    getDailyActivities();
+  }
 
-  void getDailyActivities(int month, int year) async {
-    Future.microtask(() {
-      state = state.copyWith(dailyActivities: Resource.loading());
-      state = state.copyWith(date: DateTime(year, month));
-    });
-
+  void getDailyActivities() async {
     final result = await getDailyActivitiesUseCase.execute(
-      GetDailyActivitiesRequest(month: month, year: year),
+      GetDailyActivitiesRequest(month: state.date.month, year: state.date.year),
     );
     result.when(
       success: (data) {
@@ -31,5 +28,10 @@ class SummaryNotifier extends StateNotifier<SummaryState> {
         state = state.copyWith(dailyActivities: Resource.failure(error));
       },
     );
+  }
+
+  void dateChanged(DateTime date) {
+    state = state.copyWith(date: date);
+    getDailyActivities();
   }
 }

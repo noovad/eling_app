@@ -1,9 +1,10 @@
 import 'package:eling_app/core/providers/notifier/task_notifier_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_ui/shared/sizes/app_spaces.dart';
 import 'package:flutter_ui/widgets/appNav/app_date_nav.dart';
 import 'package:flutter_ui/widgets/appSheet/app_sheet.dart';
-import 'package:flutter_ui/widgets/utils/app_no_data_found.dart';
+import 'package:flutter_ui/widgets/appUtils/app_no_data_found.dart';
 import 'package:intl/intl.dart';
 import 'package:eling_app/presentation/pages/todoPage/task/widget/task_sheet.dart';
 
@@ -21,45 +22,66 @@ class TablePage extends ConsumerWidget {
       height: MediaQuery.of(context).size.height - 104,
       width: double.infinity,
       child: Column(
-        spacing: 16,
         children: [
-          AppDateNav(
-            onChange: (date) {
-              notifier.getCompletedTasks(date.month, date.year);
-            },
-          ),
+          AppSpaces.h24,
+          AppDateNav(onChange: notifier.dateFilterChanged),
+          AppSpaces.h24,
           Flexible(
             child: SingleChildScrollView(
               child: DataTable(
                 dividerThickness: 0.2,
                 showCheckboxColumn: false,
-                columns: const [
+                columns: [
                   DataColumn(
                     columnWidth: FlexColumnWidth(2),
-                    label: Text(
-                      'Date',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    label: Row(
+                      children: [
+                        Icon(Icons.calendar_today, size: 16),
+                        AppSpaces.w4,
+                        Text(
+                          'Date',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
                   ),
                   DataColumn(
                     columnWidth: FlexColumnWidth(4),
-                    label: Text(
-                      'Title',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    label: Row(
+                      children: [
+                        Icon(Icons.title, size: 16),
+                        AppSpaces.w4,
+                        Text(
+                          'Title',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
                   ),
                   DataColumn(
                     columnWidth: FlexColumnWidth(2),
-                    label: Text(
-                      'Category',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    label: Row(
+                      children: [
+                        Icon(Icons.topic, size: 16),
+                        AppSpaces.w4,
+                        Text(
+                          'Category',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
                   ),
                   DataColumn(
                     columnWidth: FlexColumnWidth(2),
-                    label: Text(
-                      'Time',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    label: Row(
+                      children: [
+                        Icon(Icons.access_time, size: 16),
+                        AppSpaces.w4,
+                        Text(
+                          'Time',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -118,17 +140,9 @@ class TablePage extends ConsumerWidget {
               ),
             ),
           ),
-          completedTasks.when(
-            initial:
-                () => Expanded(
-                  child: const Center(child: CircularProgressIndicator()),
-                ),
-            loading:
-                () => Expanded(
-                  child: const Center(child: CircularProgressIndicator()),
-                ),
-            failure: (message) {
-              return Expanded(child: Text(message));
+          completedTasks.maybeWhen(
+            failure: (error) {
+              return Expanded(child: Center(child: Text(error)));
             },
             success: (value) {
               if (value.isEmpty) {
@@ -136,6 +150,10 @@ class TablePage extends ConsumerWidget {
               }
               return SizedBox.shrink();
             },
+            orElse:
+                () => Expanded(
+                  child: const Center(child: CircularProgressIndicator()),
+                ),
           ),
         ],
       ),

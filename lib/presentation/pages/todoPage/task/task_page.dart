@@ -5,6 +5,7 @@ import 'package:eling_app/presentation/pages/todoPage/task/notifier/task_notifie
 import 'package:eling_app/presentation/pages/todoPage/task/widget/category_sheet.dart';
 import 'package:eling_app/presentation/pages/todoPage/task/widget/task_section.dart';
 import 'package:eling_app/presentation/pages/todoPage/task/widget/task_table.dart';
+import 'package:eling_app/presentation/utils/result_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
@@ -19,6 +20,36 @@ class TaskPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final notifier = ref.read(taskNotifierProvider.notifier);
+
+    ref.listen(
+      taskNotifierProvider.select((state) => state.saveResult),
+      (previous, current) => ResultHandler.handleResult(
+        context: context,
+        result: current,
+        action: ForAction.save,
+        resetAction: notifier.resetIsSaving,
+      ),
+    );
+
+    ref.listen(
+      taskNotifierProvider.select((state) => state.updateResult),
+      (previous, current) => ResultHandler.handleResult(
+        context: context,
+        result: current,
+        action: ForAction.update,
+        resetAction: notifier.resetIsUpdate,
+      ),
+    );
+
+    ref.listen(
+      taskNotifierProvider.select((state) => state.deleteResult),
+      (previous, current) => ResultHandler.handleResult(
+        context: context,
+        result: current,
+        action: ForAction.delete,
+        resetAction: notifier.resetIsDelete,
+      ),
+    );
 
     return Padding(
       padding: AppPadding.all12,
@@ -90,7 +121,7 @@ class TaskPage extends ConsumerWidget {
   ) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        minimumSize: const Size(double.infinity, 48),
+        minimumSize: const Size(double.infinity, 44),
         alignment: Alignment.centerLeft,
       ),
       onPressed: () {

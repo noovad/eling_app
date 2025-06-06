@@ -12,8 +12,6 @@ mixin CategoryMixin on StateNotifier<TaskState> {
       type: type.name,
     );
 
-    state = state.copyWith(saveResult: Resource.loading());
-
     final result = await createCategoryUseCase.execute(
       CreateCategoryRequest(category: data),
     );
@@ -31,8 +29,6 @@ mixin CategoryMixin on StateNotifier<TaskState> {
   }
 
   void deleteCategory(String id, CategoryType type) async {
-    state = state.copyWith(deleteResult: Resource.loading());
-
     final result = await deleteCategoryUseCase.execute(
       DeleteCategoryRequest(id: id),
     );

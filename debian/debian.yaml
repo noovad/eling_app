@@ -11,4 +11,4 @@ control:
   Priority: optional
   Depends: libgtk-3-0, libjsoncpp1, libsecret-1-0
   Maintainer: Nov <novadwynt28@gmail.com>
-  Description: ElingApp - A modern productivity tracker written in Flutter.
+  Description: Eling-App - A modern productivity tracker and financial record-keeping app, written in Flutter.

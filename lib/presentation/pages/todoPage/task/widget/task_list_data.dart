@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:eling_app/core/utils/constants/date_constants.dart';
 import 'package:eling_app/core/utils/resource.dart';
 import 'package:eling_app/domain/entities/taskGroupResult/task_group_result.dart';
@@ -10,12 +8,12 @@ import 'package:eling_app/presentation/pages/todoPage/task/widget/task_sheet.dar
 import 'package:eling_app/presentation/utils/task_converters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
+import 'package:flutter_ui/shared/sizes/app_spaces.dart';
 import 'package:flutter_ui/widgets/appCard/app_task_card.dart';
-import 'package:flutter_ui/widgets/appCard/app_task_shimmer_card.dart';
 import 'package:flutter_ui/widgets/appSheet/app_sheet.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_ui/widgets/utils/app_no_data_found.dart';
+import 'package:flutter_ui/widgets/appUtils/app_no_data_found.dart';
 
 class TaskListData extends ConsumerWidget {
   final TaskScheduleType taskScheduleType;
@@ -64,9 +62,22 @@ class TaskListData extends ConsumerWidget {
                       ),
                 );
               },
-              child: const Padding(
+              child: Padding(
                 padding: AppPadding.h8,
-                child: Icon(Icons.add, size: 24),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.add, size: 24),
+                    AppSpaces.w4,
+                    Text(
+                      taskType == TaskType.daily
+                          ? 'Daily Task'
+                          : 'Productivity Task',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -74,11 +85,9 @@ class TaskListData extends ConsumerWidget {
             height: MediaQuery.of(context).size.height - 172,
             alignment: Alignment.topCenter,
             width: MediaQuery.of(context).size.width,
-            child: tasks.when(
-              initial: () => _buildShimmerList(),
-              loading: () => _buildShimmerList(),
-              failure: (message) {
-                return Text(message);
+            child: tasks.whenOrNull(
+              failure: (error) {
+                return Center(child: Text(error));
               },
               success: (data) {
                 if (data.tasksByType[taskType]!.isEmpty) {
@@ -113,14 +122,17 @@ class TaskListData extends ConsumerWidget {
                             ),
                         onDelete: () {
                           if (taskScheduleType == TaskScheduleType.recurring) {
-                            notifier.onDeleteRT(task.id);
+                            notifier.deleteRecurringTask(task.id);
                           } else {
                             notifier.deleteTask(task.id);
                           }
                         },
                         leading: taskScheduleType != TaskScheduleType.recurring,
                         ontap: () {
-                          notifier.setUpdateForm(task, taskScheduleType);
+                          notifier.setUpdateForm(
+                            task,
+                            taskScheduleType,
+                          );
                           appSheet(
                             context: context,
                             side: SheetSide.right,
@@ -145,29 +157,11 @@ class TaskListData extends ConsumerWidget {
     );
   }
 
-  Widget _buildShimmerList() {
-    return ListView.builder(
-      itemCount: 4,
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 8),
-          child: AppTaskShimmerCard(
-            withLeading: taskScheduleType != TaskScheduleType.recurring,
-          ),
-        );
-      },
-    );
-  }
-
   Widget appCard({required Widget child, Color? color, double? height}) {
     return SizedBox(
       height: height,
       width: double.infinity,
-      child: Card(
-        color: color,
-        child: child,
-      ),
+      child: Card(color: color, child: child),
     );
   }
 }

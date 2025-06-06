@@ -4,9 +4,10 @@ part of 'task_notifier.dart';
 abstract class TaskState with _$TaskState {
   const factory TaskState({
     // Task
-    required Resource<TaskGroupResultEntity> todayTask,
-    required Resource<TaskGroupResultEntity> upcomingTask,
-    required Resource<RecurringTaskGroupResultEntity> recurringTask,
+    @Default(Resource.initial()) Resource<TaskGroupResultEntity> todayTask,
+    @Default(Resource.initial()) Resource<TaskGroupResultEntity> upcomingTask,
+    @Default(Resource.initial())
+    Resource<RecurringTaskGroupResultEntity> recurringTask,
     @Default(TitleInput.pure()) TitleInput title,
     @Default(DateInput.pure()) DateInput date,
     @Default(false) bool isValid,
@@ -15,38 +16,23 @@ abstract class TaskState with _$TaskState {
     String? time,
 
     // Result
-    required Resource<String> saveResult,
-    required Resource<String> updateResult,
-    required Resource<String> updateStatusResult,
-    required Resource<String> deleteResult,
+    @Default(Resource.initial()) Resource<String> saveResult,
+    @Default(Resource.initial()) Resource<String> updateResult,
+    @Default(Resource.initial()) Resource<String> updateStatusResult,
+    @Default(Resource.initial()) Resource<String> deleteResult,
 
     // Category
-    required Resource<List<CategoryEntity>> dailyCategories,
-    required Resource<List<CategoryEntity>> productivityCategories,
-    required Resource<List<CategoryEntity>> noteCategories,
+    @Default(Resource.initial()) Resource<List<CategoryEntity>> dailyCategories,
+    @Default(Resource.initial())
+    Resource<List<CategoryEntity>> productivityCategories,
+    @Default(Resource.initial()) Resource<List<CategoryEntity>> noteCategories,
     @Default(CategoryTitle.pure()) CategoryTitle categoryTitle,
     @Default(false) bool isValidCategory,
 
     // Completed Tasks
-    required Resource<List<TaskEntity>> completedTasks,
+    @Default(Resource.initial()) Resource<List<TaskEntity>> completedTasks,
+    required DateTime dateFilter,
   }) = _TaskState;
 
-  factory TaskState.initial() => TaskState(
-    // Task
-    todayTask: Resource.initial(),
-    upcomingTask: Resource.initial(),
-    recurringTask: Resource.initial(),
-    saveResult: Resource.initial(),
-    updateResult: Resource.initial(),
-    updateStatusResult: Resource.initial(),
-    deleteResult: Resource.initial(),
-
-    // Category
-    dailyCategories: Resource.initial(),
-    productivityCategories: Resource.initial(),
-    noteCategories: Resource.initial(),
-
-    // Completed Tasks
-    completedTasks: Resource.initial(),
-  );
+  factory TaskState.initial() => TaskState(dateFilter: DateTime.now());
 }
