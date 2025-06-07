@@ -33,7 +33,7 @@ class FinanceInfo extends ConsumerWidget {
                 highlight: true,
                 icon: Icons.account_balance_wallet,
                 subtitle: StringConstants.formatCurrency(
-                  data.totalBalance - data.totalSavings,
+                  data.totalBalance,
                 ),
                 titleInfo: 'All',
               ),

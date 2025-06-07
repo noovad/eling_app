@@ -13,20 +13,23 @@ class ResultHandler {
     required VoidCallback resetAction,
   }) {
     result.whenOrNull(
-      success: (_) {
+      success: (value) {
         SuccessToast.show(context, action);
-        result.whenOrNull(
-          success: (value) {
-            bool condition =
-                value != "account" ||
-                value != "transaction_category" ||
-                Navigator.of(context).canPop();
 
-            if (condition) {
-              Navigator.of(context).pop();
-            }
-          },
-        );
+        if (action == ForAction.delete) {
+          if (['transaction', 'note'].contains(value)) {
+            Navigator.of(context).pop();
+          }
+        } else if (action == ForAction.save || action == ForAction.update) {
+          if (![
+            'account',
+            'category',
+            'transaction_category',
+          ].contains(value)) {
+            Navigator.of(context).pop();
+          }
+        }
+
         resetAction();
       },
       failure: (_) => FailureToast.show(context, action),

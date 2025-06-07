@@ -21,12 +21,12 @@ mixin RecurringTaksMixin on StateNotifier<TaskState> {
       CreateRecurringTaskRequest(recurringTask: data),
     );
     result.when(
-      success: (data) {
+      success: (_) {
         getRecurringTasks();
         state = state.copyWith(saveResult: Resource.success('recurring_task'));
       },
-      failure: (error) {
-        state = state.copyWith(saveResult: Resource.failure(error));
+      failure: (_) {
+        state = state.copyWith(saveResult: Resource.failure('recurring_task'));
       },
     );
   }
@@ -36,14 +36,14 @@ mixin RecurringTaksMixin on StateNotifier<TaskState> {
       DeleteRecurringTaskRequest(id: taskId),
     );
     result.when(
-      success: (data) {
+      success: (_) {
         getRecurringTasks();
         state = state.copyWith(
           deleteResult: Resource.success('recurring_task'),
         );
       },
-      failure: (error) {
-        state = state.copyWith(deleteResult: Resource.failure(error));
+      failure: (_) {
+        state = state.copyWith(deleteResult: Resource.failure('recurring_task'));
       },
     );
   }
@@ -65,14 +65,14 @@ mixin RecurringTaksMixin on StateNotifier<TaskState> {
     );
 
     result.when(
-      success: (data) {
+      success: (_) {
         getRecurringTasks();
         state = state.copyWith(
           updateResult: Resource.success('recurring_task'),
         );
       },
-      failure: (error) {
-        state = state.copyWith(updateResult: Resource.failure(error));
+      failure: (_) {
+        state = state.copyWith(updateResult: Resource.failure('recurring_task'));
       },
     );
   }

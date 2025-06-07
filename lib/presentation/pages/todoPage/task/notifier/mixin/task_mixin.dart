@@ -25,13 +25,13 @@ mixin TaskMixin on StateNotifier<TaskState> {
       CreateTaskRequest(task: task),
     );
     result.when(
-      success: (data) {
+      success: (_) {
         getTasks(TaskScheduleType.today);
         getTasks(TaskScheduleType.upcoming);
         state = state.copyWith(saveResult: Resource.success('task'));
       },
-      failure: (error) {
-        state = state.copyWith(saveResult: Resource.failure(error));
+      failure: (_) {
+        state = state.copyWith(saveResult: Resource.failure('task'));
       },
     );
   }
@@ -41,13 +41,13 @@ mixin TaskMixin on StateNotifier<TaskState> {
       DeleteTaskRequest(id: taskId),
     );
     result.when(
-      success: (data) {
+      success: (_) {
         getTasks(TaskScheduleType.today);
         getTasks(TaskScheduleType.upcoming);
         state = state.copyWith(deleteResult: Resource.success('task'));
       },
-      failure: (error) {
-        state = state.copyWith(deleteResult: Resource.failure(error));
+      failure: (_) {
+        state = state.copyWith(deleteResult: Resource.failure('task'));
       },
     );
   }
@@ -61,13 +61,13 @@ mixin TaskMixin on StateNotifier<TaskState> {
       UpdateStatusTaskRequest(id: id, status: status),
     );
     result.when(
-      success: (data) {
+      success: (_) {
         getTasks(taskTabsType);
         getCompletedTasks();
         state = state.copyWith(updateStatusResult: Resource.success('task'));
       },
-      failure: (error) {
-        state = state.copyWith(updateStatusResult: Resource.failure(error));
+      failure: (_) {
+        state = state.copyWith(updateStatusResult: Resource.failure('task'));
       },
     );
   }
@@ -91,13 +91,13 @@ mixin TaskMixin on StateNotifier<TaskState> {
     );
 
     result.when(
-      success: (data) {
+      success: (_) {
         getTasks(TaskScheduleType.today);
         getTasks(TaskScheduleType.upcoming);
         state = state.copyWith(updateResult: Resource.success('task'));
       },
-      failure: (error) {
-        state = state.copyWith(updateResult: Resource.failure(error));
+      failure: (_) {
+        state = state.copyWith(updateResult: Resource.failure('task'));
       },
     );
   }

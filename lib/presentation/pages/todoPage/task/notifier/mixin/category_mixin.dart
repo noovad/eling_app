@@ -17,13 +17,13 @@ mixin CategoryMixin on StateNotifier<TaskState> {
     );
 
     result.when(
-      success: (data) {
+      success: (_) {
         getCategories(type);
-        resetCategoryForm();
+        // resetCategoryForm();
         state = state.copyWith(saveResult: Resource.success('category'));
       },
-      failure: (message) {
-        state = state.copyWith(saveResult: Resource.failure(message));
+      failure: (_) {
+        state = state.copyWith(saveResult: Resource.failure('category'));
       },
     );
   }
@@ -34,12 +34,12 @@ mixin CategoryMixin on StateNotifier<TaskState> {
     );
 
     result.when(
-      success: (data) {
+      success: (_) {
         getCategories(type);
         state = state.copyWith(deleteResult: Resource.success('category'));
       },
-      failure: (message) {
-        state = state.copyWith(deleteResult: Resource.failure(message));
+      failure: (_) {
+        state = state.copyWith(deleteResult: Resource.failure('category'));
       },
     );
   }
