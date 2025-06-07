@@ -28,6 +28,14 @@ class StringConstants {
     return formattedAmount;
   }
 
+  static String shortCurrency(double amount) {
+    if (amount < 1000) {
+      return amount.toStringAsFixed(0);
+    }
+    int truncated = (amount / 1000).floor();
+    return '$truncated.x';
+  }
+
   static String truncate(String text, int maxLength) {
     if (text.length <= maxLength) return text;
     return '${text.substring(0, maxLength)}...';

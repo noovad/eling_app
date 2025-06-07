@@ -137,6 +137,21 @@ class TaskRepository {
       whereArgs: [1, monthStr, yearStr],
     );
 
+    final expenseAmounts = <String, num>{};
+    final expenseRows = await db.query(
+      TableNames.transactions,
+      columns: ['date', 'SUM(amount) as total'],
+      where:
+          "type = ? AND strftime('%m', date) = ? AND strftime('%Y', date) = ?",
+      whereArgs: ['expense', monthStr, yearStr],
+      groupBy: 'date',
+    );
+    for (final row in expenseRows) {
+      if (row['date'] != null && row['total'] != null) {
+        expenseAmounts[row['date'] as String] = row['total'] as num;
+      }
+    }
+
     final tasks = result.map((json) => TaskEntity.fromJson(json)).toList();
 
     final Map<DateTime, List<TaskEntity>> taskByDate = {};
@@ -158,6 +173,7 @@ class TaskRepository {
       }
 
       final tasksForDay = taskByDate[date] ?? [];
+      final ammount = expenseAmounts[date.toIso8601String()] ?? 0;
 
       final sholat =
           tasksForDay.where((t) => t.category == 'Sholat Fardhu').length;
@@ -175,7 +191,7 @@ class TaskRepository {
           gym: gym,
           cardio: cardio,
           coding: coding,
-          amount: 0,
+          amount: ammount is int ? ammount : ammount.toInt(),
           calorieControlled: calorieControlled,
         ),
       );

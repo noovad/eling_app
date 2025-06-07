@@ -1,6 +1,7 @@
 import 'package:eling/core/providers/notifier/summary_notifier_provider.dart';
 import 'package:eling/core/providers/notifier/task_notifier_provider.dart';
 import 'package:eling/core/utils/constants/date_constants.dart';
+import 'package:eling/core/utils/constants/string_constants.dart';
 import 'package:eling/presentation/pages/todoPage/task/notifier/task_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -79,11 +80,18 @@ class Calender extends ConsumerWidget {
             final hasCalorieControlled = currentDayActivities.any(
               (a) => a.calorieControlled,
             );
+            final amount =
+                currentDayActivities.isNotEmpty
+                    ? currentDayActivities.first.amount
+                    : null;
 
             return AppDailySummaryCard(
               isToday: isToday,
               sholatCount: sholatCount,
-              amount: 0,
+              amount:
+                  (amount ?? 0) > 0
+                      ? StringConstants.shortCurrency(amount!.toDouble())
+                      : null,
               hasCoding: hasCoding,
               hasGym: hasGym,
               hasCardio: hasCardio,
