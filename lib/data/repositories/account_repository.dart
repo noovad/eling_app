@@ -1,5 +1,5 @@
-import 'package:eling_app/data/eling_database.dart';
-import 'package:eling_app/domain/entities/account/account.dart';
+import 'package:eling/data/eling_database.dart';
+import 'package:eling/domain/entities/account/account.dart';
 
 class AccountRepository {
   final ElingDatabase _database;

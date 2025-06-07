@@ -1,4 +1,4 @@
-# eling_app
+# eling
 
 A new Flutter project.
 

@@ -1,7 +1,7 @@
-import 'package:eling_app/core/providers/notifier/summary_notifier_provider.dart';
-import 'package:eling_app/core/providers/notifier/task_notifier_provider.dart';
-import 'package:eling_app/core/utils/constants/date_constants.dart';
-import 'package:eling_app/presentation/pages/todoPage/task/notifier/task_notifier.dart';
+import 'package:eling/core/providers/notifier/summary_notifier_provider.dart';
+import 'package:eling/core/providers/notifier/task_notifier_provider.dart';
+import 'package:eling/core/utils/constants/date_constants.dart';
+import 'package:eling/presentation/pages/todoPage/task/notifier/task_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/widgets/appCard/app_daily_summary_card.dart';
@@ -24,11 +24,9 @@ class Calender extends ConsumerWidget {
     final startDay = DateTime(date.year, date.month, 1).weekday % 7;
 
     ref.listen<TaskState>(taskNotifierProvider, (prev, next) {
-      if (prev?.updateStatusResult != next.updateStatusResult) {
-        next.updateStatusResult.whenOrNull(
-          success: (_) => notifier.dateChanged(date),
-        );
-      }
+      next.updateStatusResult.whenOrNull(
+        success: (_) => notifier.dateChanged(date),
+      );
     });
 
     return GridView.builder(

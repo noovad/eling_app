@@ -1,8 +1,8 @@
-import 'package:eling_app/data/eling_database.dart';
-import 'package:eling_app/data/model/database_constants.dart';
-import 'package:eling_app/domain/entities/recurringTask/recurring_task.dart';
-import 'package:eling_app/domain/entities/recurringTaskGroupResult/recurring_task_group_result.dart';
-import 'package:eling_app/presentation/enum/task_type.dart';
+import 'package:eling/data/eling_database.dart';
+import 'package:eling/data/model/database_constants.dart';
+import 'package:eling/domain/entities/recurringTask/recurring_task.dart';
+import 'package:eling/domain/entities/recurringTaskGroupResult/recurring_task_group_result.dart';
+import 'package:eling/presentation/enum/task_type.dart';
 
 class RecurringTaskRepository {
   final ElingDatabase _database;

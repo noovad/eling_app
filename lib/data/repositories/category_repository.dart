@@ -1,6 +1,6 @@
-import 'package:eling_app/data/eling_database.dart';
-import 'package:eling_app/data/model/database_constants.dart';
-import 'package:eling_app/domain/entities/category/category.dart';
+import 'package:eling/data/eling_database.dart';
+import 'package:eling/data/model/database_constants.dart';
+import 'package:eling/domain/entities/category/category.dart';
 
 class CategoryRepository {
   final ElingDatabase _database;

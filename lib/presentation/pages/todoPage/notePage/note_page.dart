@@ -1,13 +1,13 @@
-import 'package:eling_app/core/providers/notifier/note_notifier_provider.dart';
-import 'package:eling_app/presentation/utils/result_handler.dart';
-import 'package:eling_app/presentation/widgets/delete_dialog.dart';
+import 'package:eling/core/providers/notifier/note_notifier_provider.dart';
+import 'package:eling/presentation/utils/result_handler.dart';
+import 'package:eling/presentation/widgets/delete_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
 import 'package:flutter_ui/shared/sizes/app_spaces.dart';
 import 'package:flutter_ui/widgets/appCard/app_note_card.dart';
 import 'package:flutter_ui/widgets/appSheet/app_sheet.dart';
-import 'package:eling_app/presentation/pages/todoPage/notePage/widget/note_sheet.dart';
+import 'package:eling/presentation/pages/todoPage/notePage/widget/note_sheet.dart';
 
 class NotePage extends ConsumerWidget {
   const NotePage({super.key});
@@ -69,6 +69,7 @@ class NotePage extends ConsumerWidget {
                     side: SheetSide.left,
                     context: context,
                     builder: (_) => const NoteSheet(isCreate: true),
+                    dismissable: false,
                   );
                 },
                 child: Padding(
@@ -123,6 +124,7 @@ class NotePage extends ConsumerWidget {
                         appSheet(
                           side: SheetSide.left,
                           context: context,
+                          dismissable: false,
                           builder: (_) => NoteSheet(note: note),
                         );
                       },

@@ -4,7 +4,9 @@ import 'dart:io';
 
 void main(List<String> args) {
   if (args.length < 2) {
-    print('Usage: dart lib/core/generate/generate_usecase.dart <entity> <operation>');
+    print(
+      'Usage: dart lib/core/generate/generate_usecase.dart <entity> <operation>',
+    );
     print(
       'Example: dart lib/core/generate/generate_usecase.dart category get_categories',
     );
@@ -62,9 +64,9 @@ void generateUseCase(
   String dirPath,
 ) {
   final content = '''
-import 'package:eling_app/core/utils/result.dart';
-import 'package:eling_app/domain/usecases/base_usecase.dart';
-import 'package:eling_app/domain/usecases/$entity/$operationCamel/${operation}_request.dart';
+import 'package:eling/core/utils/result.dart';
+import 'package:eling/domain/usecases/base_usecase.dart';
+import 'package:eling/domain/usecases/$entity/$operationCamel/${operation}_request.dart';
 
 abstract class ${operationPascal}UseCase {
   Future<Result<bool>> execute(${operationPascal}Request request);

@@ -1,8 +1,8 @@
-import 'package:eling_app/core/utils/result.dart';
-import 'package:eling_app/data/repositories/transaction_category_repository.dart';
-import 'package:eling_app/domain/entities/transaction_category/transaction_category.dart';
-import 'package:eling_app/domain/usecases/base_usecase.dart';
-import 'package:eling_app/domain/usecases/transaction_category/createCategory/create_category_request.dart';
+import 'package:eling/core/utils/result.dart';
+import 'package:eling/data/repositories/transaction_category_repository.dart';
+import 'package:eling/domain/entities/transaction_category/transaction_category.dart';
+import 'package:eling/domain/usecases/base_usecase.dart';
+import 'package:eling/domain/usecases/transaction_category/createCategory/create_category_request.dart';
 
 abstract class CreateCategoryUseCase {
   Future<Result<TransactionCategoryEntity>> execute(

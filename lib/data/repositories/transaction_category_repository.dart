@@ -1,5 +1,5 @@
-import 'package:eling_app/data/eling_database.dart';
-import 'package:eling_app/domain/entities/transaction_category/transaction_category.dart';
+import 'package:eling/data/eling_database.dart';
+import 'package:eling/domain/entities/transaction_category/transaction_category.dart';
 
 class TransactionCategoryRepository {
   final ElingDatabase _database;

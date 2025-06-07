@@ -1,4 +1,4 @@
-import 'package:eling_app/domain/entities/transaction_category/transaction_category.dart';
+import 'package:eling/domain/entities/transaction_category/transaction_category.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'create_category_request.freezed.dart';

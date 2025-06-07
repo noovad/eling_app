@@ -1,6 +1,6 @@
-import 'package:eling_app/data/eling_database.dart';
-import 'package:eling_app/data/model/database_constants.dart';
-import 'package:eling_app/domain/entities/note/note.dart';
+import 'package:eling/data/eling_database.dart';
+import 'package:eling/data/model/database_constants.dart';
+import 'package:eling/domain/entities/note/note.dart';
 
 class NoteRepository {
   final ElingDatabase _database;

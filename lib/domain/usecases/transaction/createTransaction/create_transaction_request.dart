@@ -1,4 +1,4 @@
-import 'package:eling_app/domain/entities/transaction/transaction.dart';
+import 'package:eling/domain/entities/transaction/transaction.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'create_transaction_request.freezed.dart';

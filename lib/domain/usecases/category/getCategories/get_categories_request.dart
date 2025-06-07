@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:eling_app/core/enum/category_type.dart';
+import 'package:eling/core/enum/category_type.dart';
 
 part 'get_categories_request.freezed.dart';
 part 'get_categories_request.g.dart';

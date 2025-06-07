@@ -1,4 +1,4 @@
-import 'package:eling_app/domain/entities/transaction/transaction.dart';
+import 'package:eling/domain/entities/transaction/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui/widgets/appDropdown/app_dropdown.dart';
 

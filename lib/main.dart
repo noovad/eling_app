@@ -1,5 +1,5 @@
-import 'package:eling_app/app.dart';
-import 'package:eling_app/data/repositories/task_repository.dart';
+import 'package:eling/app.dart';
+import 'package:eling/data/repositories/task_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -16,14 +16,11 @@ void main() async {
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     await windowManager.ensureInitialized();
 
-    const WindowOptions options = WindowOptions(
-      
-      center: true,
-    );
+    const WindowOptions options = WindowOptions(center: true);
 
     windowManager.waitUntilReadyToShow(options, () async {
       await windowManager.maximize();
-      
+
       await windowManager.show();
       await windowManager.focus();
     });

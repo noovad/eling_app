@@ -63,7 +63,7 @@ void generateUsecaseProviderFile(
 ) {
   final fileName = '${usecaseName}_provider.dart';
   final content = '''
-import 'package:eling_app/core/providers/logger_provider.dart';
+import 'package:eling/core/providers/logger_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

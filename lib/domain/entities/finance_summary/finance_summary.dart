@@ -1,4 +1,4 @@
-import 'package:eling_app/domain/entities/detail_summary/detail_summary.dart';
+import 'package:eling/domain/entities/detail_summary/detail_summary.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'finance_summary.freezed.dart';

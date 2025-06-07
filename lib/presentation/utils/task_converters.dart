@@ -1,8 +1,8 @@
-import 'package:eling_app/core/utils/resource.dart';
-import 'package:eling_app/domain/entities/recurringTask/recurring_task.dart';
-import 'package:eling_app/domain/entities/recurringTaskGroupResult/recurring_task_group_result.dart';
-import 'package:eling_app/domain/entities/task/task.dart';
-import 'package:eling_app/domain/entities/taskGroupResult/task_group_result.dart';
+import 'package:eling/core/utils/resource.dart';
+import 'package:eling/domain/entities/recurringTask/recurring_task.dart';
+import 'package:eling/domain/entities/recurringTaskGroupResult/recurring_task_group_result.dart';
+import 'package:eling/domain/entities/task/task.dart';
+import 'package:eling/domain/entities/taskGroupResult/task_group_result.dart';
 
 class TaskConverters {
   static Resource<TaskGroupResultEntity> convertRecurringToTaskGroupResource(

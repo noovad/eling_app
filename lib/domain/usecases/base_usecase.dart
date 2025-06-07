@@ -1,5 +1,5 @@
 import 'package:logger/logger.dart';
-import 'package:eling_app/core/utils/result.dart';
+import 'package:eling/core/utils/result.dart';
 
 abstract class BaseUsecase<Request, Response> {
   final Logger logger;

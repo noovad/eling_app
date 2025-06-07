@@ -1,13 +1,13 @@
-import 'package:eling_app/core/providers/notifier/task_notifier_provider.dart';
-import 'package:eling_app/domain/entities/task/task.dart';
-import 'package:eling_app/presentation/enum/task_type.dart';
-import 'package:eling_app/presentation/enum/form_mode.dart';
-import 'package:eling_app/presentation/enum/task_schedule_type.dart';
+import 'package:eling/core/providers/notifier/task_notifier_provider.dart';
+import 'package:eling/domain/entities/task/task.dart';
+import 'package:eling/presentation/enum/task_type.dart';
+import 'package:eling/presentation/enum/form_mode.dart';
+import 'package:eling/presentation/enum/task_schedule_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
 import 'package:flutter_ui/shared/sizes/app_spaces.dart';
-import 'package:eling_app/presentation/pages/todoPage/task/widget/task_form.dart';
+import 'package:eling/presentation/pages/todoPage/task/widget/task_form.dart';
 
 class TaskSheet extends ConsumerWidget {
   final TaskEntity? task;

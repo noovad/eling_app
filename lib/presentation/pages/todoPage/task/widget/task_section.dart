@@ -1,7 +1,7 @@
-import 'package:eling_app/presentation/enum/task_schedule_type.dart';
-import 'package:eling_app/presentation/enum/task_type.dart';
+import 'package:eling/presentation/enum/task_schedule_type.dart';
+import 'package:eling/presentation/enum/task_type.dart';
 import 'package:flutter/material.dart';
-import 'package:eling_app/presentation/pages/todoPage/task/widget/task_list_data.dart';
+import 'package:eling/presentation/pages/todoPage/task/widget/task_list_data.dart';
 import 'package:flutter_ui/shared/sizes/app_spaces.dart';
 
 class TaskSection extends StatelessWidget {

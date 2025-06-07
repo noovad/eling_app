@@ -1,13 +1,13 @@
-import 'package:eling_app/core/utils/resource.dart';
-import 'package:eling_app/domain/entities/transaction_category/transaction_category.dart';
-import 'package:eling_app/domain/usecases/base_usecase.dart';
-import 'package:eling_app/domain/usecases/transaction_category/createCategory/create_category_request.dart';
-import 'package:eling_app/domain/usecases/transaction_category/createCategory/create_category_usecase.dart';
-import 'package:eling_app/domain/usecases/transaction_category/deleteCategory/delete_category_request.dart';
-import 'package:eling_app/domain/usecases/transaction_category/deleteCategory/delete_category_usecase.dart';
-import 'package:eling_app/domain/usecases/transaction_category/getCategories/get_categories_usecase.dart';
-import 'package:eling_app/presentation/pages/finance/models/finance_category_name.dart';
-import 'package:eling_app/presentation/pages/finance/notifier/finance_notifier.dart';
+import 'package:eling/core/utils/resource.dart';
+import 'package:eling/domain/entities/transaction_category/transaction_category.dart';
+import 'package:eling/domain/usecases/base_usecase.dart';
+import 'package:eling/domain/usecases/transaction_category/createCategory/create_category_request.dart';
+import 'package:eling/domain/usecases/transaction_category/createCategory/create_category_usecase.dart';
+import 'package:eling/domain/usecases/transaction_category/deleteCategory/delete_category_request.dart';
+import 'package:eling/domain/usecases/transaction_category/deleteCategory/delete_category_usecase.dart';
+import 'package:eling/domain/usecases/transaction_category/getCategories/get_categories_usecase.dart';
+import 'package:eling/presentation/pages/finance/models/finance_category_name.dart';
+import 'package:eling/presentation/pages/finance/notifier/finance_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 

@@ -1,6 +1,6 @@
-import 'package:eling_app/presentation/pages/todoPage/notePage/note_page.dart';
-import 'package:eling_app/presentation/pages/todoPage/summary/summary_page.dart';
-import 'package:eling_app/presentation/pages/todoPage/task/task_page.dart';
+import 'package:eling/presentation/pages/todoPage/notePage/note_page.dart';
+import 'package:eling/presentation/pages/todoPage/summary/summary_page.dart';
+import 'package:eling/presentation/pages/todoPage/task/task_page.dart';
 import 'package:flutter/material.dart';
 
 class TodoPage extends StatelessWidget {

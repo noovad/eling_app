@@ -1,8 +1,8 @@
-import 'package:eling_app/core/providers/notifier/finance_notifier_provider.dart';
-import 'package:eling_app/core/utils/constants/string_constants.dart';
-import 'package:eling_app/domain/entities/account/account.dart';
-import 'package:eling_app/presentation/pages/finance/notifier/finance_notifier.dart';
-import 'package:eling_app/presentation/pages/finance/widget/app_finance_card.dart';
+import 'package:eling/core/providers/notifier/finance_notifier_provider.dart';
+import 'package:eling/core/utils/constants/string_constants.dart';
+import 'package:eling/domain/entities/account/account.dart';
+import 'package:eling/presentation/pages/finance/notifier/finance_notifier.dart';
+import 'package:eling/presentation/pages/finance/widget/app_finance_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/widgets/appUtils/app_no_data_found.dart';

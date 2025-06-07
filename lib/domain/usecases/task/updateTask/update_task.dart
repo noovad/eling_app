@@ -1,7 +1,7 @@
-import 'package:eling_app/core/utils/result.dart';
-import 'package:eling_app/data/repositories/task_repository.dart';
-import 'package:eling_app/domain/usecases/base_usecase.dart';
-import 'package:eling_app/domain/usecases/task/updateTask/update_task_request.dart';
+import 'package:eling/core/utils/result.dart';
+import 'package:eling/data/repositories/task_repository.dart';
+import 'package:eling/domain/usecases/base_usecase.dart';
+import 'package:eling/domain/usecases/task/updateTask/update_task_request.dart';
 
 abstract class UpdateTaskUseCase {
   Future<Result<int>> execute(UpdateTaskRequest request);

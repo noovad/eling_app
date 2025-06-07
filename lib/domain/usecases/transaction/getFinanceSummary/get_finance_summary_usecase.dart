@@ -1,8 +1,8 @@
-import 'package:eling_app/core/utils/result.dart';
-import 'package:eling_app/data/repositories/transaction_repository.dart';
-import 'package:eling_app/domain/entities/finance_summary/finance_summary.dart';
-import 'package:eling_app/domain/usecases/base_usecase.dart';
-import 'package:eling_app/domain/usecases/transaction/getFinanceSummary/get_finance_summary_request.dart';
+import 'package:eling/core/utils/result.dart';
+import 'package:eling/data/repositories/transaction_repository.dart';
+import 'package:eling/domain/entities/finance_summary/finance_summary.dart';
+import 'package:eling/domain/usecases/base_usecase.dart';
+import 'package:eling/domain/usecases/transaction/getFinanceSummary/get_finance_summary_request.dart';
 
 abstract class GetFinanceSummaryUseCase {
   Future<Result<FinanceSummaryEntity>> execute(

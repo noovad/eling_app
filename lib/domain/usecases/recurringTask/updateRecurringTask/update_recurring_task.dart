@@ -1,7 +1,7 @@
-import 'package:eling_app/core/utils/result.dart';
-import 'package:eling_app/data/repositories/recurring_task_repository.dart';
-import 'package:eling_app/domain/usecases/base_usecase.dart';
-import 'package:eling_app/domain/usecases/recurringTask/updateRecurringTask/update_recurring_task_request.dart';
+import 'package:eling/core/utils/result.dart';
+import 'package:eling/data/repositories/recurring_task_repository.dart';
+import 'package:eling/domain/usecases/base_usecase.dart';
+import 'package:eling/domain/usecases/recurringTask/updateRecurringTask/update_recurring_task_request.dart';
 
 abstract class UpdateRecurringTaskUseCase {
   Future<Result<int>> execute(UpdateRecurringTaskRequest request);

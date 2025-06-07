@@ -1,4 +1,4 @@
-import 'package:eling_app/domain/entities/task/task.dart';
+import 'package:eling/domain/entities/task/task.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'update_task_request.freezed.dart';

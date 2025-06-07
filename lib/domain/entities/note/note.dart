@@ -1,4 +1,4 @@
-import 'package:eling_app/core/utils/data_type_converter.dart';
+import 'package:eling/core/utils/data_type_converter.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'note.freezed.dart';

@@ -1,6 +1,6 @@
-import 'package:eling_app/core/utils/resource.dart';
-import 'package:eling_app/presentation/widgets/failure_toast.dart';
-import 'package:eling_app/presentation/widgets/success_toast.dart';
+import 'package:eling/core/utils/resource.dart';
+import 'package:eling/presentation/widgets/failure_toast.dart';
+import 'package:eling/presentation/widgets/success_toast.dart';
 import 'package:flutter/material.dart';
 
 enum ForAction { save, update, delete }
@@ -18,8 +18,8 @@ class ResultHandler {
         result.whenOrNull(
           success: (value) {
             bool condition =
-                value != "account" &&
-                value != "transaction_category" &&
+                value != "account" ||
+                value != "transaction_category" ||
                 Navigator.of(context).canPop();
 
             if (condition) {

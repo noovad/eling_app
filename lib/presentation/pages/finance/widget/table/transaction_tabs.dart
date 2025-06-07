@@ -1,7 +1,7 @@
-import 'package:eling_app/core/providers/notifier/finance_notifier_provider.dart';
-import 'package:eling_app/presentation/pages/finance/widget/table/monthly_table.dart';
-import 'package:eling_app/presentation/pages/finance/widget/transactionForm/transaction_sheet.dart';
-import 'package:eling_app/presentation/pages/finance/widget/table/yearly_table.dart';
+import 'package:eling/core/providers/notifier/finance_notifier_provider.dart';
+import 'package:eling/presentation/pages/finance/widget/table/monthly_table.dart';
+import 'package:eling/presentation/pages/finance/widget/transactionForm/transaction_sheet.dart';
+import 'package:eling/presentation/pages/finance/widget/table/yearly_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
@@ -31,6 +31,7 @@ class TransactionTabs extends ConsumerWidget {
               appSheet(
                 context: context,
                 side: SheetSide.right,
+                dismissable: false,
                 builder: (context) {
                   return TransactionSheet();
                 },

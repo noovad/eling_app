@@ -97,7 +97,7 @@ void generateNotifier(String pageName, String pagePascal, String dirPath) {
   final content = '''
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:eling_app/core/utils/resource.dart';
+import 'package:eling/core/utils/resource.dart';
 
 part '${pageName}_state.dart';
 part '${pageName}_notifier.freezed.dart';

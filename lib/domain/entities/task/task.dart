@@ -1,5 +1,5 @@
-import 'package:eling_app/core/utils/data_type_converter.dart';
-import 'package:eling_app/presentation/enum/task_type.dart';
+import 'package:eling/core/utils/data_type_converter.dart';
+import 'package:eling/presentation/enum/task_type.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'task.freezed.dart';
