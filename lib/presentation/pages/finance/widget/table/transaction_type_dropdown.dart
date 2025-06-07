@@ -1,4 +1,4 @@
-import 'package:eling/domain/entities/transaction/transaction.dart';
+import 'package:eling/core/enum/transaction_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui/widgets/appDropdown/app_dropdown.dart';
 
@@ -13,6 +13,7 @@ class TransactionTypeDropdown extends StatelessWidget {
     DropdownItem(id: TransactionType.expense, label: 'Expense'),
     DropdownItem(id: TransactionType.savings, label: 'Saving'),
     DropdownItem(id: TransactionType.transfer, label: 'Transfer'),
+    DropdownItem(id: TransactionType.withdraw, label: 'Withdraw'),
   ];
 
   @override

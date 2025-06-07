@@ -1,9 +1,9 @@
+import 'package:eling/core/enum/transaction_type.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'transaction.freezed.dart';
 part 'transaction.g.dart';
 
-enum TransactionType { income, expense, savings, transfer }
 
 @freezed
 abstract class TransactionEntity with _$TransactionEntity {

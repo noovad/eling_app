@@ -1,7 +1,8 @@
-// import 'dart:io';
+import 'dart:io';
 
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:eling/data/migrations/database_migrations.dart';
+import 'package:path_provider/path_provider.dart';
 
 class ElingDatabase {
   static final ElingDatabase instance = ElingDatabase._init();
@@ -15,11 +16,17 @@ class ElingDatabase {
     return _database!;
   }
 
-  Future<Database> _initDB(String filePath) async {
-    final basePath = await databaseFactory.getDatabasesPath();
-    // final basePath = Directory.current.path;
+  Future<String> getAppDataPath() async {
+    final directory = await getApplicationSupportDirectory();
+    final path = directory.path;
+    await Directory(path).create(recursive: true);
+    return path;
+  }
 
-    final path = '$basePath/$filePath';
+  Future<Database> _initDB(String filePath) async {
+    final appDataPath = await getAppDataPath();
+    final path = '$appDataPath/$filePath';
+    print('Database path: $path');
     return await openDatabase(
       path,
       version: DatabaseMigrations.currentVersion,

@@ -1,3 +1,4 @@
+import 'package:eling/core/enum/transaction_type.dart';
 import 'package:eling/core/utils/constants/date_constants.dart';
 import 'package:eling/data/eling_database.dart';
 import 'package:eling/domain/entities/detail_summary/detail_summary.dart';
@@ -25,59 +26,32 @@ class TransactionRepository {
 
       switch (transaction.type) {
         case TransactionType.income:
-          if (transaction.target != null) {
-            await _updateAccountBalance(
-              txn,
-              transaction.target!,
-              transaction.amount,
-            );
-          }
+          await _updateAccountBalance(
+            txn,
+            transaction.target!,
+            transaction.amount,
+          );
           break;
-
         case TransactionType.expense:
-          if (transaction.source != null) {
-            await _updateAccountBalance(
-              txn,
-              transaction.source!,
-              -transaction.amount,
-            );
-          }
+          await _updateAccountBalance(
+            txn,
+            transaction.source!,
+            -transaction.amount,
+          );
           break;
-
         case TransactionType.savings:
-          if (transaction.source != null) {
-            await _updateAccountBalance(
-              txn,
-              transaction.source!,
-              -transaction.amount,
-            );
-          }
-
-          if (transaction.target != null) {
-            await _updateAccountBalance(
-              txn,
-              transaction.target!,
-              transaction.amount,
-            );
-          }
-          break;
-
         case TransactionType.transfer:
-          if (transaction.source != null) {
-            await _updateAccountBalance(
-              txn,
-              transaction.source!,
-              -transaction.amount,
-            );
-          }
-
-          if (transaction.target != null) {
-            await _updateAccountBalance(
-              txn,
-              transaction.target!,
-              transaction.amount,
-            );
-          }
+        case TransactionType.withdraw:
+          await _updateAccountBalance(
+            txn,
+            transaction.source!,
+            -transaction.amount,
+          );
+          await _updateAccountBalance(
+            txn,
+            transaction.target!,
+            transaction.amount,
+          );
           break;
       }
     });
@@ -205,10 +179,13 @@ class TransactionRepository {
           break;
         case TransactionType.transfer:
           break;
+        case TransactionType.withdraw:
+          totalExpense += transaction.amount;
+          _addToCategorySummary(expenseSummaries, transaction);
+          break;
       }
     }
 
-    // Calculate percentages for income summaries
     final updatedIncomeSummaries =
         incomeSummaries.values
             .map(
@@ -219,7 +196,6 @@ class TransactionRepository {
             )
             .toList();
 
-    // Calculate percentages for expense summaries
     final updatedExpenseSummaries =
         expenseSummaries.values
             .map(
@@ -315,7 +291,6 @@ class TransactionRepository {
   Future<int> deleteTransaction(String id) async {
     final db = await _database.database;
 
-    // Ambil transaksi yang akan dihapus
     final transactionData = await db.query(
       'transactions',
       where: 'id = ?',
@@ -328,58 +303,35 @@ class TransactionRepository {
 
     final transaction = TransactionEntity.fromJson(transactionData.first);
 
-    // Update saldo akun terkait sebelum menghapus transaksi
     await db.transaction((txn) async {
       switch (transaction.type) {
         case TransactionType.income:
-          if (transaction.target != null) {
-            await _updateAccountBalance(
-              txn,
-              transaction.target!,
-              -transaction.amount,
-            );
-          }
+          await _updateAccountBalance(
+            txn,
+            transaction.target!,
+            -transaction.amount,
+          );
           break;
         case TransactionType.expense:
-          if (transaction.source != null) {
-            await _updateAccountBalance(
-              txn,
-              transaction.source!,
-              transaction.amount,
-            );
-          }
+          await _updateAccountBalance(
+            txn,
+            transaction.source!,
+            transaction.amount,
+          );
           break;
         case TransactionType.savings:
-          if (transaction.source != null) {
-            await _updateAccountBalance(
-              txn,
-              transaction.source!,
-              transaction.amount,
-            );
-          }
-          if (transaction.target != null) {
-            await _updateAccountBalance(
-              txn,
-              transaction.target!,
-              -transaction.amount,
-            );
-          }
-          break;
         case TransactionType.transfer:
-          if (transaction.source != null) {
-            await _updateAccountBalance(
-              txn,
-              transaction.source!,
-              transaction.amount,
-            );
-          }
-          if (transaction.target != null) {
-            await _updateAccountBalance(
-              txn,
-              transaction.target!,
-              -transaction.amount,
-            );
-          }
+        case TransactionType.withdraw:
+          await _updateAccountBalance(
+            txn,
+            transaction.source!,
+            transaction.amount,
+          );
+          await _updateAccountBalance(
+            txn,
+            transaction.target!,
+            -transaction.amount,
+          );
           break;
       }
 

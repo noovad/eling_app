@@ -64,9 +64,13 @@ class AppFinanceCard extends StatelessWidget {
             subtitle: Row(
               children: [
                 Text('Rp ', style: Theme.of(context).textTheme.titleLarge),
-                Text(
-                  subtitle ?? '',
-                  style: Theme.of(context).textTheme.titleLarge,
+                Expanded(
+                  child: Text(
+                    subtitle ?? '',
+                    style: Theme.of(context).textTheme.titleLarge,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
                 ),
               ],
             ),

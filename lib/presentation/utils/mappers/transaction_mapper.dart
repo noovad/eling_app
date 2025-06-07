@@ -1,3 +1,4 @@
+import 'package:eling/core/enum/transaction_type.dart';
 import 'package:eling/domain/entities/transaction/transaction.dart';
 
 class TransactionMapper {
@@ -23,6 +24,8 @@ class TransactionMapper {
             savings += transaction.amount;
             break;
           case TransactionType.transfer:
+            break;
+          case TransactionType.withdraw:
             break;
         }
       }

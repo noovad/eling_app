@@ -1,0 +1,1 @@
+enum TransactionType { income, expense, savings, transfer, withdraw }

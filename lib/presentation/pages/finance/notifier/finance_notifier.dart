@@ -1,3 +1,4 @@
+import 'package:eling/core/enum/transaction_type.dart';
 import 'package:eling/domain/entities/account/account.dart';
 import 'package:eling/domain/entities/finance_summary/finance_summary.dart';
 import 'package:eling/domain/entities/transaction/transaction.dart';

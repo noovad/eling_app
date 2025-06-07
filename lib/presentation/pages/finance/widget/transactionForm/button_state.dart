@@ -1,5 +1,6 @@
-import 'package:eling/domain/entities/transaction/transaction.dart';
+import 'package:eling/core/enum/transaction_type.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ui/shared/sizes/app_spaces.dart';
 
 class ButtonState extends StatefulWidget {
   final Function(TransactionType) onChanged;
@@ -23,6 +24,7 @@ class _ButtonStateState extends State<ButtonState> {
     TransactionType.expense: 'Expenses',
     TransactionType.savings: 'Savings',
     TransactionType.transfer: 'Transfer',
+    TransactionType.withdraw: 'Withdraw',
   };
 
   @override
@@ -46,8 +48,7 @@ class _ButtonStateState extends State<ButtonState> {
             return Row(
               children: [
                 _buildButton(type),
-                if (type != TransactionType.values.last)
-                  const SizedBox(width: 12),
+                if (type != TransactionType.values.last) AppSpaces.w12,
               ],
             );
           }).toList(),

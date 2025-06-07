@@ -115,7 +115,7 @@ class DatabaseMigrations {
     const dateTimeType = 'TEXT';
     const doubleType = 'REAL';
     const transactionType =
-        "TEXT CHECK(${TransactionFields.type} IN ('income', 'expense', 'savings', 'transfer'))";
+        "TEXT CHECK(${TransactionFields.type} IN ('income', 'expense', 'savings', 'transfer', 'withdraw'))";
 
     await db.execute('''
       CREATE TABLE transactions (

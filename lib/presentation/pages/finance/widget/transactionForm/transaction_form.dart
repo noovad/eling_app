@@ -1,7 +1,7 @@
+import 'package:eling/core/enum/transaction_type.dart';
 import 'package:eling/core/providers/notifier/finance_notifier_provider.dart';
 import 'package:eling/core/utils/constants/string_constants.dart';
 import 'package:eling/domain/entities/account/account.dart';
-import 'package:eling/domain/entities/transaction/transaction.dart';
 import 'package:eling/presentation/utils/extensions/input_error_message.dart';
 import 'package:eling/presentation/utils/input_format_rupiah.dart';
 import 'package:flutter/material.dart';
@@ -119,7 +119,9 @@ class TransactionForm extends ConsumerWidget {
         ),
         Visibility(
           visible:
-              type != TransactionType.income || type == TransactionType.expense,
+              type == TransactionType.expense ||
+              type == TransactionType.savings ||
+              type == TransactionType.transfer,
           maintainSize: false,
           maintainAnimation: false,
           maintainState: true,
@@ -137,7 +139,7 @@ class TransactionForm extends ConsumerWidget {
                         )
                         .toList() ??
                     [],
-                label: 'Source',
+                label: 'Source Balance Account',
                 withLabel: true,
                 showUnselect: false,
                 hint: 'Select source...',
@@ -153,7 +155,41 @@ class TransactionForm extends ConsumerWidget {
             ],
           ),
         ),
-
+        Visibility(
+          visible: type == TransactionType.withdraw,
+          maintainSize: false,
+          maintainAnimation: false,
+          maintainState: true,
+          child: Column(
+            children: [
+              AppDropdown<String>(
+                items:
+                    savingsAccounts
+                        ?.map(
+                          (account) => DropdownItem(
+                            id: account.id,
+                            label:
+                                "${account.name} (${StringConstants.formatCurrency(account.balance ?? 0)})",
+                          ),
+                        )
+                        .toList() ??
+                    [],
+                label: 'Source Savings Account',
+                withLabel: true,
+                showUnselect: false,
+                hint: 'Select source...',
+                isRequired: true,
+                errorText: target.displayError?.message,
+                onChanged: (DropdownItem<String>? item) {
+                  if (item != null) {
+                    notifier.sourceChanged(item.id);
+                  }
+                },
+              ),
+              AppSpaces.h24,
+            ],
+          ),
+        ),
         Visibility(
           visible: type == TransactionType.savings,
           maintainSize: false,
@@ -192,7 +228,8 @@ class TransactionForm extends ConsumerWidget {
         Visibility(
           visible:
               type == TransactionType.income ||
-              type == TransactionType.transfer,
+              type == TransactionType.transfer ||
+              type == TransactionType.withdraw,
           maintainSize: false,
           maintainAnimation: false,
           maintainState: true,

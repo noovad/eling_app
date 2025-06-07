@@ -1,6 +1,6 @@
+import 'package:eling/core/enum/transaction_type.dart';
 import 'package:eling/core/providers/notifier/finance_notifier_provider.dart';
 import 'package:eling/core/utils/constants/string_constants.dart';
-import 'package:eling/domain/entities/transaction/transaction.dart';
 import 'package:eling/presentation/pages/finance/widget/table/transaction_type_dropdown.dart';
 import 'package:eling/presentation/widgets/delete_dialog.dart';
 import 'package:flutter/material.dart';

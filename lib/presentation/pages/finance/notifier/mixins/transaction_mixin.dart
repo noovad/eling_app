@@ -1,3 +1,4 @@
+import 'package:eling/core/enum/transaction_type.dart';
 import 'package:eling/core/utils/constants/string_constants.dart';
 import 'package:eling/core/utils/resource.dart';
 import 'package:eling/domain/entities/transaction/transaction.dart';
@@ -118,6 +119,7 @@ mixin TransactionMixin on StateNotifier<FinanceState> {
       target: state.target.value,
       description: state.description,
     );
+    print('Creating transaction: $transaction');
 
     final result = await createTransactionUseCase.execute(
       CreateTransactionRequest(transaction: transaction),
@@ -130,7 +132,8 @@ mixin TransactionMixin on StateNotifier<FinanceState> {
         getFinanceSummary();
         state = state.copyWith(saveResult: Resource.success('transaction'));
       },
-      failure: (_) {
+      failure: (a) {
+        print('Failed to create transaction: $a');
         state = state.copyWith(saveResult: Resource.failure('transaction'));
       },
     );
@@ -238,6 +241,7 @@ mixin TransactionMixin on StateNotifier<FinanceState> {
         break;
       case TransactionType.savings:
       case TransactionType.transfer:
+      case TransactionType.withdraw:
         isValid = isValid && Formz.validate([sourceInput, targetInput]);
         break;
     }
