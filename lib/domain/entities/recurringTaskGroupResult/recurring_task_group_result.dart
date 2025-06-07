@@ -1,5 +1,5 @@
-import 'package:eling_app/domain/entities/recurringTask/recurring_task.dart';
-import 'package:eling_app/presentation/enum/task_type.dart';
+import 'package:eling/domain/entities/recurringTask/recurring_task.dart';
+import 'package:eling/presentation/enum/task_type.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'recurring_task_group_result.freezed.dart';

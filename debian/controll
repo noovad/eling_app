@@ -1,9 +1,3 @@
-flutter_app:
-  command: eling
-  arch: x64
-  parent: /usr/local/lib
-  nonInteractive: true
-
 control:
   Package: eling
   Version: 1.0.0
@@ -13,4 +7,4 @@ control:
   Maintainer: Nov <novadwynt28@gmail.com>
   Description: Eling-App - A modern productivity tracker and financial record-keeping app, written in Flutter.
   Terminal: false
-
+  

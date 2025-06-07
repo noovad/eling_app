@@ -1,5 +1,5 @@
-name: eling_app
-description: "A new Flutter project."
+name: eling
+description: A modern productivity tracker and financial record-keeping app
 publish_to: 'none'
 
 version: 1.0.0+1

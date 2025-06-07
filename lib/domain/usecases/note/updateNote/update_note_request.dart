@@ -1,4 +1,4 @@
-import 'package:eling_app/domain/entities/note/note.dart';
+import 'package:eling/domain/entities/note/note.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'update_note_request.freezed.dart';

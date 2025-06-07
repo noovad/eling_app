@@ -1,8 +1,8 @@
-import 'package:eling_app/core/utils/result.dart';
-import 'package:eling_app/data/repositories/transaction_repository.dart';
-import 'package:eling_app/domain/entities/transaction/transaction.dart';
-import 'package:eling_app/domain/usecases/base_usecase.dart';
-import 'package:eling_app/domain/usecases/transaction/getTransactions/get_transactions_request.dart';
+import 'package:eling/core/utils/result.dart';
+import 'package:eling/data/repositories/transaction_repository.dart';
+import 'package:eling/domain/entities/transaction/transaction.dart';
+import 'package:eling/domain/usecases/base_usecase.dart';
+import 'package:eling/domain/usecases/transaction/getTransactions/get_transactions_request.dart';
 
 abstract class GetTransactionsUseCase {
   Future<Result<List<TransactionEntity>>> execute(

@@ -1,11 +1,11 @@
-import 'package:eling_app/core/utils/constants/date_constants.dart';
-import 'package:eling_app/core/utils/resource.dart';
-import 'package:eling_app/domain/entities/taskGroupResult/task_group_result.dart';
-import 'package:eling_app/presentation/enum/task_type.dart';
-import 'package:eling_app/presentation/enum/task_schedule_type.dart';
-import 'package:eling_app/core/providers/notifier/task_notifier_provider.dart';
-import 'package:eling_app/presentation/pages/todoPage/task/widget/task_sheet.dart';
-import 'package:eling_app/presentation/utils/task_converters.dart';
+import 'package:eling/core/utils/constants/date_constants.dart';
+import 'package:eling/core/utils/resource.dart';
+import 'package:eling/domain/entities/taskGroupResult/task_group_result.dart';
+import 'package:eling/presentation/enum/task_type.dart';
+import 'package:eling/presentation/enum/task_schedule_type.dart';
+import 'package:eling/core/providers/notifier/task_notifier_provider.dart';
+import 'package:eling/presentation/pages/todoPage/task/widget/task_sheet.dart';
+import 'package:eling/presentation/utils/task_converters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
 import 'package:flutter_ui/shared/sizes/app_spaces.dart';
@@ -129,10 +129,7 @@ class TaskListData extends ConsumerWidget {
                         },
                         leading: taskScheduleType != TaskScheduleType.recurring,
                         ontap: () {
-                          notifier.setUpdateForm(
-                            task,
-                            taskScheduleType,
-                          );
+                          notifier.setUpdateForm(task, taskScheduleType);
                           appSheet(
                             context: context,
                             side: SheetSide.right,

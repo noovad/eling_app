@@ -1,8 +1,8 @@
-import 'package:eling_app/core/utils/result.dart';
-import 'package:eling_app/data/repositories/category_repository.dart';
-import 'package:eling_app/domain/entities/category/category.dart';
-import 'package:eling_app/domain/usecases/base_usecase.dart';
-import 'package:eling_app/domain/usecases/category/getCategories/get_categories_request.dart';
+import 'package:eling/core/utils/result.dart';
+import 'package:eling/data/repositories/category_repository.dart';
+import 'package:eling/domain/entities/category/category.dart';
+import 'package:eling/domain/usecases/base_usecase.dart';
+import 'package:eling/domain/usecases/category/getCategories/get_categories_request.dart';
 
 abstract class GetCategoriesUseCase {
   Future<Result<List<CategoryEntity>>> execute(GetCategoriesRequest request);

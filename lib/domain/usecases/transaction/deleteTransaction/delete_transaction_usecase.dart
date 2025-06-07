@@ -1,7 +1,7 @@
-import 'package:eling_app/core/utils/result.dart';
-import 'package:eling_app/data/repositories/transaction_repository.dart';
-import 'package:eling_app/domain/usecases/base_usecase.dart';
-import 'package:eling_app/domain/usecases/transaction/deleteTransaction/delete_transaction_request.dart';
+import 'package:eling/core/utils/result.dart';
+import 'package:eling/data/repositories/transaction_repository.dart';
+import 'package:eling/domain/usecases/base_usecase.dart';
+import 'package:eling/domain/usecases/transaction/deleteTransaction/delete_transaction_request.dart';
 
 abstract class DeleteTransactionUseCase {
   Future<Result<bool>> execute(DeleteTransactionRequest request);

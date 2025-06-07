@@ -1,4 +1,4 @@
-import 'package:eling_app/presentation/enum/task_schedule_type.dart';
+import 'package:eling/presentation/enum/task_schedule_type.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'get_tasks_request.freezed.dart';

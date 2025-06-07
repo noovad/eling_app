@@ -1,7 +1,7 @@
-import 'package:eling_app/domain/entities/account/account.dart';
-import 'package:eling_app/presentation/pages/finance/widget/account/account_sheet.dart';
-import 'package:eling_app/presentation/pages/finance/widget/account/accounts.dart';
-import 'package:eling_app/presentation/pages/finance/widget/transactionForm/transaction_category_sheet.dart';
+import 'package:eling/domain/entities/account/account.dart';
+import 'package:eling/presentation/pages/finance/widget/account/account_sheet.dart';
+import 'package:eling/presentation/pages/finance/widget/account/accounts.dart';
+import 'package:eling/presentation/pages/finance/widget/transactionForm/transaction_category_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
 import 'package:flutter_ui/widgets/appPopOver/app_pop_over.dart';

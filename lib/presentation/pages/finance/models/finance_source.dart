@@ -1,5 +1,5 @@
-import 'package:eling_app/presentation/enum/input_validation_type.dart';
-import 'package:eling_app/presentation/utils/extensions/input_error_message.dart';
+import 'package:eling/presentation/enum/input_validation_type.dart';
+import 'package:eling/presentation/utils/extensions/input_error_message.dart';
 import 'package:formz/formz.dart';
 
 class FinanceSourceInput extends FormzInput<String, InputValidation> {

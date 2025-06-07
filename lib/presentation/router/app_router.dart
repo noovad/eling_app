@@ -1,7 +1,7 @@
-import 'package:eling_app/presentation/pages/finance/finance_page.dart';
-import 'package:eling_app/presentation/pages/todoPage/todo_page.dart';
-import 'package:eling_app/presentation/router/app_routes.dart';
-import 'package:eling_app/presentation/router/shell/app_shell.dart';
+import 'package:eling/presentation/pages/finance/finance_page.dart';
+import 'package:eling/presentation/pages/todoPage/todo_page.dart';
+import 'package:eling/presentation/router/app_routes.dart';
+import 'package:eling/presentation/router/shell/app_shell.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {

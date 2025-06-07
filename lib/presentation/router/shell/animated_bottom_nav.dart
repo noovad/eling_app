@@ -1,4 +1,4 @@
-import 'package:eling_app/presentation/router/app_routes.dart';
+import 'package:eling/presentation/router/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_ui/shared/sizes/app_spaces.dart';

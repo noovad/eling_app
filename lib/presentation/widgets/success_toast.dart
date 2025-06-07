@@ -1,4 +1,4 @@
-import 'package:eling_app/presentation/utils/result_handler.dart';
+import 'package:eling/presentation/utils/result_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui/widgets/appToast/app_simple_toast.dart';
 

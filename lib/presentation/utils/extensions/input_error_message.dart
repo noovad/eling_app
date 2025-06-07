@@ -1,4 +1,4 @@
-import 'package:eling_app/presentation/enum/input_validation_type.dart';
+import 'package:eling/presentation/enum/input_validation_type.dart';
 
 extension InputValidationMessage on InputValidation {
   String get message {

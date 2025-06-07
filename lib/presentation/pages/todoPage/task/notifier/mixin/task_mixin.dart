@@ -42,9 +42,9 @@ mixin TaskMixin on StateNotifier<TaskState> {
     );
     result.when(
       success: (data) {
-        state = state.copyWith(deleteResult: Resource.success('task'));
         getTasks(TaskScheduleType.today);
         getTasks(TaskScheduleType.upcoming);
+        state = state.copyWith(deleteResult: Resource.success('task'));
       },
       failure: (error) {
         state = state.copyWith(deleteResult: Resource.failure(error));
@@ -63,6 +63,7 @@ mixin TaskMixin on StateNotifier<TaskState> {
     result.when(
       success: (data) {
         getTasks(taskTabsType);
+        getCompletedTasks();
         state = state.copyWith(updateStatusResult: Resource.success('task'));
       },
       failure: (error) {
@@ -91,9 +92,9 @@ mixin TaskMixin on StateNotifier<TaskState> {
 
     result.when(
       success: (data) {
-        state = state.copyWith(updateResult: Resource.success('task'));
         getTasks(TaskScheduleType.today);
         getTasks(TaskScheduleType.upcoming);
+        state = state.copyWith(updateResult: Resource.success('task'));
       },
       failure: (error) {
         state = state.copyWith(updateResult: Resource.failure(error));

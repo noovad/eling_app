@@ -1,8 +1,8 @@
-import 'package:eling_app/core/utils/result.dart';
-import 'package:eling_app/data/repositories/recurring_task_repository.dart';
-import 'package:eling_app/domain/entities/recurringTask/recurring_task.dart';
-import 'package:eling_app/domain/usecases/base_usecase.dart';
-import 'package:eling_app/domain/usecases/recurringTask/createRecurringTask/create_recurring_task_request.dart';
+import 'package:eling/core/utils/result.dart';
+import 'package:eling/data/repositories/recurring_task_repository.dart';
+import 'package:eling/domain/entities/recurringTask/recurring_task.dart';
+import 'package:eling/domain/usecases/base_usecase.dart';
+import 'package:eling/domain/usecases/recurringTask/createRecurringTask/create_recurring_task_request.dart';
 
 abstract class CreateRecurringTaskUseCase {
   Future<Result<RecurringTaskEntity>> execute(

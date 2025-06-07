@@ -1,6 +1,6 @@
-import 'package:eling_app/core/providers/notifier/finance_notifier_provider.dart';
-import 'package:eling_app/core/utils/constants/string_constants.dart';
-import 'package:eling_app/presentation/utils/mappers/transaction_mapper.dart';
+import 'package:eling/core/providers/notifier/finance_notifier_provider.dart';
+import 'package:eling/core/utils/constants/string_constants.dart';
+import 'package:eling/presentation/utils/mappers/transaction_mapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/shared/sizes/app_spaces.dart';
@@ -191,7 +191,7 @@ class YearlyTable extends ConsumerWidget {
   DataRow _buildMonthRow(int month, Map<String, double> data) {
     final monthNames = StringConstants.monthNames;
     final netBalance =
-        (data['income'] ?? 0) - (data['expense'] ?? 0) + (data['savings'] ?? 0);
+        (data['income'] ?? 0) - (data['expense'] ?? 0) - (data['savings'] ?? 0);
 
     return DataRow(
       cells: [

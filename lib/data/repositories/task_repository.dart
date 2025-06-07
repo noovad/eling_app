@@ -1,11 +1,11 @@
-import 'package:eling_app/core/utils/constants/date_constants.dart';
-import 'package:eling_app/data/eling_database.dart';
-import 'package:eling_app/data/model/database_constants.dart';
-import 'package:eling_app/domain/entities/dailyActivity/daily_activity.dart';
-import 'package:eling_app/domain/entities/recurringTask/recurring_task.dart';
-import 'package:eling_app/domain/entities/task/task.dart';
-import 'package:eling_app/domain/entities/taskGroupResult/task_group_result.dart';
-import 'package:eling_app/presentation/enum/task_type.dart';
+import 'package:eling/core/utils/constants/date_constants.dart';
+import 'package:eling/data/eling_database.dart';
+import 'package:eling/data/model/database_constants.dart';
+import 'package:eling/domain/entities/dailyActivity/daily_activity.dart';
+import 'package:eling/domain/entities/recurringTask/recurring_task.dart';
+import 'package:eling/domain/entities/task/task.dart';
+import 'package:eling/domain/entities/taskGroupResult/task_group_result.dart';
+import 'package:eling/presentation/enum/task_type.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 

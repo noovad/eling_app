@@ -1,5 +1,5 @@
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:eling_app/data/model/database_constants.dart';
+import 'package:eling/data/model/database_constants.dart';
 
 class DatabaseMigrations {
   static const int currentVersion = 2;

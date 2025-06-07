@@ -1,4 +1,4 @@
-import 'package:eling_app/domain/entities/account/account.dart';
+import 'package:eling/domain/entities/account/account.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'create_account_request.freezed.dart';

@@ -1,8 +1,8 @@
-import 'package:eling_app/core/utils/constants/date_constants.dart';
-import 'package:eling_app/data/eling_database.dart';
-import 'package:eling_app/domain/entities/detail_summary/detail_summary.dart';
-import 'package:eling_app/domain/entities/transaction/transaction.dart';
-import 'package:eling_app/domain/entities/finance_summary/finance_summary.dart';
+import 'package:eling/core/utils/constants/date_constants.dart';
+import 'package:eling/data/eling_database.dart';
+import 'package:eling/domain/entities/detail_summary/detail_summary.dart';
+import 'package:eling/domain/entities/transaction/transaction.dart';
+import 'package:eling/domain/entities/finance_summary/finance_summary.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 class TransactionRepository {

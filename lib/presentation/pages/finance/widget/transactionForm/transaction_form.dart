@@ -1,9 +1,9 @@
-import 'package:eling_app/core/providers/notifier/finance_notifier_provider.dart';
-import 'package:eling_app/core/utils/constants/string_constants.dart';
-import 'package:eling_app/domain/entities/account/account.dart';
-import 'package:eling_app/domain/entities/transaction/transaction.dart';
-import 'package:eling_app/presentation/utils/extensions/input_error_message.dart';
-import 'package:eling_app/presentation/utils/input_format_rupiah.dart';
+import 'package:eling/core/providers/notifier/finance_notifier_provider.dart';
+import 'package:eling/core/utils/constants/string_constants.dart';
+import 'package:eling/domain/entities/account/account.dart';
+import 'package:eling/domain/entities/transaction/transaction.dart';
+import 'package:eling/presentation/utils/extensions/input_error_message.dart';
+import 'package:eling/presentation/utils/input_format_rupiah.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

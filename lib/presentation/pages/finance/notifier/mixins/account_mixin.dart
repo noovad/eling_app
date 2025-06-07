@@ -1,13 +1,13 @@
-import 'package:eling_app/core/utils/resource.dart';
-import 'package:eling_app/domain/entities/account/account.dart';
-import 'package:eling_app/domain/usecases/account/createAccount/create_account_request.dart';
-import 'package:eling_app/domain/usecases/account/createAccount/create_account_usecase.dart';
-import 'package:eling_app/domain/usecases/account/deleteAccount/delete_account_request.dart';
-import 'package:eling_app/domain/usecases/account/deleteAccount/delete_account_usecase.dart';
-import 'package:eling_app/domain/usecases/account/getAccounts/get_accounts_request.dart';
-import 'package:eling_app/domain/usecases/account/getAccounts/get_accounts_usecase.dart';
-import 'package:eling_app/presentation/pages/finance/models/finance_account_name.dart';
-import 'package:eling_app/presentation/pages/finance/notifier/finance_notifier.dart';
+import 'package:eling/core/utils/resource.dart';
+import 'package:eling/domain/entities/account/account.dart';
+import 'package:eling/domain/usecases/account/createAccount/create_account_request.dart';
+import 'package:eling/domain/usecases/account/createAccount/create_account_usecase.dart';
+import 'package:eling/domain/usecases/account/deleteAccount/delete_account_request.dart';
+import 'package:eling/domain/usecases/account/deleteAccount/delete_account_usecase.dart';
+import 'package:eling/domain/usecases/account/getAccounts/get_accounts_request.dart';
+import 'package:eling/domain/usecases/account/getAccounts/get_accounts_usecase.dart';
+import 'package:eling/presentation/pages/finance/models/finance_account_name.dart';
+import 'package:eling/presentation/pages/finance/notifier/finance_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 

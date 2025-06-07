@@ -1,4 +1,4 @@
-import 'package:eling_app/core/providers/notifier/task_notifier_provider.dart';
+import 'package:eling/core/providers/notifier/task_notifier_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_ui/shared/sizes/app_spaces.dart';
@@ -6,7 +6,7 @@ import 'package:flutter_ui/widgets/appNav/app_date_nav.dart';
 import 'package:flutter_ui/widgets/appSheet/app_sheet.dart';
 import 'package:flutter_ui/widgets/appUtils/app_no_data_found.dart';
 import 'package:intl/intl.dart';
-import 'package:eling_app/presentation/pages/todoPage/task/widget/task_sheet.dart';
+import 'package:eling/presentation/pages/todoPage/task/widget/task_sheet.dart';
 
 class TablePage extends ConsumerWidget {
   const TablePage({super.key});

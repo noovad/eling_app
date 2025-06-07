@@ -1,8 +1,8 @@
-import 'package:eling_app/core/providers/notifier/finance_notifier_provider.dart';
-import 'package:eling_app/presentation/pages/finance/widget/account/account_section.dart';
-import 'package:eling_app/presentation/pages/finance/widget/finance_info.dart';
-import 'package:eling_app/presentation/pages/finance/widget/table/transaction_tabs.dart';
-import 'package:eling_app/presentation/utils/result_handler.dart';
+import 'package:eling/core/providers/notifier/finance_notifier_provider.dart';
+import 'package:eling/presentation/pages/finance/widget/account/account_section.dart';
+import 'package:eling/presentation/pages/finance/widget/finance_info.dart';
+import 'package:eling/presentation/pages/finance/widget/table/transaction_tabs.dart';
+import 'package:eling/presentation/utils/result_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

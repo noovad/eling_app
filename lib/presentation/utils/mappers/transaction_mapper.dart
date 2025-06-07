@@ -1,4 +1,4 @@
-import 'package:eling_app/domain/entities/transaction/transaction.dart';
+import 'package:eling/domain/entities/transaction/transaction.dart';
 
 class TransactionMapper {
   static Map<int, Map<String, double>> toMonthlySummaries(
@@ -23,7 +23,6 @@ class TransactionMapper {
             savings += transaction.amount;
             break;
           case TransactionType.transfer:
-            // Skip transfers
             break;
         }
       }
@@ -32,7 +31,7 @@ class TransactionMapper {
         'income': income,
         'expense': expense,
         'savings': savings,
-        'netBalance': income - expense + savings,
+        'netBalance': income - expense - savings,
       };
     });
 

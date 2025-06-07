@@ -1,10 +1,10 @@
-import 'package:eling_app/core/utils/result.dart';
-import 'package:eling_app/data/repositories/recurring_task_repository.dart';
-import 'package:eling_app/data/repositories/task_repository.dart';
-import 'package:eling_app/domain/entities/taskGroupResult/task_group_result.dart';
-import 'package:eling_app/domain/usecases/base_usecase.dart';
-import 'package:eling_app/domain/usecases/task/getTasks/get_tasks_request.dart';
-import 'package:eling_app/presentation/enum/task_schedule_type.dart';
+import 'package:eling/core/utils/result.dart';
+import 'package:eling/data/repositories/recurring_task_repository.dart';
+import 'package:eling/data/repositories/task_repository.dart';
+import 'package:eling/domain/entities/taskGroupResult/task_group_result.dart';
+import 'package:eling/domain/usecases/base_usecase.dart';
+import 'package:eling/domain/usecases/task/getTasks/get_tasks_request.dart';
+import 'package:eling/presentation/enum/task_schedule_type.dart';
 
 abstract class GetTasksUseCase {
   Future<Result<TaskGroupResultEntity>> execute(GetTasksRequest request);

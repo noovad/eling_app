@@ -1,4 +1,4 @@
-import 'package:eling_app/presentation/router/shell/animated_bottom_nav.dart';
+import 'package:eling/presentation/router/shell/animated_bottom_nav.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

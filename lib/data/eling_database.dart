@@ -1,7 +1,7 @@
 // import 'dart:io';
 
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:eling_app/data/migrations/database_migrations.dart';
+import 'package:eling/data/migrations/database_migrations.dart';
 
 class ElingDatabase {
   static final ElingDatabase instance = ElingDatabase._init();

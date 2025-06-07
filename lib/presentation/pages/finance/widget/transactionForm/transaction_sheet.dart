@@ -1,6 +1,6 @@
-import 'package:eling_app/core/providers/notifier/finance_notifier_provider.dart';
-import 'package:eling_app/presentation/pages/finance/widget/transactionForm/button_state.dart';
-import 'package:eling_app/presentation/pages/finance/widget/transactionForm/transaction_form.dart';
+import 'package:eling/core/providers/notifier/finance_notifier_provider.dart';
+import 'package:eling/presentation/pages/finance/widget/transactionForm/button_state.dart';
+import 'package:eling/presentation/pages/finance/widget/transactionForm/transaction_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui/shared/sizes/app_padding.dart';
 import 'package:flutter_ui/shared/sizes/app_spaces.dart';

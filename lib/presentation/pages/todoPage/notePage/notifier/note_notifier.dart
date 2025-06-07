@@ -1,26 +1,26 @@
-import 'package:eling_app/domain/usecases/note/countPinnedNotes/count_pinned_notes.dart';
-import 'package:eling_app/domain/usecases/note/createNote/create_note.dart';
-import 'package:eling_app/domain/usecases/note/createNote/create_note_request.dart';
-import 'package:eling_app/domain/usecases/note/deleteNote/delete_note.dart';
-import 'package:eling_app/domain/usecases/note/deleteNote/delete_note_request.dart';
-import 'package:eling_app/domain/usecases/note/updateNote/update_note.dart';
-import 'package:eling_app/domain/usecases/note/updateNote/update_note_request.dart';
-import 'package:eling_app/domain/usecases/note/updatePinnedNote/update_pinned_note.dart';
-import 'package:eling_app/domain/usecases/note/updatePinnedNote/update_pinned_note_request.dart';
-import 'package:eling_app/presentation/pages/todoPage/notePage/models/content.dart';
-import 'package:eling_app/presentation/pages/todoPage/notePage/models/title.dart';
+import 'package:eling/domain/usecases/note/countPinnedNotes/count_pinned_notes.dart';
+import 'package:eling/domain/usecases/note/createNote/create_note.dart';
+import 'package:eling/domain/usecases/note/createNote/create_note_request.dart';
+import 'package:eling/domain/usecases/note/deleteNote/delete_note.dart';
+import 'package:eling/domain/usecases/note/deleteNote/delete_note_request.dart';
+import 'package:eling/domain/usecases/note/updateNote/update_note.dart';
+import 'package:eling/domain/usecases/note/updateNote/update_note_request.dart';
+import 'package:eling/domain/usecases/note/updatePinnedNote/update_pinned_note.dart';
+import 'package:eling/domain/usecases/note/updatePinnedNote/update_pinned_note_request.dart';
+import 'package:eling/presentation/pages/todoPage/notePage/models/content.dart';
+import 'package:eling/presentation/pages/todoPage/notePage/models/title.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:eling_app/core/enum/category_type.dart';
-import 'package:eling_app/core/utils/resource.dart';
-import 'package:eling_app/domain/entities/category/category.dart';
-import 'package:eling_app/domain/entities/note/note.dart';
-import 'package:eling_app/domain/usecases/base_usecase.dart';
-import 'package:eling_app/domain/usecases/category/getCategories/get_categories.dart';
-import 'package:eling_app/domain/usecases/category/getCategories/get_categories_request.dart';
-import 'package:eling_app/domain/usecases/note/getNotes/get_notes.dart';
+import 'package:eling/core/enum/category_type.dart';
+import 'package:eling/core/utils/resource.dart';
+import 'package:eling/domain/entities/category/category.dart';
+import 'package:eling/domain/entities/note/note.dart';
+import 'package:eling/domain/usecases/base_usecase.dart';
+import 'package:eling/domain/usecases/category/getCategories/get_categories.dart';
+import 'package:eling/domain/usecases/category/getCategories/get_categories_request.dart';
+import 'package:eling/domain/usecases/note/getNotes/get_notes.dart';
 import 'package:uuid/uuid.dart';
 
 part 'note_state.dart';
@@ -120,10 +120,10 @@ class NoteNotifier extends StateNotifier<NoteState> {
     result.when(
       success: (_) {
         getNotes();
-        state = state.copyWith(saveResult: Resource.success('note'));
+        state = state.copyWith(updateResult: Resource.success('note'));
       },
       failure: (_) {
-        state = state.copyWith(saveResult: Resource.failure('note'));
+        state = state.copyWith(updateResult: Resource.failure('note'));
       },
     );
   }
@@ -137,7 +137,6 @@ class NoteNotifier extends StateNotifier<NoteState> {
       success: (_) {
         getNotes();
         countPinnedNotes();
-        state = state.copyWith(saveResult: Resource.success('pinned'));
       },
       failure: (_) {
         state = state.copyWith(saveResult: Resource.failure('pinned'));

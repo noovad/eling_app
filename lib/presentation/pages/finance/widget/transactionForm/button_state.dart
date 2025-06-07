@@ -1,4 +1,4 @@
-import 'package:eling_app/domain/entities/transaction/transaction.dart';
+import 'package:eling/domain/entities/transaction/transaction.dart';
 import 'package:flutter/material.dart';
 
 class ButtonState extends StatefulWidget {
@@ -41,15 +41,16 @@ class _ButtonStateState extends State<ButtonState> {
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: TransactionType.values.map((type) {
-        return Row(
-          children: [
-            _buildButton(type),
-            if (type != TransactionType.values.last)
-              const SizedBox(width: 12),
-          ],
-        );
-      }).toList(),
+      children:
+          TransactionType.values.map((type) {
+            return Row(
+              children: [
+                _buildButton(type),
+                if (type != TransactionType.values.last)
+                  const SizedBox(width: 12),
+              ],
+            );
+          }).toList(),
     );
   }
 
@@ -60,18 +61,20 @@ class _ButtonStateState extends State<ButtonState> {
     return GestureDetector(
       onTap: () => _onSelect(type),
       child: Card(
-        color: isActive
-            ? Theme.of(context).colorScheme.primary
-            : Theme.of(context).colorScheme.surface,
+        color:
+            isActive
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).colorScheme.surface,
         elevation: isActive ? 4 : 1,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           child: Text(
             label,
             style: TextStyle(
-              color: isActive
-                  ? Theme.of(context).colorScheme.onPrimary
-                  : Theme.of(context).colorScheme.onSurface,
+              color:
+                  isActive
+                      ? Theme.of(context).colorScheme.onPrimary
+                      : Theme.of(context).colorScheme.onSurface,
               fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
             ),
           ),

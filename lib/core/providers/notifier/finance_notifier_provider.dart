@@ -1,15 +1,15 @@
-import 'package:eling_app/core/providers/usecase/account/createAccount/create_account_provider.dart';
-import 'package:eling_app/core/providers/usecase/account/deleteAccount/delete_account_provider.dart';
-import 'package:eling_app/core/providers/usecase/account/getAccounts/get_accounts_provider.dart';
-import 'package:eling_app/core/providers/usecase/transaction/createTransaction/create_transaction_provider.dart';
-import 'package:eling_app/core/providers/usecase/transaction/deleteTransaction/delete_transaction_provider.dart';
-import 'package:eling_app/core/providers/usecase/transaction/getFinanceSummary/get_finance_summary_provider.dart';
-import 'package:eling_app/core/providers/usecase/transaction/getMonthlySummaryForYear/get_monthly_summary_for_year_provider.dart';
-import 'package:eling_app/core/providers/usecase/transaction/getTransactions/get_transactions_provider.dart';
-import 'package:eling_app/core/providers/usecase/transaction_category/createCategory/create_category_provider.dart';
-import 'package:eling_app/core/providers/usecase/transaction_category/deleteCategory/delete_category_provider.dart';
-import 'package:eling_app/core/providers/usecase/transaction_category/getCategories/get_categories_provider.dart';
-import 'package:eling_app/presentation/pages/finance/notifier/finance_notifier.dart';
+import 'package:eling/core/providers/usecase/account/createAccount/create_account_provider.dart';
+import 'package:eling/core/providers/usecase/account/deleteAccount/delete_account_provider.dart';
+import 'package:eling/core/providers/usecase/account/getAccounts/get_accounts_provider.dart';
+import 'package:eling/core/providers/usecase/transaction/createTransaction/create_transaction_provider.dart';
+import 'package:eling/core/providers/usecase/transaction/deleteTransaction/delete_transaction_provider.dart';
+import 'package:eling/core/providers/usecase/transaction/getFinanceSummary/get_finance_summary_provider.dart';
+import 'package:eling/core/providers/usecase/transaction/getMonthlySummaryForYear/get_monthly_summary_for_year_provider.dart';
+import 'package:eling/core/providers/usecase/transaction/getTransactions/get_transactions_provider.dart';
+import 'package:eling/core/providers/usecase/transaction_category/createCategory/create_category_provider.dart';
+import 'package:eling/core/providers/usecase/transaction_category/deleteCategory/delete_category_provider.dart';
+import 'package:eling/core/providers/usecase/transaction_category/getCategories/get_categories_provider.dart';
+import 'package:eling/presentation/pages/finance/notifier/finance_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final financeNotifierProvider =

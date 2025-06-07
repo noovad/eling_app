@@ -1,7 +1,7 @@
-import 'package:eling_app/core/utils/result.dart';
-import 'package:eling_app/data/repositories/account_repository.dart';
-import 'package:eling_app/domain/usecases/base_usecase.dart';
-import 'package:eling_app/domain/usecases/account/deleteAccount/delete_account_request.dart';
+import 'package:eling/core/utils/result.dart';
+import 'package:eling/data/repositories/account_repository.dart';
+import 'package:eling/domain/usecases/base_usecase.dart';
+import 'package:eling/domain/usecases/account/deleteAccount/delete_account_request.dart';
 
 abstract class DeleteAccountUseCase {
   Future<Result<bool>> execute(DeleteAccountRequest request);
