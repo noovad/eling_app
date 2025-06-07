@@ -8,6 +8,9 @@ set(BINARY_NAME "eling")
 # The unique GTK application identifier for this application. See:
 # https://wiki.gnome.org/HowDoI/ChooseApplicationID
 set(APPLICATION_ID "com.nov.eling")
+set(APP_ICON "linux/icons/512x512.png")
+set(APP_ICON_DESTINATION "${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/512x512/apps")
+
 
 # Explicitly opt in to modern CMake behaviors to avoid warnings with recent
 # versions of CMake.

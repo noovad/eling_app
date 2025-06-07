@@ -120,10 +120,10 @@ class NoteNotifier extends StateNotifier<NoteState> {
     result.when(
       success: (_) {
         getNotes();
-        state = state.copyWith(saveResult: Resource.success('note'));
+        state = state.copyWith(updateResult: Resource.success('note'));
       },
       failure: (_) {
-        state = state.copyWith(saveResult: Resource.failure('note'));
+        state = state.copyWith(updateResult: Resource.failure('note'));
       },
     );
   }
@@ -137,7 +137,6 @@ class NoteNotifier extends StateNotifier<NoteState> {
       success: (_) {
         getNotes();
         countPinnedNotes();
-        state = state.copyWith(saveResult: Resource.success('pinned'));
       },
       failure: (_) {
         state = state.copyWith(saveResult: Resource.failure('pinned'));
