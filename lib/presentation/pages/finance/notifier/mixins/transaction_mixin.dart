@@ -119,7 +119,6 @@ mixin TransactionMixin on StateNotifier<FinanceState> {
       target: state.target.value,
       description: state.description,
     );
-    print('Creating transaction: $transaction');
 
     final result = await createTransactionUseCase.execute(
       CreateTransactionRequest(transaction: transaction),
@@ -133,7 +132,6 @@ mixin TransactionMixin on StateNotifier<FinanceState> {
         state = state.copyWith(saveResult: Resource.success('transaction'));
       },
       failure: (a) {
-        print('Failed to create transaction: $a');
         state = state.copyWith(saveResult: Resource.failure('transaction'));
       },
     );

@@ -151,6 +151,18 @@ class TransactionRepository {
     return transactionsByMonth;
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
   Future<FinanceSummaryEntity> getFinanceSummary({
     required int month,
     required int year,
@@ -230,7 +242,7 @@ class TransactionRepository {
 
     if (!summaries.containsKey(category)) {
       summaries[category] = DetailSummaryEntity(
-        category: category,
+        name: category,
         amount: 0,
         percentage: 0,
       );
@@ -282,7 +294,7 @@ class TransactionRepository {
         totalForType > 0 ? (totalAmount / totalForType) * 100 : 0;
 
     return DetailSummaryEntity(
-      category: category,
+      name: category,
       amount: totalAmount,
       percentage: percentage.toDouble(),
     );

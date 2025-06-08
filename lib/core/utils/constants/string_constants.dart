@@ -33,7 +33,7 @@ class StringConstants {
       return amount.toStringAsFixed(0);
     }
     int truncated = (amount / 1000).floor();
-    return '$truncated.x';
+    return '$truncated';
   }
 
   static String truncate(String text, int maxLength) {

@@ -26,7 +26,10 @@ class ElingDatabase {
   Future<Database> _initDB(String filePath) async {
     final appDataPath = await getAppDataPath();
     final path = '$appDataPath/$filePath';
-    print('Database path: $path');
+
+    // final basePath = Directory.current.path;
+    // final path = '$basePath/$filePath';
+    
     return await openDatabase(
       path,
       version: DatabaseMigrations.currentVersion,

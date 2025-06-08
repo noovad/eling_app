@@ -1,6 +1,7 @@
 import 'package:eling/core/enum/transaction_type.dart';
 import 'package:eling/core/providers/notifier/finance_notifier_provider.dart';
 import 'package:eling/core/utils/constants/string_constants.dart';
+import 'package:eling/presentation/pages/finance/widget/table/dialog_detail.dart';
 import 'package:eling/presentation/pages/finance/widget/table/transaction_type_dropdown.dart';
 import 'package:eling/presentation/widgets/delete_dialog.dart';
 import 'package:flutter/material.dart';
@@ -126,7 +127,27 @@ class MonthlyTable extends ConsumerWidget {
                             'dd MMM yyyy',
                           ).format(transaction.date);
 
+                          final icon = switch (transaction.type) {
+                            TransactionType.income => Icons.trending_up,
+                            TransactionType.expense => Icons.trending_down,
+                            TransactionType.transfer => Icons.compare_arrows,
+                            TransactionType.withdraw => Icons.currency_exchange,
+                            _ => null,
+                          };
+
                           return DataRow(
+                            onSelectChanged: (_) {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return DialogDetail(
+                                    formattedDate: formattedDate,
+                                    transaction: transaction,
+                                  );
+                                },
+                              );
+                            },
+
                             cells: [
                               DataCell(Text(formattedDate)),
                               DataCell(
@@ -142,18 +163,7 @@ class MonthlyTable extends ConsumerWidget {
                                       ),
                                     ),
                                     AppSpaces.w8,
-                                    Icon(
-                                      transaction.type == TransactionType.income
-                                          ? Icons.trending_up
-                                          : transaction.type ==
-                                              TransactionType.expense
-                                          ? Icons.trending_down
-                                          : transaction.type ==
-                                              TransactionType.transfer
-                                          ? Icons.compare_arrows
-                                          : Icons.move_to_inbox,
-                                      size: 18,
-                                    ),
+                                    Icon(icon, size: 18),
                                   ],
                                 ),
                               ),

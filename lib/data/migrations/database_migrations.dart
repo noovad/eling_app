@@ -2,7 +2,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:eling/data/model/database_constants.dart';
 
 class DatabaseMigrations {
-  static const int currentVersion = 2;
+  static const int currentVersion = 1;
 
   static Future<void> onCreate(Database db, int version) async {
     await _createTasksTable(db);
@@ -24,8 +24,6 @@ class DatabaseMigrations {
       await _createRecurringTasksTable(db);
       await _createNotesTable(db);
       await _createCategoriesTable(db);
-    }
-    if (oldVersion < 2) {
       await _createTransactionsTable(db);
       await _createAccountsTable(db);
       await _createTransactionCategoriesTable(db);

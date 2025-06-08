@@ -6,7 +6,7 @@ part 'detail_summary.g.dart';
 @freezed
 class DetailSummaryEntity with _$DetailSummaryEntity {
   const factory DetailSummaryEntity({
-    required String category,
+    required String name,
     required double amount,
     required double percentage,
   }) = _DetailSummaryEntity;

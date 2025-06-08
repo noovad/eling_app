@@ -129,7 +129,7 @@ class FinanceInfo extends ConsumerWidget {
                                 .map(
                                   (summary) => AppFinanceCard(
                                     leading: false,
-                                    title: summary.category,
+                                    title: summary.name,
                                     subtitle: StringConstants.formatCurrency(
                                       summary.amount,
                                     ),
