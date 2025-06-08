@@ -151,18 +151,6 @@ class TransactionRepository {
     return transactionsByMonth;
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
   Future<FinanceSummaryEntity> getFinanceSummary({
     required int month,
     required int year,
@@ -192,8 +180,7 @@ class TransactionRepository {
         case TransactionType.transfer:
           break;
         case TransactionType.withdraw:
-          totalExpense += transaction.amount;
-          _addToCategorySummary(expenseSummaries, transaction);
+          totalSavings -= transaction.amount;
           break;
       }
     }
